@@ -4,7 +4,7 @@
 
 **AI-powered, offline-first PDF reader and research workspace**
 
-[![Phase](https://img.shields.io/badge/Phase-2%20Web%20MVP-6C63FF?style=flat-square)](https://beinganujchaudhary.web.app/projects/AetherRead.html)
+[![Phase](https://img.shields.io/badge/Phase-3%20Native%20Android-4CAF50?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android)
 [![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-web)
 [![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android)
 [![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-api)
@@ -184,8 +184,8 @@ The in-app reader uses a separate **dark theme** optimized for prolonged PDF rea
 
 ```
 Phase 1 — Foundations       ✅ Done
-Phase 2 — Web MVP           ⚡ Active (you are here)
-Phase 3 — Native Android    🔜 Upcoming
+Phase 2 — Web MVP           ✅ Done
+Phase 3 — Native Android    ⚡ Active (you are here)
 Phase 4 — Decoupled Sync    🔜 Upcoming
 Phase 5 — Local AI Brain    🔜 Upcoming
 Phase 6 — Cloud Workspace   🔜 Upcoming
