@@ -41,7 +41,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="font-semibold text-[var(--land-text)] hover:text-[var(--land-accent)] transition-colors underline underline-offset-2"
           >
-            Anuj Chaudhary
+            beingAnujChaudhary
           </a>
           &nbsp;· Phase 2: Web MVP
         </div>

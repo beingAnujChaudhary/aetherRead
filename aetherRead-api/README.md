@@ -96,4 +96,4 @@ Proprietary — source visible for portfolio review only. Not for redistribution
 
 ## Author
 
-**Anuj Chaudhary** · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science
+[**beingAnujChaudhary**](https://beinganujchaudhary.web.app/) · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science

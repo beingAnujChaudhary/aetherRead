@@ -75,4 +75,4 @@ AGPL-3.0 — see [LICENSE](./LICENSE)
 
 ## Author
 
-**Anuj Chaudhary** · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science
+[**beingAnujChaudhary**](https://beinganujchaudhary.web.app/) · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science

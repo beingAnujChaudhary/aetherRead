@@ -8,7 +8,7 @@
 [![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)
 [![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
 [![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Anuj%20Chaudhary-FE320A?style=flat-square)](https://beinganujchaudhary.web.app)
+[![Portfolio](https://img.shields.io/badge/Portfolio-beingAnujChaudhary-FE320A?style=flat-square)](https://beinganujchaudhary.web.app/)
 [![IIT Madras](https://img.shields.io/badge/IIT%20Madras-BS%20Data%20Science-003087?style=flat-square)](https://study.iitm.ac.in)
 
 *Read smarter. Think deeper. Stay offline.*
@@ -21,7 +21,7 @@
 
 ## About
 
-aetherRead is a production-grade, offline-first PDF reader and AI research workspace built as a portfolio project by **Anuj Chaudhary** (BS in Data Science & Applications, IIT Madras).
+aetherRead is a production-grade, offline-first PDF reader and AI research workspace.[**beingAnujChaudhary**](https://beinganujchaudhary.web.app/) · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science & Applications at IIT Madras.
 
 The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet, no cloud dependency, no data sent anywhere.
 
