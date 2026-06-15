@@ -48,6 +48,7 @@ fun ReaderScreen(
     val document by viewModel.document.collectAsState()
     val readingState by viewModel.readingState.collectAsState()
     val pageCount by viewModel.pageCount.collectAsState()
+    val annotationsMap by viewModel.annotations.collectAsState()
 
     var showThemePicker by remember { mutableStateOf(false) }
     var showAnnotationPanel by remember { mutableStateOf(false) }
@@ -211,6 +212,7 @@ fun ReaderScreen(
                         theme = activeTheme,
                         activeTool = activeTool,
                         activeColor = activeColor,
+                        lines = annotationsMap[index] ?: emptyList(),
                         viewModel = viewModel
                     )
                 }
@@ -341,6 +343,7 @@ fun PdfPageAsync(
     theme: ComfortTheme,
     activeTool: DrawingTool,
     activeColor: androidx.compose.ui.graphics.Color,
+    lines: List<Line>,
     viewModel: ReaderViewModel
 ) {
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -357,6 +360,8 @@ fun PdfPageAsync(
         theme = theme,
         activeTool = activeTool,
         activeColor = activeColor,
+        lines = lines,
+        onAddLine = { viewModel.addAnnotation(pageIndex, it) },
         modifier = Modifier.padding(bottom = 8.dp)
     )
 }

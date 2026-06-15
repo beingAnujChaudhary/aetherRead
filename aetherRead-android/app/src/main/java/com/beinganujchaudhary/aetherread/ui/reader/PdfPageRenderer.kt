@@ -23,6 +23,9 @@ import com.beinganujchaudhary.aetherread.domain.model.ComfortTheme
 import com.beinganujchaudhary.aetherread.ui.theme.getBackgroundColor
 import com.beinganujchaudhary.aetherread.ui.theme.getColorFilter
 
+// In-memory strokes for the page
+data class Line(val path: Path, val tool: DrawingTool, val color: Color)
+
 @Composable
 fun PdfPageRenderer(
     pageIndex: Int,
@@ -30,14 +33,14 @@ fun PdfPageRenderer(
     theme: ComfortTheme,
     activeTool: DrawingTool,
     activeColor: Color,
+    lines: List<Line>,
+    onAddLine: (Line) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val colorFilter = remember(theme) { theme.getColorFilter() }
     val backgroundColor = remember(theme) { theme.getBackgroundColor() }
 
-    // In-memory strokes for the page
-    data class Line(val path: Path, val tool: DrawingTool, val color: Color)
-    val lines = remember { mutableStateListOf<Line>() }
+    // Local state for path drawing
     var currentPath by remember { mutableStateOf<Path?>(null) }
     var recomposeTrigger by remember { mutableIntStateOf(0) }
 
@@ -63,7 +66,7 @@ fun PdfPageRenderer(
                     .graphicsLayer {
                         compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
                     }
-                    .pointerInput(activeTool) {
+                    .pointerInput(activeTool, activeColor) {
                         if (activeTool == DrawingTool.NONE) return@pointerInput
 
                         detectDragGestures(
@@ -78,7 +81,7 @@ fun PdfPageRenderer(
                             },
                             onDragEnd = {
                                 currentPath?.let {
-                                    lines.add(Line(it, activeTool, activeColor))
+                                    onAddLine(Line(it, activeTool, activeColor))
                                     currentPath = null
                                 }
                             },

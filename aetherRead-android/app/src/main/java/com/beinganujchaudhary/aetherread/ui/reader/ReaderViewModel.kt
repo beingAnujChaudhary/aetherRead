@@ -12,6 +12,7 @@ import com.beinganujchaudhary.aetherread.data.repository.ReadingStateRepository
 import com.beinganujchaudhary.aetherread.domain.model.ComfortTheme
 import com.beinganujchaudhary.aetherread.domain.model.Document
 import com.beinganujchaudhary.aetherread.domain.model.ReadingState
+import com.beinganujchaudhary.aetherread.ui.reader.Line
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +42,10 @@ class ReaderViewModel @Inject constructor(
 
     private val _pageCount = MutableStateFlow(0)
     val pageCount: StateFlow<Int> = _pageCount.asStateFlow()
+
+    // Annotations state: maps pageIndex to a list of lines
+    private val _annotations = MutableStateFlow<Map<Int, List<Line>>>(emptyMap())
+    val annotations: StateFlow<Map<Int, List<Line>>> = _annotations.asStateFlow()
 
     private var pdfRenderer: PdfRenderer? = null
     private var fileDescriptor: ParcelFileDescriptor? = null
@@ -102,6 +107,14 @@ class ReaderViewModel @Inject constructor(
             _readingState.value = newState
             saveReadingState(newState)
         }
+    }
+
+    fun addAnnotation(pageIndex: Int, line: Line) {
+        val currentAnnotations = _annotations.value.toMutableMap()
+        val pageAnnotations = currentAnnotations[pageIndex]?.toMutableList() ?: mutableListOf()
+        pageAnnotations.add(line)
+        currentAnnotations[pageIndex] = pageAnnotations
+        _annotations.value = currentAnnotations
     }
 
     private fun saveReadingState(state: ReadingState) {
