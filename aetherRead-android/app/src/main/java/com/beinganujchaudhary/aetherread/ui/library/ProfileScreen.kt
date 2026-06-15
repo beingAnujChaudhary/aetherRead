@@ -132,7 +132,7 @@ fun ProfileScreen(
             ProfileMenuItem(Icons.Default.Settings, "Settings") {}
             ProfileMenuItem(Icons.Default.FavoriteBorder, "Recommend AetherRead") {}
             ProfileMenuItem(Icons.Default.HelpOutline, "Help and Feedback") {}
-            ProfileMenuItem(Icons.Default.InfoOutlined, "About") {}
+            ProfileMenuItem(Icons.Default.Info, "About") {}
             ProfileMenuItem(Icons.Default.Lightbulb, "Tip Center") {}
             ProfileMenuItem(Icons.Default.ManageAccounts, "Manage") {}
             ProfileMenuItem(Icons.Default.Security, "Privacy Consent") {}
