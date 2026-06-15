@@ -46,6 +46,9 @@ fun ReaderScreen(
 
     var showThemePicker by remember { mutableStateOf(false) }
     var showAnnotationPanel by remember { mutableStateOf(false) }
+    var isAnnotateMode by remember { mutableStateOf(false) }
+    var showEditAnnotateGrid by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
     var activeTool by remember { mutableStateOf(DrawingTool.NONE) }
     var activeColor by remember { mutableStateOf(androidx.compose.ui.graphics.Color.Red) }
     var showMenu by remember { mutableStateOf(false) }
@@ -78,101 +81,126 @@ fun ReaderScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.clickable { showMenu = true }.padding(4.dp)
-                    ) {
-                        Text("View", fontWeight = FontWeight.Bold)
-                        Icon(Icons.Default.ArrowDropDown, contentDescription = "Menu")
-                    }
-                    
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false },
-                        modifier = Modifier.fillMaxWidth(0.8f).background(MaterialTheme.colorScheme.surface)
-                    ) {
-                        ReaderMenuItem("View", Icons.Default.Visibility) { showMenu = false; activeTool = DrawingTool.NONE }
-                        ReaderMenuItem("Annotate", Icons.Default.Edit) { showMenu = false; activeTool = DrawingTool.HIGHLIGHT }
-                        ReaderMenuItem("Draw", Icons.Default.Create) { showMenu = false; activeTool = DrawingTool.PEN }
-                        ReaderMenuItem("Fill and Sign", Icons.Default.CheckCircle) { showMenu = false }
-                        ReaderMenuItem("Convert", Icons.Default.Build) { showMenu = false }
-                        ReaderMenuItem("Prepare Form", Icons.Default.List) { showMenu = false }
-                        ReaderMenuItem("Insert", Icons.Default.AddCircle) { showMenu = false }
-                        ReaderMenuItem("Measure", Icons.Default.Place) { showMenu = false }
-                        ReaderMenuItem("Pens", Icons.Default.Create) { showMenu = false; activeTool = DrawingTool.PEN }
-                        ReaderMenuItem("Redact", Icons.Default.Lock) { showMenu = false }
-                        ReaderMenuItem("Favorites", Icons.Default.Favorite) { showMenu = false }
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    Text(
-                        text = "${(readingState?.currentPage ?: 1)} / $pageCount",
-                        modifier = Modifier.padding(end = 8.dp),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    // Zoom level indicator in top bar
-                    Text(
-                        text = "${(zoomLevel * 100).toInt()}%",
-                        modifier = Modifier.padding(end = 16.dp),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            )
-        },
-        bottomBar = {
-            if (activeTool != DrawingTool.NONE) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    AnnotationToolbar(
+            if (isAnnotateMode) {
+                Column {
+                    AnnotateTopBar(
                         activeTool = activeTool,
-                        activeColor = activeColor,
+                        onBack = { isAnnotateMode = false; activeTool = DrawingTool.NONE; showColorPicker = false },
+                        onTitleClick = { showEditAnnotateGrid = true },
                         onToolSelected = { activeTool = it },
-                        onColorSelected = { activeColor = it }
+                        onSettingsClick = { showColorPicker = !showColorPicker }
                     )
+                    if (showColorPicker && (activeTool == DrawingTool.FREEHAND || activeTool == DrawingTool.HIGHLIGHTER || activeTool == DrawingTool.TEXT_HIGHLIGHTER || activeTool == DrawingTool.TEXT_UNDERLINE)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(8.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            val colors = listOf(
+                                androidx.compose.ui.graphics.Color.Red,
+                                androidx.compose.ui.graphics.Color.Blue,
+                                androidx.compose.ui.graphics.Color.Green,
+                                androidx.compose.ui.graphics.Color.Yellow,
+                                androidx.compose.ui.graphics.Color.Magenta,
+                                androidx.compose.ui.graphics.Color.Black
+                            )
+                            colors.forEach { color ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(32.dp)
+                                        .background(color, shape = androidx.compose.foundation.shape.CircleShape)
+                                        .clickable { activeColor = color }
+                                ) {
+                                    if (activeColor == color) {
+                                        Icon(Icons.Default.CheckCircle, contentDescription = "Selected", tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
-                BottomAppBar(
-                    actions = {
-                        // Zoom out
-                        IconButton(onClick = {
-                            zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.5f)
-                            if (zoomLevel == 1f) panOffset = Offset.Zero
-                        }) {
-                            Text("－", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                TopAppBar(
+                    title = { 
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable { showMenu = true }.padding(4.dp)
+                        ) {
+                            Text("View", fontWeight = FontWeight.Bold)
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Menu")
                         }
-                        // Zoom in
-                        IconButton(onClick = {
-                            zoomLevel = (zoomLevel + 0.25f).coerceAtMost(4f)
-                        }) {
-                            Text("＋", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        }
-                        // Annotations list
-                        IconButton(onClick = { showAnnotationPanel = true }) {
-                            Icon(Icons.Default.List, contentDescription = "Annotations")
-                        }
-                        // Themes
-                        IconButton(onClick = { showThemePicker = true }) {
-                            Icon(Icons.Default.Settings, contentDescription = "Themes")
+                        
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false },
+                            modifier = Modifier.fillMaxWidth(0.8f).background(MaterialTheme.colorScheme.surface)
+                        ) {
+                            ReaderMenuItem("View", Icons.Default.Visibility) { showMenu = false; isAnnotateMode = false }
+                            ReaderMenuItem("Annotate", Icons.Default.Edit) { showMenu = false; isAnnotateMode = true; showEditAnnotateGrid = true }
+                            ReaderMenuItem("Draw", Icons.Default.Create) { showMenu = false; isAnnotateMode = true; activeTool = DrawingTool.FREEHAND }
+                            ReaderMenuItem("Fill and Sign", Icons.Default.CheckCircle) { showMenu = false }
+                            ReaderMenuItem("Convert", Icons.Default.Build) { showMenu = false }
+                            ReaderMenuItem("Prepare Form", Icons.Default.List) { showMenu = false }
+                            ReaderMenuItem("Insert", Icons.Default.AddCircle) { showMenu = false }
+                            ReaderMenuItem("Measure", Icons.Default.Place) { showMenu = false }
+                            ReaderMenuItem("Pens", Icons.Default.Create) { showMenu = false; isAnnotateMode = true; activeTool = DrawingTool.FREEHAND }
+                            ReaderMenuItem("Redact", Icons.Default.Lock) { showMenu = false }
+                            ReaderMenuItem("Favorites", Icons.Default.Favorite) { showMenu = false }
                         }
                     },
-                    floatingActionButton = {
-                        FloatingActionButton(onClick = { activeTool = DrawingTool.PEN }) {
-                            Icon(Icons.Default.Create, contentDescription = "Annotate")
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                         }
+                    },
+                    actions = {
+                        Text(
+                            text = "${(readingState?.currentPage ?: 1)} / $pageCount",
+                            modifier = Modifier.padding(end = 8.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        // Zoom level indicator in top bar
+                        Text(
+                            text = "${(zoomLevel * 100).toInt()}%",
+                            modifier = Modifier.padding(end = 16.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Medium
+                        )
                     }
                 )
             }
+        },
+        bottomBar = {
+            BottomAppBar(
+                actions = {
+                    // Zoom out
+                    IconButton(onClick = {
+                        zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.5f)
+                        if (zoomLevel == 1f) panOffset = Offset.Zero
+                    }) {
+                        Text("－", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+                    // Zoom in
+                    IconButton(onClick = {
+                        zoomLevel = (zoomLevel + 0.25f).coerceAtMost(4f)
+                    }) {
+                        Text("＋", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+                    // Annotations list
+                    IconButton(onClick = { showAnnotationPanel = true }) {
+                        Icon(Icons.Default.List, contentDescription = "Annotations")
+                    }
+                    // Themes
+                    IconButton(onClick = { showThemePicker = true }) {
+                        Icon(Icons.Default.Settings, contentDescription = "Themes")
+                    }
+                },
+                floatingActionButton = {
+                    FloatingActionButton(onClick = { isAnnotateMode = true; showEditAnnotateGrid = true }) {
+                        Icon(Icons.Default.Create, contentDescription = "Annotate")
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         val activeTheme = readingState?.activeTheme ?: ComfortTheme.DARK_ABYSS
@@ -229,6 +257,13 @@ fun ReaderScreen(
 
     if (showAnnotationPanel) {
         AnnotationPanel(onDismiss = { showAnnotationPanel = false })
+    }
+    
+    if (showEditAnnotateGrid) {
+        EditAnnotateBottomSheet(
+            onDismiss = { showEditAnnotateGrid = false },
+            onToolSelected = { activeTool = it }
+        )
     }
 }
 

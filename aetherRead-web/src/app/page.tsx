@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
 import Features from '@/components/landing/Features';
+import Download from '@/components/landing/Download';
 import ThemeShowcase from '@/components/landing/ThemeShowcase';
 import TechStack from '@/components/landing/TechStack';
 import Roadmap from '@/components/landing/Roadmap';
@@ -19,6 +20,7 @@ export default function LandingPage() {
       <Navbar />
       <Hero />
       <Features />
+      <Download />
       <ThemeShowcase />
       <TechStack />
       <Roadmap />

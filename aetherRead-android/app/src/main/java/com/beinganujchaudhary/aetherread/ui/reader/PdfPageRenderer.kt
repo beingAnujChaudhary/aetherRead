@@ -89,7 +89,7 @@ fun PdfPageRenderer(
                     val width = if (line.tool == DrawingTool.HIGHLIGHTER) 30f else 5f
                     val blendMode = if (isEraser) androidx.compose.ui.graphics.BlendMode.Clear else androidx.compose.ui.graphics.BlendMode.SrcOver
                     
-                    if (line.tool == DrawingTool.UNDERLINE) {
+                    if (line.tool == DrawingTool.TEXT_UNDERLINE) {
                         // Drawing logic for underline: we can just draw path but use stroke
                         drawPath(
                             path = line.path,
@@ -113,7 +113,7 @@ fun PdfPageRenderer(
                     val width = if (activeTool == DrawingTool.HIGHLIGHTER) 30f else 5f
                     val blendMode = if (isEraser) androidx.compose.ui.graphics.BlendMode.Clear else androidx.compose.ui.graphics.BlendMode.SrcOver
 
-                    if (activeTool == DrawingTool.UNDERLINE) {
+                    if (activeTool == DrawingTool.TEXT_UNDERLINE) {
                         drawPath(
                             path = path,
                             color = strokeColor,

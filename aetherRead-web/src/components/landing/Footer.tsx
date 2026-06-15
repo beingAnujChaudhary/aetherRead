@@ -81,7 +81,7 @@ export default function Footer() {
               {[
                 { label: 'Web Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web' },
                 { label: 'Android Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android' },
-                { label: 'Windows Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows' },
+                { label: 'Windows Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native' },
                 { label: 'Download for Android', href: 'https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk' },
                 { label: 'Download for Windows', href: 'https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-windows.exe' },
                 { label: 'Project Page', href: 'https://beinganujchaudhary.web.app/projects/aetherRead.html' },
