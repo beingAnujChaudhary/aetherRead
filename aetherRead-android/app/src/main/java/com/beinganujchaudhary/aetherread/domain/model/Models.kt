@@ -29,6 +29,7 @@ data class Annotation(
     val note: String,
     val quote: String? = null,
     val annotationType: AnnotationType? = null,
+    val drawData: String? = null, // JSON serialized paths/coordinates
     val createdAt: Long,
     val updatedAt: Long,
     val isDeleted: Boolean = false,
@@ -39,7 +40,7 @@ enum class AnnotationCategory {
 }
 
 enum class AnnotationType {
-    HIGHLIGHT, UNDERLINE, STRIKETHROUGH;
+    HIGHLIGHT, UNDERLINE, STRIKETHROUGH, INK;
 }
 
 /**

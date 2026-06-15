@@ -15,6 +15,7 @@ data class AnnotationEntity(
     val note: String,
     val quote: String?,
     val annotationType: String?, // Stored as String
+    val drawData: String?, // JSON string of drawing coordinates
     val createdAt: Long,
     val updatedAt: Long,
     val isDeleted: Boolean,
@@ -28,6 +29,7 @@ fun AnnotationEntity.toDomain() = Annotation(
     note = note,
     quote = quote,
     annotationType = annotationType?.let { AnnotationType.valueOf(it) },
+    drawData = drawData,
     createdAt = createdAt,
     updatedAt = updatedAt,
     isDeleted = isDeleted,
@@ -41,6 +43,7 @@ fun Annotation.toEntity() = AnnotationEntity(
     note = note,
     quote = quote,
     annotationType = annotationType?.name,
+    drawData = drawData,
     createdAt = createdAt,
     updatedAt = updatedAt,
     isDeleted = isDeleted,

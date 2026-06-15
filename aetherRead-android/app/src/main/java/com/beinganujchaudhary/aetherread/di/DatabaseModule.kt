@@ -24,7 +24,9 @@ object DatabaseModule {
             context,
             AetherReadDatabase::class.java,
             "aetherread.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides

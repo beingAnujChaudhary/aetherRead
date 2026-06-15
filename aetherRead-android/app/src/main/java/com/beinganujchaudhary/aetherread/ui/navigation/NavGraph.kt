@@ -14,9 +14,12 @@ import androidx.navigation.navArgument
  *   - [Route.LIBRARY]  → document library (home)
  *   - [Route.READER]   → PDF reader (takes documentId arg)
  */
+import com.beinganujchaudhary.aetherread.ui.auth.AuthScreen
 import com.beinganujchaudhary.aetherread.ui.library.LibraryScreen
 import com.beinganujchaudhary.aetherread.ui.reader.ReaderScreen
+
 object Route {
+    const val AUTH = "auth"
     const val LIBRARY = "library"
     const val READER  = "reader/{documentId}"
 
@@ -31,9 +34,20 @@ fun AetherReadNavGraph() {
         navController = navController,
         startDestination = Route.LIBRARY,
     ) {
+        composable(Route.AUTH) {
+            AuthScreen(
+                onAuthSuccess = {
+                    navController.navigate(Route.LIBRARY) {
+                        popUpTo(Route.AUTH) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Route.LIBRARY) {
             LibraryScreen(
-                onNavigateToReader = { id -> navController.navigate(Route.reader(id)) }
+                onNavigateToReader = { id -> navController.navigate(Route.reader(id)) },
+                onNavigateToAuth = { navController.navigate(Route.AUTH) }
             )
         }
 

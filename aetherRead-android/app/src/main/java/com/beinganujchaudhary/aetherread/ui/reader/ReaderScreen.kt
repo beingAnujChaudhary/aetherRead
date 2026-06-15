@@ -31,7 +31,7 @@ fun ReaderScreen(
 
     var showThemePicker by remember { mutableStateOf(false) }
     var showAnnotationPanel by remember { mutableStateOf(false) }
-    var showAnnotationForm by remember { mutableStateOf(false) }
+    var activeTool by remember { mutableStateOf(DrawingTool.NONE) }
 
     val listState = rememberLazyListState()
 
@@ -69,21 +69,30 @@ fun ReaderScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                actions = {
-                    IconButton(onClick = { showAnnotationPanel = true }) {
-                        Icon(Icons.Default.List, contentDescription = "Annotations")
-                    }
-                    IconButton(onClick = { showThemePicker = true }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Themes")
-                    }
-                },
-                floatingActionButton = {
-                    FloatingActionButton(onClick = { showAnnotationForm = true }) {
-                        Icon(Icons.Default.Create, contentDescription = "Annotate")
-                    }
+            if (activeTool != DrawingTool.NONE) {
+                Box(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp), contentAlignment = Alignment.BottomCenter) {
+                    AnnotationToolbar(
+                        activeTool = activeTool,
+                        onToolSelected = { activeTool = it }
+                    )
                 }
-            )
+            } else {
+                BottomAppBar(
+                    actions = {
+                        IconButton(onClick = { showAnnotationPanel = true }) {
+                            Icon(Icons.Default.List, contentDescription = "Annotations")
+                        }
+                        IconButton(onClick = { showThemePicker = true }) {
+                            Icon(Icons.Default.Settings, contentDescription = "Themes")
+                        }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = { activeTool = DrawingTool.PEN }) {
+                            Icon(Icons.Default.Create, contentDescription = "Annotate")
+                        }
+                    }
+                )
+            }
         }
     ) { paddingValues ->
         val activeTheme = readingState?.activeTheme ?: ComfortTheme.DARK_ABYSS
@@ -108,6 +117,7 @@ fun ReaderScreen(
                         pageIndex = index,
                         widthPx = columnWidthPx,
                         theme = activeTheme,
+                        activeTool = activeTool,
                         viewModel = viewModel
                     )
                 }
@@ -127,12 +137,7 @@ fun ReaderScreen(
         AnnotationPanel(onDismiss = { showAnnotationPanel = false })
     }
 
-    if (showAnnotationForm) {
-        AnnotationForm(
-            currentPage = readingState?.currentPage ?: 1,
-            onDismiss = { showAnnotationForm = false }
-        )
-    }
+
 }
 
 @Composable
@@ -140,6 +145,7 @@ fun PdfPageAsync(
     pageIndex: Int,
     widthPx: Int,
     theme: ComfortTheme,
+    activeTool: DrawingTool,
     viewModel: ReaderViewModel
 ) {
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -154,6 +160,7 @@ fun PdfPageAsync(
         pageIndex = pageIndex,
         bitmap = bitmap,
         theme = theme,
+        activeTool = activeTool,
         modifier = Modifier.padding(bottom = 8.dp)
     )
 }

@@ -15,7 +15,7 @@ import com.beinganujchaudhary.aetherread.data.db.entity.ReadingStateEntity
         AnnotationEntity::class,
         ReadingStateEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AetherReadDatabase : RoomDatabase() {

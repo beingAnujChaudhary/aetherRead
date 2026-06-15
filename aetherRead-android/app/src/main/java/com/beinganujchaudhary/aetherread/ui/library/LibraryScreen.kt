@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,6 +28,7 @@ import com.beinganujchaudhary.aetherread.domain.model.Document
 @Composable
 fun LibraryScreen(
     onNavigateToReader: (String) -> Unit,
+    onNavigateToAuth: () -> Unit,
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val documents by viewModel.documents.collectAsState()
@@ -57,6 +59,9 @@ fun LibraryScreen(
                 actions = {
                     // Sort Dropdown could be added here
                     var expanded by remember { mutableStateOf(false) }
+                    IconButton(onClick = onNavigateToAuth) {
+                        Icon(Icons.Default.Person, contentDescription = "Sign In")
+                    }
                     TextButton(onClick = { expanded = true }) {
                         Text(sortOrder.name)
                     }
