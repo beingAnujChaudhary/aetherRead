@@ -81,8 +81,7 @@ fun ReaderScreen(
 
     Scaffold(
         topBar = {
-        topBar = {
-                TopAppBar(
+            TopAppBar(
                     title = { 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -209,7 +208,6 @@ fun ReaderScreen(
                         activeColor = activeColor,
                         viewModel = viewModel
                     )
-                }
                 }
             }
 

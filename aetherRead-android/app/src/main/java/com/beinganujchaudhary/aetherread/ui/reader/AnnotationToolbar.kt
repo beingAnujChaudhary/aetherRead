@@ -34,6 +34,7 @@ enum class DrawingTool(val title: String, val icon: ImageVector?) {
     ERASER("Eraser Tool", Icons.Default.Clear),
     CALLOUT("Callout Tool", Icons.Default.Info),
     MULTI_SELECT("Multi-select", Icons.Default.List),
+    MULTI_SELECT_AREA("Multi-select Area", Icons.Default.CropSquare),
     NONE("None", null)
 }
 
@@ -130,13 +131,14 @@ fun EditAnnotateBottomSheet(
                 }
             }
 
-            // Grid of tools
+            // Grid of tools - matching the screenshot layout (5 columns, 14 tools)
             val tools = listOf(
                 DrawingTool.SMART_PEN, DrawingTool.SMART_HIGHLIGHTER, DrawingTool.TEXT_HIGHLIGHTER,
-                DrawingTool.HIGHLIGHTER, DrawingTool.TEXT_UNDERLINE, DrawingTool.FREEHAND,
-                DrawingTool.FREE_TEXT, DrawingTool.TEXT_STRIKETHROUGH, DrawingTool.TEXT_SQUIGGLY,
-                DrawingTool.STICKY_NOTE, DrawingTool.ERASER, DrawingTool.CALLOUT,
-                DrawingTool.MULTI_SELECT
+                DrawingTool.HIGHLIGHTER, DrawingTool.TEXT_UNDERLINE,
+                DrawingTool.FREEHAND, DrawingTool.FREE_TEXT, DrawingTool.TEXT_STRIKETHROUGH,
+                DrawingTool.TEXT_SQUIGGLY, DrawingTool.STICKY_NOTE,
+                DrawingTool.ERASER, DrawingTool.CALLOUT, DrawingTool.MULTI_SELECT,
+                DrawingTool.MULTI_SELECT_AREA
             )
 
             Box(
@@ -146,7 +148,7 @@ fun EditAnnotateBottomSheet(
             ) {
                 // Dashed border background (simulated with standard border for now)
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
+                    columns = GridCells.Fixed(5),
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color(0xFF3A3A3C), shape = RoundedCornerShape(8.dp))
@@ -171,6 +173,7 @@ fun EditAnnotateBottomSheet(
                                     DrawingTool.FREE_TEXT -> "T"
                                     DrawingTool.TEXT_STRIKETHROUGH -> "S"
                                     DrawingTool.TEXT_SQUIGGLY -> "~"
+                                    DrawingTool.MULTI_SELECT_AREA -> "⊞"
                                     else -> "A"
                                 }
                                 Text(
