@@ -54,7 +54,7 @@ export default function LibraryPage() {
               href="https://beinganujchaudhary.web.app/projects/aetherRead.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] hover:text-white transition-colors px-2.5 py-1.5 rounded-lg hover:bg-white/5"
+              className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] hover:text-white transition-colors px-2.5 py-1.5 rounded-lg hover:bg-white/5"
             >
               <ExternalLink size={11} />
               Portfolio
@@ -67,7 +67,7 @@ export default function LibraryPage() {
                 <BookOpen size={16} className="text-white" />
               </div>
               <span className="font-bold text-lg">
-                <span className="gradient-text">Aether</span>
+                <span className="gradient-text">aether</span>
                 <span className="text-white">Read</span>
               </span>
             </Link>
