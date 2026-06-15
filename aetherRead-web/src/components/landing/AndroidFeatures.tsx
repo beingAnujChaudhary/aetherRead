@@ -59,11 +59,11 @@ export default function AndroidFeatures() {
 
             <div className="pt-4">
                <a
-                  href="/projects/aetherRead/downloads/aetherRead.apk"
+                  href="/projects/aetherRead/downloads/aetherRead-android.zip"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm hover:opacity-90 transition-opacity"
                >
                  <DownloadIcon size={16} />
-                 Download APK
+                 Download App (ZIP)
                </a>
             </div>
           </div>
