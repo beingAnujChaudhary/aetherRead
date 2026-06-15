@@ -1,27 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Legacy launcher icon for pre-API-26 devices — flat orange-red with book logo -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="256dp"
-    android:height="256dp"
-    android:viewportWidth="256"
-    android:viewportHeight="256">
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Orange-red background square -->
     <path
         android:fillColor="#FE320A"
-        android:pathData="M56,0 h144 a56,56 0 0,1 56,56 v144 a56,56 0 0,1 -56,56 h-144 a56,56 0 0,1 -56,-56 v-144 a56,56 0 0,1 56,-56 z" />
+        android:pathData="M0,0 H48 V48 H0 Z" />
+
+    <!-- Left page -->
     <path
-        android:strokeColor="#ffffff"
-        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M64 96c0-18 14-32 32-32h32v128H96c-18 0-32-14-32-32z" />
+        android:pathData="M12,22 c0,-4 3.5,-7 7,-7 h5 v18 H19 c-3.5,0 -7,-3 -7,-7 Z" />
+
+    <!-- Right page -->
     <path
-        android:strokeColor="#ffffff"
-        android:strokeWidth="20"
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M192 96c0-18-14-32-32-32h-32v128h32c18 0 32-14 32-32z" />
+        android:pathData="M36,22 c0,-4 -3.5,-7 -7,-7 h-5 v18 h5 c3.5,0 7,-3 7,-7 Z" />
+
+    <!-- Spine -->
     <path
-        android:strokeColor="#ffffff"
-        android:strokeWidth="20"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M128 64v128" />
+        android:pathData="M24,15 v18" />
 </vector>
