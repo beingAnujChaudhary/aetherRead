@@ -51,7 +51,7 @@ export default function LibraryPage() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <a
-              href="https://beinganujchaudhary.web.app/projects/AetherRead.html"
+              href="https://beinganujchaudhary.web.app/projects/aetherRead.html"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] hover:text-white transition-colors px-2.5 py-1.5 rounded-lg hover:bg-white/5"

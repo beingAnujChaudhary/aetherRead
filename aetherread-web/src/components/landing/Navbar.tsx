@@ -40,7 +40,7 @@ export default function Navbar() {
             <BookOpen size={16} className="text-white" />
           </div>
           <span className="font-bold text-lg tracking-tight text-[var(--land-text)]">
-            <span className="gradient-text-land">Aether</span>
+            <span className="gradient-text-land">aether</span>
             <span>Read</span>
           </span>
           <span className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--land-accent-light)] border border-[var(--land-accent-border)] text-[var(--land-accent)] text-xs font-medium">

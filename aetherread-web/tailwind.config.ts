@@ -13,7 +13,7 @@ const config: Config = {
         mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
-        // AetherRead brand palette
+        // aetherRead brand palette
         aether: {
           50:  '#f0eeff',
           100: '#e0ddff',

@@ -1,6 +1,6 @@
 <div align="center">
 
-# AetherRead
+# aetherRead
 
 **AI-powered, offline-first PDF reader and research workspace**
 
@@ -13,7 +13,7 @@
 
 *Read smarter. Think deeper. Stay offline.*
 
-[**Live Demo**](https://beinganujchaudhary.web.app/projects/AetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Report Bug**](mailto:beinganujchaudhary@gmail.com) · [**LinkedIn**](https://www.linkedin.com/in/beinganujchaudhary/)
+[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Report Bug**](mailto:beinganujchaudhary@gmail.com) · [**LinkedIn**](https://www.linkedin.com/in/beinganujchaudhary/)
 
 </div>
 
@@ -21,7 +21,7 @@
 
 ## About
 
-AetherRead is a production-grade, offline-first PDF reader and AI research workspace built as a portfolio project by **Anuj Chaudhary** (BS in Data Science & Applications, IIT Madras).
+aetherRead is a production-grade, offline-first PDF reader and AI research workspace built as a portfolio project by **Anuj Chaudhary** (BS in Data Science & Applications, IIT Madras).
 
 The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet, no cloud dependency, no data sent anywhere.
 

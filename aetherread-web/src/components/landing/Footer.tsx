@@ -81,7 +81,7 @@ export default function Footer() {
               {[
                 { label: 'Web Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-web' },
                 { label: 'Android Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android' },
-                { label: 'Project Page', href: 'https://beinganujchaudhary.web.app/projects/AetherRead.html' },
+                { label: 'Project Page', href: 'https://beinganujchaudhary.web.app/projects/aetherRead.html' },
               ].map(item => (
                 <li key={item.label}>
                   <a
@@ -102,7 +102,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-[var(--land-border)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[var(--land-text-soft)]">
-            © 2026 AetherRead. Web &amp; Android: MIT / AGPL-3.0. API: Proprietary.
+            © 2026 aetherRead. Web &amp; Android: MIT / AGPL-3.0. API: Proprietary.
           </p>
           <p className="text-xs text-[var(--land-text-soft)] flex items-center gap-1.5">
             Built with <Heart size={10} className="text-[var(--land-accent)]" /> by{' '}

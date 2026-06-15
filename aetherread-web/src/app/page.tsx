@@ -8,7 +8,7 @@ import Roadmap from '@/components/landing/Roadmap';
 import Footer from '@/components/landing/Footer';
 
 export const metadata: Metadata = {
-  title: 'AetherRead — Smart Reading & Research Platform',
+  title: 'aetherRead — Smart Reading & Research Platform',
   description:
     'An AI-powered, offline-first PDF reader with local AI brain, 5 reading themes, cross-platform sync, and page-level annotations. Built for students, researchers and academics.',
 };

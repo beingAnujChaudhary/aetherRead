@@ -1,9 +1,9 @@
-# AetherRead API
+# aetherRead API
 
 > **Phase 5 — Local AI Brain** · Status: 🔜 Upcoming  
 > **License: Proprietary** — source visible for portfolio review only
 
-FastAPI backend powering the AI research features of AetherRead: PDF extraction, vector embedding, and local RAG via Ollama + ChromaDB.
+FastAPI backend powering the AI research features of aetherRead: PDF extraction, vector embedding, and local RAG via Ollama + ChromaDB.
 
 ## Stack
 

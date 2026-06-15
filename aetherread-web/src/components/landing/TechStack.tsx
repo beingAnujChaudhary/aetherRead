@@ -66,7 +66,7 @@ export default function TechStack() {
             Production-grade <span className="gradient-text-land">architecture</span>
           </h2>
           <p className="text-lg text-[var(--land-text-muted)] max-w-2xl mx-auto">
-            AetherRead uses enterprise-grade, decoupled architecture across three repositories
+            aetherRead uses enterprise-grade, decoupled architecture across three repositories
             with a strict offline-first, privacy-first engineering philosophy.
           </p>
         </div>

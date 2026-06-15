@@ -57,7 +57,7 @@ export default function Hero() {
 
         {/* Sub-headline */}
         <p className="text-lg md:text-xl text-[var(--land-text-muted)] max-w-2xl mx-auto mb-10 leading-relaxed animate-slide-up delay-200">
-          AetherRead is a production-grade PDF reader with a local AI brain, distraction-free
+          aetherRead is a production-grade PDF reader with a local AI brain, distraction-free
           reading themes, and real-time cross-platform sync — built for students, researchers,
           and academics who demand privacy.
         </p>

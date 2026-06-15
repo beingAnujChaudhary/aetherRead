@@ -1,4 +1,4 @@
-# AetherRead Android
+# aetherRead Android
 
 > **Phase 3 — Native Android App** · Status: 🔜 Upcoming
 
@@ -32,7 +32,7 @@ aetherread-android/
 ├── app/
 │   ├── src/main/
 │   │   ├── java/com/beinganujchaudhary/aetherread/
-│   │   │   ├── AetherReadApplication.kt
+│   │   │   ├── aetherReadApplication.kt
 │   │   │   ├── MainActivity.kt
 │   │   │   ├── data/
 │   │   │   │   ├── local/          # Room DAO, entities, database

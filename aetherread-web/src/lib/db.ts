@@ -59,7 +59,7 @@ export interface ReadingSession {
 
 // ─── Dexie Database ──────────────────────────────────────────────────────────
 
-class AetherReadDB extends Dexie {
+class aetherReadDB extends Dexie {
   documents!: Table<Document>;
   annotations!: Table<Annotation>;
   readingStates!: Table<ReadingState>;
@@ -77,7 +77,7 @@ class AetherReadDB extends Dexie {
   }
 }
 
-export const db = new AetherReadDB();
+export const db = new aetherReadDB();
 
 // ─── Document Helpers ────────────────────────────────────────────────────────
 
