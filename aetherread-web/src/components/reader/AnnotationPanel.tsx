@@ -3,12 +3,18 @@
 import { useAnnotationStore } from '@/stores/useAnnotationStore';
 import { useReaderStore } from '@/stores/useReaderStore';
 import { ANNOTATION_META, formatDate } from '@/lib/utils';
-import type { Annotation } from '@/lib/db';
+import type { Annotation, AnnotationType } from '@/lib/db';
 import { X, Plus, Edit2, Trash2, StickyNote, ChevronRight } from 'lucide-react';
 
 interface AnnotationPanelProps {
   documentId: string;
 }
+
+const ANNOTATION_TYPE_META: Record<AnnotationType, { label: string; color: string }> = {
+  highlight:     { label: 'Highlight',     color: '#fbbf24' },
+  underline:     { label: 'Underline',     color: '#60a5fa' },
+  strikethrough: { label: 'Strikethrough', color: '#f87171' },
+};
 
 function AnnotationItem({ annotation, onEdit, onDelete, onJump }: {
   annotation: Annotation;
@@ -17,16 +23,27 @@ function AnnotationItem({ annotation, onEdit, onDelete, onJump }: {
   onJump: (page: number) => void;
 }) {
   const meta = ANNOTATION_META[annotation.category];
+  const typeMeta = annotation.annotationType ? ANNOTATION_TYPE_META[annotation.annotationType] : null;
+
   return (
     <div className={`group rounded-xl p-3 border ${meta.border} ${meta.bg} transition-all`}>
       <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <span className="text-xs font-medium" style={{ color: 'inherit' }}>
             {meta.emoji} {meta.label}
           </span>
           <span className={`text-xs ${meta.color} opacity-75`}>· P.{annotation.pageNumber}</span>
+          {typeMeta && (
+            <span
+              className="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full font-medium"
+              style={{ background: typeMeta.color + '20', color: typeMeta.color }}
+            >
+              <span className="w-1.5 h-1.5 rounded-sm" style={{ background: typeMeta.color }} />
+              {typeMeta.label}
+            </span>
+          )}
         </div>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
           <button
             id={`annotation-jump-${annotation.id}`}
             onClick={() => onJump(annotation.pageNumber)}
@@ -56,6 +73,22 @@ function AnnotationItem({ annotation, onEdit, onDelete, onJump }: {
       <p className="text-sm text-[var(--color-text-muted)] leading-relaxed line-clamp-3">
         {annotation.note}
       </p>
+      {annotation.quote && (
+        <div className="mt-2 pl-2 border-l-2" style={{ borderColor: typeMeta?.color || '#8b5cf6' }}>
+          <p
+            className="text-xs text-[var(--color-text-muted)] italic line-clamp-2"
+            style={{
+              ...(annotation.annotationType === 'underline'
+                ? { textDecoration: 'underline', textDecorationColor: '#60a5fa', textUnderlineOffset: '2px' }
+                : annotation.annotationType === 'strikethrough'
+                ? { textDecoration: 'line-through', textDecorationColor: '#f87171' }
+                : {}),
+            }}
+          >
+            "{annotation.quote}"
+          </p>
+        </div>
+      )}
       <p className="text-xs text-[var(--color-text-muted)] opacity-50 mt-2">
         {formatDate(annotation.updatedAt)}
       </p>

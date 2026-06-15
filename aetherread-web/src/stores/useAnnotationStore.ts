@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Annotation, AnnotationCategory } from '@/lib/db';
+import type { Annotation, AnnotationCategory, AnnotationType } from '@/lib/db';
 import {
   getAnnotationsForDocument,
   addAnnotation,
@@ -13,6 +13,7 @@ interface AnnotationState {
   activeAnnotation: Annotation | null;
   isFormOpen: boolean;
   formPage: number;
+  pendingHighlight: { quote: string; highlightAreas: any[]; annotationType: AnnotationType } | null;
 
   // Actions
   loadAnnotations: (documentId: string) => Promise<void>;
@@ -21,10 +22,14 @@ interface AnnotationState {
     page: number,
     category: AnnotationCategory,
     note: string,
+    quote?: string,
+    highlightAreas?: any[],
+    annotationType?: AnnotationType,
   ) => Promise<void>;
   editAnnotation: (id: string, note: string, category: AnnotationCategory) => Promise<void>;
   deleteAnnotation: (id: string) => Promise<void>;
   openForm: (page: number) => void;
+  openFormWithHighlight: (page: number, highlight: { quote: string; highlightAreas: any[]; annotationType: AnnotationType }) => void;
   closeForm: () => void;
   setActiveAnnotation: (annotation: Annotation | null) => void;
   getForPage: (page: number) => Annotation[];
@@ -36,6 +41,7 @@ export const useAnnotationStore = create<AnnotationState>()((set, get) => ({
   activeAnnotation: null,
   isFormOpen: false,
   formPage: 1,
+  pendingHighlight: null,
 
   loadAnnotations: async (documentId) => {
     set({ isLoading: true });
@@ -47,8 +53,8 @@ export const useAnnotationStore = create<AnnotationState>()((set, get) => ({
     }
   },
 
-  createAnnotation: async (documentId, page, category, note) => {
-    const annotation = await addAnnotation(documentId, page, category, note);
+  createAnnotation: async (documentId, page, category, note, quote, highlightAreas, annotationType) => {
+    const annotation = await addAnnotation(documentId, page, category, note, quote, highlightAreas, annotationType);
     set(s => ({ annotations: [...s.annotations, annotation], isFormOpen: false }));
   },
 
@@ -68,8 +74,9 @@ export const useAnnotationStore = create<AnnotationState>()((set, get) => ({
     set(s => ({ annotations: s.annotations.filter(a => a.id !== id) }));
   },
 
-  openForm: (page) => set({ isFormOpen: true, formPage: page, activeAnnotation: null }),
-  closeForm: () => set({ isFormOpen: false, activeAnnotation: null }),
+  openForm: (page) => set({ isFormOpen: true, formPage: page, activeAnnotation: null, pendingHighlight: null }),
+  openFormWithHighlight: (page, highlight) => set({ isFormOpen: true, formPage: page, activeAnnotation: null, pendingHighlight: highlight }),
+  closeForm: () => set({ isFormOpen: false, activeAnnotation: null, pendingHighlight: null }),
   setActiveAnnotation: (annotation) => set({ activeAnnotation: annotation }),
 
   getForPage: (page) => get().annotations.filter(a => a.pageNumber === page),

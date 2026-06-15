@@ -3,6 +3,7 @@ import Dexie, { Table } from 'dexie';
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export type AnnotationCategory = 'important' | 'definition' | 'question' | 'revision' | 'quote';
+export type AnnotationType = 'highlight' | 'underline' | 'strikethrough';
 
 export type ComfortTheme =
   | 'dark-abyss'
@@ -31,7 +32,10 @@ export interface Annotation {
   documentId: string;
   pageNumber: number;
   category: AnnotationCategory;
+  annotationType?: AnnotationType;  // 'highlight' | 'underline' | 'strikethrough'
   note: string;
+  quote?: string;
+  highlightAreas?: any[];
   createdAt: string;  // ISO
   updatedAt: string;  // ISO
   isDeleted: boolean;
@@ -161,13 +165,19 @@ export async function addAnnotation(
   pageNumber: number,
   category: AnnotationCategory,
   note: string,
+  quote?: string,
+  highlightAreas?: any[],
+  annotationType?: AnnotationType,
 ): Promise<Annotation> {
   const annotation: Annotation = {
     id: crypto.randomUUID(),
     documentId,
     pageNumber,
     category,
+    annotationType,
     note,
+    quote,
+    highlightAreas,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     isDeleted: false,
