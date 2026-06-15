@@ -79,8 +79,8 @@ export default function Footer() {
             <h4 className="text-sm font-semibold text-[var(--land-text)] mb-4 uppercase tracking-wider">Tech</h4>
             <ul className="space-y-3">
               {[
-                { label: 'Web Repo (MIT)', href: 'https://github.com/beinganujchaudhary/aetherread-web' },
-                { label: 'Android Repo (MIT)', href: 'https://github.com/beinganujchaudhary/aetherread-android' },
+                { label: 'Web Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-web' },
+                { label: 'Android Repo (MIT)', href: 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android' },
                 { label: 'Project Page', href: 'https://beinganujchaudhary.web.app/projects/AetherRead.html' },
               ].map(item => (
                 <li key={item.label}>

@@ -5,9 +5,9 @@
 **AI-powered, offline-first PDF reader and research workspace**
 
 [![Phase](https://img.shields.io/badge/Phase-2%20Web%20MVP-6C63FF?style=flat-square)](https://beinganujchaudhary.web.app/projects/AetherRead.html)
-[![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](./aetherread-web)
-[![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beinganujchaudhary/aetherread-android)
-[![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beinganujchaudhary/aetherread-api)
+[![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-web)
+[![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android)
+[![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-api)
 [![Portfolio](https://img.shields.io/badge/Portfolio-Anuj%20Chaudhary-FE320A?style=flat-square)](https://beinganujchaudhary.web.app)
 [![IIT Madras](https://img.shields.io/badge/IIT%20Madras-BS%20Data%20Science-003087?style=flat-square)](https://study.iitm.ac.in)
 
@@ -28,9 +28,9 @@ The platform lets students, researchers, and academics read, annotate, and inter
 > This is a **three-repository open-core project**:
 > | Repo | Stack | License |
 > |------|-------|---------|
-> | [`aetherread-web`](./aetherread-web) *(this repo)* | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
-> | [`aetherread-android`](https://github.com/beinganujchaudhary/aetherread-android) | Kotlin, Jetpack Compose, Room DB | AGPL-3.0 |
-> | [`aetherread-api`](https://github.com/beinganujchaudhary/aetherread-api) | FastAPI, Python 3.11, ChromaDB, Ollama | Proprietary |
+> | [`aetherread-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-web) *(this repo)* | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
+> | [`aetherread-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-android) | Kotlin, Jetpack Compose, Room DB | AGPL-3.0 |
+> | [`aetherread-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherread-api) | FastAPI, Python 3.11, ChromaDB, Ollama | Proprietary |
 
 ---
 
@@ -125,8 +125,8 @@ aetherRead/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/beinganujchaudhary/aetherread-web.git
-cd aetherread-web
+git clone https://github.com/beingAnujChaudhary/aetherRead.git
+cd aetherRead/aetherread-web
 
 # 2. Install dependencies
 npm install
@@ -197,7 +197,7 @@ Phase 6 — Cloud Workspace   🔜 Upcoming
 
 | Component | License |
 |-----------|---------|
-| Web (`aetherread-web`) | [MIT](./aetherread-web/LICENSE) |
+| Web (`aetherread-web`) | [MIT](https://github.com/beingAnujChaudhary/aetherRead/blob/main/aetherread-web/LICENSE) |
 | Android (`aetherread-android`) | AGPL-3.0 |
 | API (`aetherread-api`) | Proprietary |
 

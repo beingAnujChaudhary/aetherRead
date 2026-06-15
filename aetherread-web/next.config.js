@@ -4,7 +4,7 @@ const nextConfig = {
   // Static export — hosted at beinganujchaudhary.web.app/projects/aetherRead
   output: 'export',
   basePath: '/projects/aetherRead',
-  trailingSlash: true,   // generates index.html files instead of /route.html
+  trailingSlash: false,   // generates .html files instead of /route.html
   webpack: (config) => {
     // Required for pdfjs-dist worker
     config.resolve.alias.canvas = false;

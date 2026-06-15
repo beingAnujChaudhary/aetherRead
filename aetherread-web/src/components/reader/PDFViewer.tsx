@@ -3,6 +3,7 @@
 import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { Worker, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
 import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
+import { zoomPlugin } from '@react-pdf-viewer/zoom';
 import { useReaderStore } from '@/stores/useReaderStore';
 import { THEMES } from '@/lib/utils';
 
@@ -18,38 +19,27 @@ interface PDFViewerProps {
 const WORKER_URL = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
 export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
-  const { currentPage, activeTheme, setPage, setDocument } = useReaderStore();
+  const { currentPage, zoomLevel, activeTheme, setPage, setDocument } = useReaderStore();
   const theme = THEMES[activeTheme];
 
-  // ── Stable blob URL ───────────────────────────────────────────────────────
-  // Create the object URL once and revoke it when the component unmounts or
-  // fileData changes, preventing a new URL (and re-render) on every paint.
-  const blobUrlRef = useRef<string | null>(null);
-
-  const fileUrl = useMemo(() => {
-    // Revoke any previous URL before creating a new one
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-    }
-    const blob = new Blob([fileData], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    blobUrlRef.current = url;
-    return url;
-  }, [fileData]);
-
-  // Revoke the URL when the component is unmounted
-  useEffect(() => {
-    return () => {
-      if (blobUrlRef.current) {
-        URL.revokeObjectURL(blobUrlRef.current);
-        blobUrlRef.current = null;
-      }
-    };
-  }, []);
+  // ── Uint8Array Data ───────────────────────────────────────────────────────
+  // We pass a Uint8Array directly to react-pdf-viewer instead of a blob URL.
+  // This avoids XMLHttpRequest "Unexpected server response (0)" errors in the worker.
+  const pdfData = useMemo(() => new Uint8Array(fileData), [fileData]);
 
   // ── Page navigation plugin ────────────────────────────────────────────────
   const pageNavigationPluginInstance = pageNavigationPlugin();
   const { jumpToPage } = pageNavigationPluginInstance;
+
+  // ── Zoom plugin ───────────────────────────────────────────────────────────
+  const zoomPluginInstance = zoomPlugin();
+  const { zoomTo } = zoomPluginInstance;
+
+  useEffect(() => {
+    if (zoomTo) {
+      zoomTo(zoomLevel);
+    }
+  }, [zoomLevel, zoomTo]);
 
   // Restore page position on first load
   const didRestorePage = useRef(false);
@@ -58,7 +48,7 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
       didRestorePage.current = true;
       setTimeout(() => jumpToPage(currentPage - 1), 500);
     }
-  }, [jumpToPage]);
+  }, [jumpToPage, currentPage]);
 
   // Jump when toolbar changes the page
   const prevPageRef = useRef(currentPage);
@@ -83,13 +73,15 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
     [documentId, setDocument],
   );
 
+  const isDarkTheme = activeTheme === 'dark-abyss' || activeTheme === 'focus-punch';
+
   return (
     <div
       className="flex-1 overflow-hidden relative transition-colors duration-500"
       style={{ background: theme.bg }}
       data-reader-theme={activeTheme}
     >
-      {/* Theme overlay (sepia / focus-punch) */}
+      {/* Theme overlay for focus punch etc. */}
       {theme.overlay && (
         <div
           className="absolute inset-0 pointer-events-none z-10"
@@ -101,18 +93,17 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
         className="h-full overflow-auto transition-all duration-300"
         style={{
           filter: activeTheme === 'monochrome' ? 'grayscale(0.5)' : 'none',
+          mixBlendMode: isDarkTheme ? 'normal' : 'multiply',
         }}
       >
         <Worker workerUrl={WORKER_URL}>
           <Viewer
-            fileUrl={fileUrl}
+            fileUrl={pdfData}
             defaultScale={SpecialZoomLevel.PageFit}
-            plugins={[pageNavigationPluginInstance]}
+            plugins={[pageNavigationPluginInstance, zoomPluginInstance]}
             onPageChange={handlePageChange}
             onDocumentLoad={handleDocumentLoad}
-            theme={{
-              theme: activeTheme === 'dark-abyss' || activeTheme === 'focus-punch' ? 'dark' : 'light',
-            }}
+            theme={isDarkTheme ? 'dark' : 'light'}
           />
         </Worker>
       </div>

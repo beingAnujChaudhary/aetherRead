@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { db, type Document } from '@/lib/db';
 import { useReaderStore } from '@/stores/useReaderStore';
 import { useAnnotationStore } from '@/stores/useAnnotationStore';
@@ -19,15 +19,8 @@ const PDFViewer = dynamic(() => import('@/components/reader/PDFViewer'), { ssr: 
 export default function ReaderClient() {
   const router = useRouter();
 
-  // usePathname() always reflects the real browser URL (relative to basePath).
-  // e.g. for /projects/aetherRead/app/reader/abc-123, pathname = /app/reader/abc-123
-  // Splitting on '/' and taking the last segment reliably gives us the doc ID.
-  //
-  // useParams() cannot be used here because in a Next.js static export the params
-  // are resolved from generateStaticParams(), which only generated '_placeholder'.
-  // The client-side router doesn't re-resolve params for un-prerendered IDs.
-  const pathname = usePathname();
-  const docId = pathname?.split('/').filter(Boolean).pop() ?? null;
+  const searchParams = useSearchParams();
+  const docId = searchParams?.get('id') ?? null;
 
   const [document, setDocument] = useState<Document | null>(null);
   const [isLoading, setIsLoading] = useState(true);

@@ -27,10 +27,6 @@ export const metadata: Metadata = {
     creator: '@beinganujchaudhary',
   },
   manifest: '/projects/aetherRead/manifest.json',
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
 };
 
 export const viewport: Viewport = {

@@ -5,10 +5,12 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { useLibraryStore } from '@/stores/useLibraryStore';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function UploadZone() {
   const { uploadDocument, isUploading, uploadProgress } = useLibraryStore();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setError(null);
@@ -19,8 +21,12 @@ export default function UploadZone() {
       return;
     }
     const result = await uploadDocument(file);
-    if (!result) setError('Upload failed. Please try again.');
-  }, [uploadDocument]);
+    if (!result) {
+      setError('Upload failed. Please try again.');
+    } else {
+      router.push(`/app/reader?id=${result.id}`);
+    }
+  }, [uploadDocument, router]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

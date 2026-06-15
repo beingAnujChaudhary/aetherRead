@@ -76,7 +76,7 @@ export default function DocumentCard({ doc, onDelete }: DocumentCardProps) {
           </span>
           <Link
             id={`open-doc-${doc.id}`}
-            href={`/app/reader/${doc.id}`}
+            href={`/app/reader?id=${doc.id}`}
             className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-aether-500 text-white text-xs font-semibold hover:bg-aether-400 transition-colors shadow-md shadow-aether-500/25"
           >
             Read
