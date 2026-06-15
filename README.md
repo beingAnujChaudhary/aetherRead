@@ -28,7 +28,7 @@ The platform lets students, researchers, and academics read, annotate, and inter
 > This is a **three-repository open-core project**:
 > | Repo | Stack | License |
 > |------|-------|---------|
-> | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web) *(this repo)* | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
+> | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)  | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
 > | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB | AGPL-3.0 |
 > | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | Proprietary |
 
