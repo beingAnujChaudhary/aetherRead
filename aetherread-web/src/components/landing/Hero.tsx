@@ -74,7 +74,7 @@ export default function Hero() {
           </Link>
           <a
             id="hero-portfolio"
-            href="https://beinganujchaudhary.web.app/projects/AetherRead.html"
+            href="https://github.com/beingAnujChaudhary/aetherRead"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-[var(--land-text-muted)] hover:text-[var(--land-text)] border border-[var(--land-border)] hover:border-[var(--land-accent-border)] transition-all duration-300 hover:bg-black/5"

@@ -61,7 +61,7 @@ export default function Navbar() {
         {/* CTA */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="https://beinganujchaudhary.web.app/projects/AetherRead.html"
+            href="https://beinganujchaudhary.web.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium text-[var(--land-text-muted)] hover:text-[var(--land-text)] border border-[var(--land-border)] hover:border-[var(--land-accent-border)] transition-colors"
@@ -101,7 +101,7 @@ export default function Navbar() {
           ))}
           <div className="pt-3 flex flex-col gap-3">
             <a
-              href="https://beinganujchaudhary.web.app/projects/AetherRead.html"
+              href="https://beinganujchaudhary.web.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="block py-2 text-sm text-center text-[var(--land-text-muted)] border border-[var(--land-border)] rounded-full hover:border-[var(--land-accent-border)] transition-colors"

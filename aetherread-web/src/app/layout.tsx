@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://beinganujchaudhary.web.app/projects/AetherRead.html',
+    url: 'https://beinganujchaudhary.web.app',
     siteName: 'AetherRead',
     title: 'AetherRead — Smart Reading & Research Platform',
     description: 'Read, annotate and chat with your PDFs — entirely offline. A portfolio project by Anuj Chaudhary.',
