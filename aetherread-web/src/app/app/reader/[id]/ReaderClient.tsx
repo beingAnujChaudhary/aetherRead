@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { db, type Document } from '@/lib/db';
 import { useReaderStore } from '@/stores/useReaderStore';
 import { useAnnotationStore } from '@/stores/useAnnotationStore';
@@ -18,11 +18,16 @@ const PDFViewer = dynamic(() => import('@/components/reader/PDFViewer'), { ssr: 
 
 export default function ReaderClient() {
   const router = useRouter();
-  // useParams() reads the real document ID from the browser URL at runtime.
-  // The static export always generates _placeholder as the id, but useParams()
-  // gives us the actual ID the user navigated to.
-  const params = useParams();
-  const id = typeof params?.id === 'string' ? params.id : Array.isArray(params?.id) ? params.id[0] : null;
+
+  // usePathname() always reflects the real browser URL (relative to basePath).
+  // e.g. for /projects/aetherRead/app/reader/abc-123, pathname = /app/reader/abc-123
+  // Splitting on '/' and taking the last segment reliably gives us the doc ID.
+  //
+  // useParams() cannot be used here because in a Next.js static export the params
+  // are resolved from generateStaticParams(), which only generated '_placeholder'.
+  // The client-side router doesn't re-resolve params for un-prerendered IDs.
+  const pathname = usePathname();
+  const docId = pathname?.split('/').filter(Boolean).pop() ?? null;
 
   const [document, setDocument] = useState<Document | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,10 +37,16 @@ export default function ReaderClient() {
   const { loadAnnotations, isFormOpen } = useAnnotationStore();
 
   useEffect(() => {
-    if (!id) return; // Wait until URL params are available
+    // Guard: wait for pathname to resolve, and ignore the placeholder route
+    if (!docId || docId === '_placeholder') {
+      setError('No document specified.');
+      setIsLoading(false);
+      return;
+    }
+
     const loadDocument = async () => {
       try {
-        const doc = await db.documents.get(id);
+        const doc = await db.documents.get(docId);
         if (!doc) {
           setError('Document not found. It may have been deleted.');
           return;
@@ -44,16 +55,16 @@ export default function ReaderClient() {
         setDocument(doc);
 
         // Restore reading state
-        const savedState = await getReadingState(id);
+        const savedState = await getReadingState(docId);
         if (savedState) {
           setTheme(savedState.activeTheme);
           setPage(savedState.currentPage);
         }
 
         // Initialize reader and annotations
-        initReader(id, doc.pageCount);
-        await loadAnnotations(id);
-        await updateLastOpened(id);
+        initReader(docId, doc.pageCount);
+        await loadAnnotations(docId);
+        await updateLastOpened(docId);
         startSession();
       } catch (e) {
         setError('Failed to load document. Please try again.');
@@ -64,11 +75,11 @@ export default function ReaderClient() {
     };
 
     loadDocument();
-  }, [id]);
+  }, [docId]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: 'var(--color-bg)' }}>
         <div className="w-14 h-14 rounded-2xl bg-aether-500/10 border border-aether-500/20 flex items-center justify-center">
           <Loader2 size={28} className="text-aether-400 animate-spin" />
         </div>
@@ -80,9 +91,9 @@ export default function ReaderClient() {
     );
   }
 
-  if (error || !document) {
+  if (error || !document || !docId) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6" style={{ background: 'var(--color-bg)' }}>
         <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
           <AlertCircle size={28} className="text-red-400" />
         </div>
@@ -98,9 +109,6 @@ export default function ReaderClient() {
       </div>
     );
   }
-
-  // By this point id is non-null (document loaded successfully)
-  const docId = id!;
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
