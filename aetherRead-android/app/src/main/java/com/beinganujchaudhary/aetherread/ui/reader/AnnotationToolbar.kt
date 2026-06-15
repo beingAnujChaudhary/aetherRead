@@ -25,10 +25,10 @@ enum class DrawingTool(val title: String, val icon: ImageVector?) {
     SMART_HIGHLIGHTER("Smart Highlight", Icons.Default.Edit),
     TEXT_HIGHLIGHTER("Text Highlight", Icons.Default.Edit),
     HIGHLIGHTER("Highlight", Icons.Default.Edit),
-    TEXT_UNDERLINE("Text Underline", null), // Will use text "U"
+    TEXT_UNDERLINE("Text Underline", Icons.Default.FormatUnderlined),
     FREEHAND("Freehand", Icons.Default.Create),
     FREE_TEXT("Free Text", null), // Will use text "T"
-    TEXT_STRIKETHROUGH("Text Strikethrough", null), // Will use text "S"
+    TEXT_STRIKETHROUGH("Text Strikethrough", Icons.Default.FormatStrikethrough),
     TEXT_SQUIGGLY("Text Squiggly", null), // Will use text "~"
     STICKY_NOTE("Sticky Note", Icons.Default.Email), // Closest to comment icon
     ERASER("Eraser Tool", Icons.Default.Clear),

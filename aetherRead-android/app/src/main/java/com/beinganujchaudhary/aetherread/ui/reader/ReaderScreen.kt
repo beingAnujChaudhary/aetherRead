@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FormatUnderlined
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -278,6 +279,14 @@ fun ReaderScreen(
                                 modifier = Modifier.size(40.dp).background(if (highlightActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
                             ) {
                                 Icon(Icons.Default.Edit, contentDescription = "Highlighter", tint = if (highlightActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
+                            }
+                            // Text Underline
+                            val underlineActive = activeTool == DrawingTool.TEXT_UNDERLINE
+                            IconButton(
+                                onClick = { activeTool = DrawingTool.TEXT_UNDERLINE; showColorPicker = true },
+                                modifier = Modifier.size(40.dp).background(if (underlineActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                            ) {
+                                Icon(Icons.Default.FormatUnderlined, contentDescription = "Underline", tint = if (underlineActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
                             }
                             // Eraser
                             val eraserActive = activeTool == DrawingTool.ERASER

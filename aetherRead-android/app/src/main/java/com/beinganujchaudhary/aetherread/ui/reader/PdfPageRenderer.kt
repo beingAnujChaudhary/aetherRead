@@ -39,6 +39,7 @@ fun PdfPageRenderer(
     data class Line(val path: Path, val tool: DrawingTool, val color: Color)
     val lines = remember { mutableStateListOf<Line>() }
     var currentPath by remember { mutableStateOf<Path?>(null) }
+    var recomposeTrigger by remember { mutableIntStateOf(0) }
 
     Box(
         modifier = modifier
@@ -68,10 +69,12 @@ fun PdfPageRenderer(
                         detectDragGestures(
                             onDragStart = { offset ->
                                 currentPath = Path().apply { moveTo(offset.x, offset.y) }
+                                recomposeTrigger++
                             },
                             onDrag = { change, _ ->
                                 change.consume()
                                 currentPath?.lineTo(change.position.x, change.position.y)
+                                recomposeTrigger++
                             },
                             onDragEnd = {
                                 currentPath?.let {
@@ -83,6 +86,9 @@ fun PdfPageRenderer(
                         )
                     }
             ) {
+                // Read recomposeTrigger to force recomposition when path updates
+                val trigger = recomposeTrigger
+                
                 // Draw saved lines
                 lines.forEach { line ->
                     val isEraser = line.tool == DrawingTool.ERASER
