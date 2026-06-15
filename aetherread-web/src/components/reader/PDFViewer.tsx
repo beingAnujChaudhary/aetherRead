@@ -97,7 +97,11 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
       <div
         className="h-full overflow-auto transition-all duration-300"
         style={{
-          filter: activeTheme === 'monochrome' ? 'grayscale(0.5)' : 'none',
+          filter: isDarkTheme
+            ? 'invert(100%) hue-rotate(180deg) brightness(85%) contrast(85%)'
+            : activeTheme === 'monochrome'
+            ? 'grayscale(0.5)'
+            : 'none',
           mixBlendMode: isDarkTheme ? 'normal' : 'multiply',
         }}
       >
