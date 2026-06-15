@@ -42,7 +42,7 @@ const PHASES = [
     items: [
       { label: 'PdfiumViewer C++ rendering', done: true },
       { label: 'Native WPF window & dark mode', done: true },
-      { label: 'Xodo-style navigation rail', done: true },
+      { label: 'Modern navigation rail', done: true },
     ],
   },
   {

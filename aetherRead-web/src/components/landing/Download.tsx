@@ -98,7 +98,7 @@ export default function Download() {
             </div>
 
             <ul className="space-y-2 mb-8 text-sm text-[var(--land-text-muted)]">
-              {['Truly native WPF / C# app (.exe)', 'No browser or Electron overhead', 'Pdfium C++ rendering engine', 'Left-nav rail — Xodo-style UI', 'Native Windows file picker & dialogs'].map(f => (
+              {['Truly native WPF / C# app (.exe)', 'No browser or Electron overhead', 'Pdfium C++ rendering engine', 'Left-nav rail — Native UI', 'Native Windows file picker & dialogs'].map(f => (
                 <li key={f} className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0" />
                   {f}

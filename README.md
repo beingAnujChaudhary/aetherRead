@@ -47,7 +47,7 @@ The platform lets students, researchers, and academics read, annotate, and inter
 - **Firebase Auth** — Sign in with email/password with full read/write sync.
 
 ### ✅ Android App (`aetherRead-android`)
-Built from scratch in Kotlin with Jetpack Compose. Mirrors the Xodo design language.
+Built from scratch in Kotlin with Jetpack Compose. Modern and clean UI.
 
 | Screen | Features |
 |--------|----------|
@@ -56,7 +56,7 @@ Built from scratch in Kotlin with Jetpack Compose. Mirrors the Xodo design langu
 | **My AetherRead (Profile)** | User profile with email, Aether Drive usage, Subscribed badge; team invite banner with dismiss; menu items: Settings, Recommend AetherRead, Help & Feedback, About, Tip Center, Manage, Privacy Consent, Sign Out |
 | **PDF Reader** | Native PDF rendering via Android PdfRenderer, pinch-to-zoom, page-by-page scrolling, reading state persistence |
 | **Reader Toolbar (View mode)** | Mode switcher dropdown: View, Annotate, Draw, Fill & Sign, Convert, Prepare Form, Insert, Measure, Pens, Redact, Favorites |
-| **Floating Edit Toolbar** | Xodo-style pill toolbar with Smart Pen, Highlight, Callout, Strikethrough, Sticky Note, Undo, Redo |
+| **Floating Edit Toolbar** | Floating pill toolbar with Smart Pen, Highlight, Callout, Strikethrough, Sticky Note, Undo, Redo |
 | **Color Picker** | Inline color palette revealed when a drawing/highlight tool is active |
 | **Comfort Themes** | 6 reading themes applied to the PDF canvas |
 | **Bottom Navigation** | Files, Toolbox, My AetherRead, Aether Sign (4 tabs) |

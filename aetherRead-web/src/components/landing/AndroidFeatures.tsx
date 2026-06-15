@@ -5,7 +5,7 @@ import { Smartphone, PenTool, LayoutGrid, Layers, Download as DownloadIcon } fro
 const ANDROID_FEATURES = [
   {
     icon: PenTool,
-    title: 'Xodo-Style Annotation Pill',
+    title: 'Modern Annotation Pill',
     description: 'Floating bottom pill for quick access to drawing tools: Smart Pen, Highlight, Strikethrough, and Callout.',
     color: 'emerald'
   },
@@ -39,7 +39,7 @@ export default function AndroidFeatures() {
                 Desktop-grade tools in your pocket.
               </h2>
               <p className="text-lg text-[var(--land-text-muted)] leading-relaxed">
-                We rebuilt the reading experience for Android from the ground up using Kotlin and Jetpack Compose. Inspired by Xodo, it brings fluid, memory-safe PDF rendering and powerful annotation tools completely offline.
+                We rebuilt the reading experience for Android from the ground up using Kotlin and Jetpack Compose. It brings fluid, memory-safe PDF rendering and powerful annotation tools completely offline.
               </p>
             </div>
 
@@ -88,7 +88,7 @@ export default function AndroidFeatures() {
                    <div className="w-2/3 h-4 bg-white/10 rounded-md" />
                    <div className="w-full h-32 bg-white/5 rounded-xl mt-4" />
                 </div>
-                {/* Floating Xodo Toolbar */}
+                {/* Floating Toolbar */}
                 <div className="absolute bottom-20 inset-x-0 flex justify-center">
                    <div className="bg-[#1A1A1A] border border-white/10 shadow-2xl rounded-full px-6 py-3 flex items-center gap-6">
                       <div className="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-500 flex items-center justify-center">✎</div>

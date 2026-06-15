@@ -59,7 +59,7 @@ const FEATURES = [
   {
     icon: Smartphone,
     title: 'Native Android App',
-    description: 'Kotlin + Jetpack Compose. Full Xodo-style UI: Files, Toolbox, My AetherRead, Aether Sign tabs. Annotation tools, comfort themes, reader toolbar.',
+    description: 'Kotlin + Jetpack Compose. Modern UI: Files, Toolbox, My AetherRead, Aether Sign tabs. Annotation tools, comfort themes, reader toolbar.',
     border: 'border-red-200',
     iconColor: 'text-red-600',
     iconBg: 'bg-red-50',

@@ -254,7 +254,7 @@ fun ReaderScreen(
                     
                     Box(
                         modifier = Modifier
-                            .background(androidx.compose.ui.graphics.Color(0xFF1A1A1A), shape = androidx.compose.foundation.shape.CircleShape)
+                            .background(MaterialTheme.colorScheme.secondaryContainer, shape = androidx.compose.foundation.shape.CircleShape)
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
                         Row(
@@ -262,37 +262,42 @@ fun ReaderScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             // Freehand (Pen)
+                            val penActive = activeTool == DrawingTool.FREEHAND
                             IconButton(
                                 onClick = { activeTool = DrawingTool.FREEHAND; showColorPicker = true },
-                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.FREEHAND) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (penActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
                             ) {
-                                Icon(Icons.Default.Create, contentDescription = "Pen", tint = androidx.compose.ui.graphics.Color(0xFF4CAF50))
+                                Icon(Icons.Default.Create, contentDescription = "Pen", tint = if (penActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
                             }
                             // Highlighter
+                            val highlightActive = activeTool == DrawingTool.HIGHLIGHTER
                             IconButton(
                                 onClick = { activeTool = DrawingTool.HIGHLIGHTER; showColorPicker = true },
-                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.HIGHLIGHTER) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (highlightActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
                             ) {
-                                Text("H", color = androidx.compose.ui.graphics.Color(0xFFFFEB3B), fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                Icon(Icons.Default.Edit, contentDescription = "Highlighter", tint = if (highlightActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
                             }
-                            // Strikethrough
+                            // Eraser
+                            val eraserActive = activeTool == DrawingTool.ERASER
                             IconButton(
-                                onClick = { activeTool = DrawingTool.TEXT_STRIKETHROUGH; showColorPicker = false },
-                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.TEXT_STRIKETHROUGH) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                onClick = { activeTool = DrawingTool.ERASER; showColorPicker = false },
+                                modifier = Modifier.size(40.dp).background(if (eraserActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
                             ) {
-                                Text("S", color = androidx.compose.ui.graphics.Color(0xFFF44336), fontWeight = FontWeight.Bold, fontSize = 18.sp, textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough)
+                                Icon(Icons.Default.Delete, contentDescription = "Eraser", tint = if (eraserActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
                             }
                             // Divider
-                            Box(modifier = Modifier.width(1.dp).height(24.dp).background(androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f)))
+                            Box(modifier = Modifier.width(1.dp).height(24.dp).background(MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha=0.2f)))
                             
                             // Close
                             IconButton(
                                 onClick = { isAnnotateMode = false; activeTool = DrawingTool.NONE; showColorPicker = false },
                                 modifier = Modifier.size(40.dp)
                             ) {
-                                Text("✕", color = androidx.compose.ui.graphics.Color.White.copy(alpha=0.5f), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                                Icon(Icons.Default.Close, contentDescription = "Close", tint = MaterialTheme.colorScheme.onSecondaryContainer)
                             }
                         }
+                    }
+
                     }
                 }
             }
