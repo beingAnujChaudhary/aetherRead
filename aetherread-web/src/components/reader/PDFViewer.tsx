@@ -4,11 +4,13 @@ import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { Worker, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
 import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
 import { zoomPlugin } from '@react-pdf-viewer/zoom';
+import { highlightPlugin } from '@react-pdf-viewer/highlight';
 import { useReaderStore } from '@/stores/useReaderStore';
 import { THEMES } from '@/lib/utils';
 
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
+import '@react-pdf-viewer/highlight/lib/styles/index.css';
 
 interface PDFViewerProps {
   fileData: ArrayBuffer;
@@ -34,6 +36,9 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
   // ── Zoom plugin ───────────────────────────────────────────────────────────
   const zoomPluginInstance = zoomPlugin();
   const { zoomTo } = zoomPluginInstance;
+
+  // ── Highlight plugin ──────────────────────────────────────────────────────
+  const highlightPluginInstance = highlightPlugin();
 
   useEffect(() => {
     if (zoomTo) {
@@ -100,7 +105,7 @@ export default function PDFViewer({ fileData, documentId }: PDFViewerProps) {
           <Viewer
             fileUrl={pdfData}
             defaultScale={SpecialZoomLevel.PageFit}
-            plugins={[pageNavigationPluginInstance, zoomPluginInstance]}
+            plugins={[pageNavigationPluginInstance, zoomPluginInstance, highlightPluginInstance]}
             onPageChange={handlePageChange}
             onDocumentLoad={handleDocumentLoad}
             theme={isDarkTheme ? 'dark' : 'light'}
