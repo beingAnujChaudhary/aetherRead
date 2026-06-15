@@ -1,0 +1,24 @@
+# Normalize line endings to LF on check-in, keep as-is on checkout
+* text=auto eol=lf
+
+# Binary files — never touch line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg binary
+*.pdf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.otf binary
+*.mp4 binary
+*.webm binary
+*.zip binary
+*.apk binary
+*.aab binary
+*.jks binary
+*.keystore binary

@@ -1,34 +1,164 @@
-# Gradle files
+##############################################################################
+# AetherRead — Root .gitignore
+# Covers: Android app, Next.js Web (aetherread-web), Node/Python API
+##############################################################################
+
+# ============================================================
+# ANDROID
+# ============================================================
+
+# Gradle build outputs
 .gradle/
 build/
+**/build/
 
-# Local configuration file (sdk path, etc)
+# Local SDK / signing configuration
 local.properties
 
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
-
-# IntelliJ
+# Android Studio / IntelliJ project files
 *.iml
 .idea/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
+captures/
+.externalNativeBuild/
+.cxx/
 
-# Keystore files
+# Compiled artifacts
+*.apk
+*.aab
+*.dex
+
+# Profiling snapshots
+*.hprof
+
+# Keystore & signing files (NEVER commit these)
 *.jks
 *.keystore
+release.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# Firebase / Google Services
 google-services.json
 
-# Android Profiling
-*.hprof
+# Log files
+*.log
+
+# ============================================================
+# WEB (Next.js — aetherread-web/)
+# ============================================================
+
+# Next.js build output
+aetherread-web/.next/
+aetherread-web/out/
+
+# Node dependencies
+aetherread-web/node_modules/
+
+# Environment files (keep .example files)
+aetherread-web/.env
+aetherread-web/.env.local
+aetherread-web/.env.development.local
+aetherread-web/.env.test.local
+aetherread-web/.env.production.local
+aetherread-web/.env.production
+
+# Next.js cache
+aetherread-web/.next/cache/
+
+# TypeScript build info
+aetherread-web/*.tsbuildinfo
+aetherread-web/next-env.d.ts
+
+# Vercel deployment
+aetherread-web/.vercel/
+
+# PWA / service worker generated files
+aetherread-web/public/sw.js
+aetherread-web/public/workbox-*.js
+aetherread-web/public/worker-*.js
+
+# Storybook
+aetherread-web/storybook-static/
+
+# ============================================================
+# API (Node.js / Python — api/ or aetherread-api/)
+# ============================================================
+
+# Node API
+api/node_modules/
+aetherread-api/node_modules/
+api/.next/
+api/dist/
+api/build/
+
+# Python API / virtual envs
+api/.venv/
+api/venv/
+api/__pycache__/
+api/**/__pycache__/
+api/*.pyc
+api/*.pyo
+api/*.pyd
+aetherread-api/.venv/
+aetherread-api/venv/
+aetherread-api/__pycache__/
+aetherread-api/**/__pycache__/
+aetherread-api/*.pyc
+
+# API environment files
+api/.env
+api/.env.local
+api/.env.production
+aetherread-api/.env
+aetherread-api/.env.local
+aetherread-api/.env.production
+
+# FastAPI / Flask
+api/*.egg-info/
+api/dist/
+api/.pytest_cache/
+
+# ============================================================
+# GENERAL / OS / EDITORS
+# ============================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains IDEs
+.idea/
+
+# Vim / Emacs swap files
+*.swp
+*.swo
+*~
+
+# ============================================================
+# SECURITY — Never commit secrets
+# ============================================================
+
+# Generic secrets / keys
+*.pem
+*.p12
+*.pfx
+.env*
+!.env*.example
+secrets/
+.secrets/

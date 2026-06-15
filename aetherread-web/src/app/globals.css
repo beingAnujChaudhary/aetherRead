@@ -1,0 +1,430 @@
+/* ─── Fonts ──────────────────────────────────────────────────────────────────── */
+/* DM Sans — closest Google Font to Neue Haas Display (same geometric grotesk DNA) */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Landing page CSS Variables (warm cream — matches portfolio) ────────────── */
+:root {
+  /* Portfolio palette */
+  --land-bg:            #EFEAE3;
+  --land-bg-alt:        #E8E3DB;
+  --land-text:          #1a1a1a;
+  --land-text-muted:    #5a5a5a;
+  --land-text-soft:     #888880;
+  --land-accent:        #FE320A;
+  --land-accent-hover:  #E02A00;
+  --land-accent-light:  rgba(254, 50, 10, 0.10);
+  --land-accent-border: rgba(254, 50, 10, 0.25);
+  --land-border:        rgba(26, 26, 26, 0.10);
+  --land-border-soft:   rgba(26, 26, 26, 0.06);
+  --land-card:          rgba(255, 255, 255, 0.55);
+  --land-card-hover:    rgba(255, 255, 255, 0.80);
+  --land-shadow:        rgba(26, 26, 26, 0.08);
+  --land-shadow-accent: rgba(254, 50, 10, 0.18);
+
+  /* App / Reader dark palette (used inside .app-shell) */
+  --color-bg:           #0f0f1a;
+  --color-surface:      #16162a;
+  --color-surface-muted:#1e1e36;
+  --color-border:       #2a2a4a;
+  --color-text:         #e8e8f0;
+  --color-text-muted:   #8888aa;
+  --color-accent:       #6C63FF;
+  --color-accent-glow:  rgba(108,99,255,0.25);
+
+  --reader-bg:          #0d0d0d;
+  --reader-text:        #e8e8e8;
+  --reader-accent:      #6C63FF;
+  --reader-overlay:     transparent;
+}
+
+/* ─── Comfort Engine Themes ─────────────────────────────────────────────────── */
+[data-reader-theme="dark-abyss"] {
+  --reader-bg:      #0D0D0D;
+  --reader-text:    #E8E8E8;
+  --reader-accent:  #6C63FF;
+  --reader-overlay: transparent;
+}
+[data-reader-theme="book-paper"] {
+  --reader-bg:      #F5F0E8;
+  --reader-text:    #2C2416;
+  --reader-accent:  #8B6F47;
+  --reader-overlay: transparent;
+}
+[data-reader-theme="sepia-sands"] {
+  --reader-bg:      #EDE0C8;
+  --reader-text:    #2C1810;
+  --reader-accent:  #8B4513;
+  --reader-overlay: rgba(200, 169, 126, 0.18);
+}
+[data-reader-theme="focus-punch"] {
+  --reader-bg:      #1A1A2E;
+  --reader-text:    #E8E8FF;
+  --reader-accent:  #F0A500;
+  --reader-overlay: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+}
+[data-reader-theme="monochrome"] {
+  --reader-bg:      #F0F0F0;
+  --reader-text:    #111111;
+  --reader-accent:  #555555;
+  --reader-overlay: transparent;
+  filter: grayscale(0.4);
+}
+[data-reader-theme="garden-sage"] {
+  --reader-bg:      #CCE8CC;
+  --reader-text:    #0A0A0A;
+  --reader-accent:  #2D6A4F;
+  --reader-overlay: transparent;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Neue Haas Display → DM Sans → system fallback (same as portfolio) */
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background-color: var(--land-bg);
+  color: var(--land-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── App shell (dark reader UI) ────────────────────────────────────────────── */
+/* Wrap /app and /app/reader/* in this to switch to dark variables */
+.app-shell {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--land-bg-alt); }
+::-webkit-scrollbar-thumb { background: var(--land-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--land-accent); }
+
+.app-shell ::-webkit-scrollbar-track { background: var(--color-surface); }
+.app-shell ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+.app-shell ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* ─── Landing glass morphism ────────────────────────────────────────────────── */
+.land-glass {
+  background: rgba(255, 255, 255, 0.60);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--land-border);
+}
+
+.land-card {
+  background: var(--land-card);
+  border: 1px solid var(--land-border);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.land-card:hover {
+  background: var(--land-card-hover);
+  box-shadow: 0 8px 32px var(--land-shadow);
+}
+
+/* ─── Dark app glass morphism ───────────────────────────────────────────────── */
+.glass {
+  background: rgba(22, 22, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glass-light {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ─── Portfolio-style nav link (pill with fill animation) ───────────────────── */
+.nav-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.15rem;
+  border: 1px solid var(--land-border);
+  border-radius: 50px;
+  color: rgba(26, 26, 26, 0.65);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.nav-pill::after {
+  content: '';
+  position: absolute;
+  bottom: -105%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+  border-radius: 50%;
+  transition: bottom 0.38s ease, border-radius 0.38s ease;
+  z-index: -1;
+}
+.nav-pill:hover { color: white; }
+.nav-pill:hover::after { bottom: 0; border-radius: 0; }
+.nav-pill.active { background-color: #1a1a1a; color: white; }
+
+/* ─── Portfolio-style accent button ─────────────────────────────────────────── */
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  background-color: var(--land-accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+.btn-accent:hover {
+  background-color: var(--land-accent-hover);
+  box-shadow: 0 8px 24px var(--land-shadow-accent);
+  transform: translateY(-1px);
+}
+
+/* ─── Gradient text — portfolio orange-red gradient ─────────────────────────── */
+.gradient-text {
+  background: linear-gradient(to right, orange, #FE320A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Landing-only orange gradient (alias) */
+.gradient-text-land {
+  background: linear-gradient(to right, orange, #FE320A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* App / reader purple gradient */
+.gradient-text-purple {
+  background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #F0A500 0%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glow effects (used in dark app) ──────────────────────────────────────── */
+.glow-aether {
+  box-shadow: 0 0 20px rgba(108,99,255,0.3), 0 0 60px rgba(108,99,255,0.1);
+}
+.glow-aether:hover {
+  box-shadow: 0 0 30px rgba(108,99,255,0.5), 0 0 80px rgba(108,99,255,0.2);
+}
+.text-glow {
+  text-shadow: 0 0 20px rgba(108,99,255,0.6);
+}
+
+/* ─── Glow effect for landing (orange-red) ───────────────────────────────────  */
+.glow-accent {
+  box-shadow: 0 0 20px rgba(254,50,10,0.2), 0 8px 32px rgba(254,50,10,0.12);
+}
+.glow-accent:hover {
+  box-shadow: 0 0 32px rgba(254,50,10,0.35), 0 12px 48px rgba(254,50,10,0.18);
+}
+
+/* ─── Hero decorative sphere (landing) ──────────────────────────────────────── */
+.hero-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* ─── Portfolio marquee ──────────────────────────────────────────────────────── */
+.marquee-container { overflow: hidden; white-space: nowrap; }
+.marquee-content {
+  display: inline-flex;
+  align-items: center;
+  animation: marqueeMove 22s linear infinite;
+  will-change: transform;
+}
+.marquee-dot {
+  display: inline-block;
+  width: clamp(14px, 2vw, 28px);
+  height: clamp(14px, 2vw, 28px);
+  background-color: var(--land-accent);
+  border-radius: 50%;
+  margin: 0 1.5vw;
+  flex-shrink: 0;
+}
+
+/* ─── PDF Viewer Overrides ──────────────────────────────────────────────────── */
+.rpv-core__viewer {
+  background: var(--reader-bg) !important;
+}
+.rpv-core__page-layer {
+  transition: transform 0.2s ease;
+}
+
+/* ─── Annotation badge ──────────────────────────────────────────────────────── */
+.annotation-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ─── Shimmer loading ───────────────────────────────────────────────────────── */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* ─── Noise texture overlay ─────────────────────────────────────────────────── */
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Animated gradient border (dark app) ───────────────────────────────────── */
+.gradient-border { position: relative; }
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #6C63FF, #a78bfa, #f472b6);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gradient-border:hover::before { opacity: 1; }
+
+/* ─── Focus ring ────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--land-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.app-shell *:focus-visible {
+  outline-color: var(--color-accent);
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(254, 50, 10, 0.18);
+  color: #1a1a1a;
+}
+.app-shell ::selection {
+  background: rgba(108,99,255,0.35);
+  color: white;
+}
+
+/* ─── Keyframe animations ───────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px currentColor; opacity: 0.7; }
+  50%       { box-shadow: 0 0 20px currentColor; opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes marqueeMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Portfolio hero blob animations */
+@keyframes blob1 {
+  from { transform: translate(5%, -5%); }
+  to   { transform: translate(-20%, 30%); }
+}
+@keyframes blob2 {
+  from { transform: translate(55%, -3%); }
+  to   { transform: translate(0%, 10%); }
+}
+
+/* ─── Utility animations ────────────────────────────────────────────────────── */
+.animate-slide-up  { animation: slideUp 0.5s ease-out both; }
+.animate-fade-in   { animation: fadeIn 0.4s ease-out both; }
+.animate-scale-in  { animation: scaleIn 0.3s ease-out both; }
+.animate-float     { animation: float 6s ease-in-out infinite; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
