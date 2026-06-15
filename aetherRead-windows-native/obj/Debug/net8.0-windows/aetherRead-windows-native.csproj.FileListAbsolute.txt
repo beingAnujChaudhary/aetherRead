@@ -25,3 +25,4 @@ D:\Projects\aetherRead\aetherRead-windows-native\obj\Debug\net8.0-windows\refint
 D:\Projects\aetherRead\aetherRead-windows-native\obj\Debug\net8.0-windows\aetherRead-windows-native.pdb
 D:\Projects\aetherRead\aetherRead-windows-native\obj\Debug\net8.0-windows\aetherRead-windows-native.genruntimeconfig.cache
 D:\Projects\aetherRead\aetherRead-windows-native\obj\Debug\net8.0-windows\ref\aetherRead-windows-native.dll
+D:\Projects\aetherRead\aetherRead-windows-native\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs

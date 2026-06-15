@@ -4,17 +4,16 @@
 
 **AI-powered, offline-first PDF reader and research workspace**
 
-[![Phase](https://img.shields.io/badge/Phase-3%20Native%20Android-4CAF50?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
-[![Windows](https://img.shields.io/badge/Phase-4%20Windows%2010-0078D7?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows10)
-[![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)
-[![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
-[![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api)
+[![Phase](https://img.shields.io/badge/Phase-4%20Native%20Windows-0078D7?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native)
+[![Android](https://img.shields.io/badge/Android-Live-4CAF50?style=flat-square&logo=android)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
+[![Web](https://img.shields.io/badge/Web-Live-FE320A?style=flat-square&logo=nextdotjs)](https://beinganujchaudhary.web.app/projects/aetherRead.html)
+[![License Web](https://img.shields.io/badge/License-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/blob/main/LICENSE)
 [![Portfolio](https://img.shields.io/badge/Portfolio-beingAnujChaudhary-FE320A?style=flat-square)](https://beinganujchaudhary.web.app/)
 [![IIT Madras](https://img.shields.io/badge/IIT%20Madras-BS%20Data%20Science-003087?style=flat-square)](https://study.iitm.ac.in)
 
-*Read smarter. Think deeper. Stay offline.*
+*Read smarter. Annotate deeply. Stay offline.*
 
-[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Report Bug**](mailto:beinganujchaudhary@gmail.com) · [**LinkedIn**](https://www.linkedin.com/in/beinganujchaudhary/)
+[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Download Android**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk) · [**Download Windows**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-windows.exe)
 
 </div>
 
@@ -22,39 +21,59 @@
 
 ## About
 
-aetherRead is a production-grade, offline-first PDF reader and AI research workspace developed by [beingAnujChaudhary](https://beinganujchaudhary.web.app/) student at IIT Madras BS Data Science & Applications at IIT Madras.
+aetherRead is a production-grade, cross-platform PDF reader and AI research workspace built by [Anuj Chaudhary](https://beinganujchaudhary.web.app/), a student at IIT Madras (BS Data Science & Applications).
 
-The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet, no cloud dependency, no data sent anywhere.
+The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet required, no cloud dependency, no data ever sent anywhere.
 
 > This is a **multi-platform open-core project**:
-> | Repo | Stack | License |
-> |------|-------|---------|
-> | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)  | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
-> | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB | AGPL-3.0 |
-> | [`aetherRead-windows10`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows10) | Electron, Node.js | MIT |
-> | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | Proprietary |
+> | Repo | Stack | Status | License |
+> |------|-------|--------|---------|
+> | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web) | Next.js 14, TypeScript, Tailwind, Dexie.js | ✅ Live | MIT |
+> | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB, Hilt | ✅ Active | AGPL-3.0 |
+> | [`aetherRead-windows-native`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native) | C#, WPF (.NET 8), PdfiumViewer | ⚡ In Progress | MIT |
+> | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | 🔜 Upcoming | Proprietary |
 
 ---
 
 ## Features
 
-### ✅ Available Now (Phase 2 — Web MVP)
+### ✅ Web App (`aetherRead-web`)
 - **True Offline-First** — All PDFs, annotations, and reading state stored locally via IndexedDB (Dexie.js). Zero backend required for reading.
-- **6 Reading Themes (Comfort Engine)** — Dark Abyss, Book Paper, Sepia Sands, Focus Punch, Monochrome, Garden Sage — switch instantly without re-render.
+- **6 Reading Themes (Comfort Engine)** — Dark Abyss, Book Paper, Sepia Sands, Focus Punch, Monochrome, Garden Sage — switch instantly.
 - **Page-Level Annotations** — Attach rich notes to any page, categorized as Important, Definition, Question, Revision, or Quote.
 - **Reading State Persistence** — Resumes exactly where you left off: page number, theme, scroll position.
 - **Duplicate Detection** — SHA-256 file hashing prevents the same PDF being imported twice.
 - **PDF Cover Thumbnails** — Auto-generated page-1 preview for the library grid.
 - **Search & Sort** — Filter by title, sort by recent / title / progress.
+- **Firebase Auth** — Sign in with email/password with full read/write sync.
 
-### 🔜 Coming Soon
-| Phase | Feature |
-|-------|---------|
-| 3 | Native Android app (Kotlin + Compose) |
-| 4 | Native Windows 10 app (Electron) |
-| 5 | Decoupled sync — LWW reading position + two-way annotation merge |
-| 6 | Local AI Brain — Ollama + ChromaDB RAG with citations |
-| 7 | Cloud Workspace — revision packs, multi-doc projects, hybrid search |
+### ✅ Android App (`aetherRead-android`)
+Built from scratch in Kotlin with Jetpack Compose. Mirrors the Xodo design language.
+
+| Screen | Features |
+|--------|----------|
+| **Files (Library)** | Picked-For-You quick actions (View & Annotate, eSign, Convert to PDF, Merge Pages), tabbed file list (Recent / Favorites / All Files / Processed), FAB import, document cards with metadata |
+| **Toolbox** | 7 tools with icon + description: Scan Document, Image to PDF, eSign PDF, Text Recognition (OCR), Convert from PDF, Convert to PDF, Manage PDF; Picked-For-You quick tile grid |
+| **My AetherRead (Profile)** | User profile with email, Aether Drive usage, Subscribed badge; team invite banner with dismiss; menu items: Settings, Recommend AetherRead, Help & Feedback, About, Tip Center, Manage, Privacy Consent, Sign Out |
+| **PDF Reader** | Native PDF rendering via Android PdfRenderer, pinch-to-zoom, page-by-page scrolling, reading state persistence |
+| **Reader Toolbar (View mode)** | Mode switcher dropdown: View, Annotate, Draw, Fill & Sign, Convert, Prepare Form, Insert, Measure, Pens, Redact, Favorites |
+| **Annotate Top Bar** | Mode-specific toolbar: Sticky Note, Eraser, Callout, Multi-select, Freehand, Settings/Properties, Undo, Redo |
+| **Edit Annotate Grid** | Bottom sheet with 13 tools in a 4-column grid: Smart Pen, Smart Highlight, Text Highlight, Highlight, Text Underline, Freehand, Free Text, Text Strikethrough, Text Squiggly, Sticky Note, Eraser, Callout, Multi-select |
+| **Color Picker** | Inline color palette revealed when a drawing/highlight tool is active |
+| **Comfort Themes** | 6 reading themes applied to the PDF canvas |
+| **Bottom Navigation** | Files, Toolbox, My AetherRead, Aether Sign (4 tabs) |
+
+### ⚡ Windows Native App (`aetherRead-windows-native`)
+Built from scratch in C# with WPF (.NET 8) — **no Electron, no browser overhead**.
+
+- Native WPF window with left navigation rail (Files, Toolbox tabs)
+- Google Pdfium C++ rendering engine via `PdfiumViewer` NuGet package
+- Native Windows file picker (OpenFileDialog)
+- Reader toolbar: View, Annotate, Draw, Fill & Sign mode buttons
+- Page navigation, Close/Back to library
+- Dark-mode aware system colors
+
+> **In Progress** — Full feature parity with Android is planned.
 
 ---
 
@@ -65,27 +84,37 @@ The platform lets students, researchers, and academics read, annotate, and inter
 |-------|-----------|
 | Framework | Next.js 14 (App Router) |
 | Language | TypeScript 5 |
-| Styling | Tailwind CSS 3 + DM Sans font |
+| Styling | Tailwind CSS 3 + DM Sans |
 | Local DB | Dexie.js (IndexedDB) |
 | State | Zustand 4 |
 | PDF Engine | `@react-pdf-viewer/core` + `pdfjs-dist 3.11` |
-| Animations | Framer Motion |
-| Upload | react-dropzone |
+| Auth | Firebase Auth |
+| Hosting | Firebase Hosting |
 
 ### Android (`aetherRead-android`)
-Kotlin · Jetpack Compose · Room DB · Hilt DI · Retrofit · WindowSizeClass
+| Layer | Technology |
+|-------|-----------|
+| Language | Kotlin |
+| UI | Jetpack Compose (Material3) |
+| DI | Hilt |
+| Local DB | Room DB |
+| PDF Engine | Android PdfRenderer |
+| Navigation | Jetpack Navigation Compose |
+| Architecture | MVVM + StateFlow |
 
-### Windows 10 (`aetherRead-windows10`)
-Electron · Node.js · Next.js Static Export (`electron-serve`)
+### Windows Native (`aetherRead-windows-native`)
+| Layer | Technology |
+|-------|-----------|
+| Language | C# 12 |
+| Framework | WPF (.NET 8) |
+| PDF Engine | PdfiumViewer (Google Pdfium) |
+| Target | Windows 10 / 11 (x64) |
 
-### API (`aetherRead-api`)
-FastAPI · Python 3.11 · PyMuPDF · Pydantic v2 · Docker · Uvicorn · GitHub Actions CI/CD
+### API (`aetherRead-api`) — *Upcoming*
+FastAPI · Python 3.11 · PyMuPDF · Pydantic v2 · Docker · Uvicorn
 
-### AI / ML Pipeline
+### AI / ML Pipeline — *Upcoming*
 Ollama (llama3.2:3b) · ChromaDB · LangChain · RAGAS evaluation · Local RAG with citations
-
-### Database & Sync
-Supabase (PostgreSQL) · pgvector · Realtime · Row Level Security · LWW conflict resolution
 
 ---
 
@@ -93,33 +122,38 @@ Supabase (PostgreSQL) · pgvector · Realtime · Row Level Security · LWW confl
 
 ```
 aetherRead/
-├── aetherRead-windows10/    # Windows 10 Desktop App (Electron)
-│   ├── main.js              # Electron entry point
-│   ├── package.json         # Electron build configuration
-│   └── scripts/             # Build scripts
-├── aetherRead-web/          # Next.js web app (this folder)
+├── aetherRead-android/          # Native Android app (Kotlin + Jetpack Compose)
+│   └── app/src/main/java/
+│       └── com/beinganujchaudhary/aetherread/
+│           ├── ui/
+│           │   ├── auth/            # Login / Signup screens
+│           │   ├── library/         # LibraryScreen, ToolboxScreen, ProfileScreen, DocumentCard
+│           │   ├── reader/          # ReaderScreen, AnnotationToolbar, PdfPageRenderer, ThemePicker
+│           │   └── navigation/      # NavGraph, MainScreen (BottomNav)
+│           └── domain/model/        # Document, ReadingState, ComfortTheme
+│
+├── aetherRead-windows-native/   # Native Windows app (C# + WPF + .NET 8)
+│   ├── MainWindow.xaml          # UI layout (Nav rail, Library, Reader views)
+│   ├── MainWindow.xaml.cs       # Code-behind (PDF loading, navigation)
+│   ├── App.xaml / App.xaml.cs   # App entry point
+│   └── aetherRead-windows-native.csproj
+│
+├── aetherRead-web/              # Next.js web app
 │   ├── src/
-│   │   ├── app/             # Next.js App Router pages
-│   │   │   ├── page.tsx     # Landing page
-│   │   │   ├── app/         # Library (/app)
-│   │   │   └── app/reader/  # PDF reader (/app/reader/[id])
+│   │   ├── app/                 # Next.js App Router pages
+│   │   │   ├── page.tsx         # Landing page
+│   │   │   ├── app/             # Library (/app)
+│   │   │   └── app/reader/      # PDF reader
 │   │   ├── components/
-│   │   │   ├── landing/     # Hero, Navbar, Features, ThemeShowcase, etc.
-│   │   │   ├── library/     # DocumentCard, UploadZone, ReadingStats
-│   │   │   └── reader/      # PDFViewer, ReaderToolbar, AnnotationPanel, AIChatPanel
-│   │   ├── lib/
-│   │   │   ├── db.ts        # Dexie schema + CRUD helpers
-│   │   │   └── utils.ts     # Theme config, formatters, annotation metadata
-│   │   └── stores/
-│   │       ├── useReaderStore.ts     # PDF reader state (Zustand)
-│   │       ├── useAnnotationStore.ts # Annotation state
-│   │       └── useLibraryStore.ts    # Document library state
-│   ├── public/
-│   │   └── manifest.json    # PWA manifest
-│   ├── .env.local.example   # Environment variable template
+│   │   │   ├── landing/         # Navbar, Hero, Features, Download, ThemeShowcase, Footer
+│   │   │   ├── library/         # DocumentCard, UploadZone
+│   │   │   └── reader/          # PDFViewer, AnnotationPanel
+│   │   └── lib/
+│   │       └── db.ts            # Dexie schema + CRUD helpers
 │   └── package.json
-├── .gitignore               # Covers Android + Web + API
-├── .gitattributes           # LF line-ending normalization
+│
+├── .gitignore
+├── .gitattributes
 └── README.md
 ```
 
@@ -127,40 +161,37 @@ aetherRead/
 
 ## Getting Started
 
-### Prerequisites
-- Node.js ≥ 18 (tested on v24)
-- npm ≥ 9
-
-### Run Locally
+### Web App
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/beingAnujChaudhary/aetherRead.git
 cd aetherRead/aetherRead-web
-
-# 2. Install dependencies
 npm install
-
-# 3. Copy environment template (Supabase is optional — local reading works without it)
-cp .env.local.example .env.local
-
-# 4. Start the dev server
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) — runs fully offline. No backend keys required for local PDF reading.
 
-Open [http://localhost:3000](http://localhost:3000) — the app runs fully offline. No Supabase keys required for local PDF reading.
+### Android App
 
-### Environment Variables (optional)
+1. Open `aetherRead-android/` in **Android Studio Hedgehog** or later.
+2. Let Gradle sync.
+3. Connect a device or start an emulator (Android 8.0+).
+4. Click **Run ▶**.
 
-```env
-# .env.local
+Or download the APK directly: [**aetherRead-android.apk**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk)
 
-# Supabase — required only for cross-device sync (Phase 4)
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+### Windows Native App
 
-# API backend — required only for AI features (Phase 5)
-NEXT_PUBLIC_API_URL=http://localhost:8000
+**Requirements:** .NET 8 SDK · Windows 10 / 11 x64
+
+```bash
+cd aetherRead/aetherRead-windows-native
+dotnet run
+```
+
+Or build a standalone executable:
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true
 ```
 
 ---
@@ -178,28 +209,16 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ---
 
-## Design
-
-The landing page and UI follow the visual language of the [author's portfolio](https://beinganujchaudhary.web.app):
-- **Font** — DM Sans (geometric grotesk, close to Neue Haas Display)
-- **Background** — `#EFEAE3` warm cream
-- **Accent** — `#FE320A` orange-red
-- **Nav** — pill-shaped links with black fill-from-bottom animation
-
-The in-app reader uses a separate **dark theme** optimized for prolonged PDF reading sessions.
-
----
-
 ## Development Roadmap
 
 ```
-Phase 1 — Foundations       ✅ Done
-Phase 2 — Web MVP           ✅ Done
-Phase 3 — Native Android    ⚡ Active (you are here)
-Phase 4 — Windows 10 App    ✅ Done
-Phase 5 — Decoupled Sync    🔜 Upcoming
-Phase 6 — Local AI Brain    🔜 Upcoming
-Phase 7 — Cloud Workspace   🔜 Upcoming
+Phase 1 — Foundations            ✅ Done
+Phase 2 — Web MVP                ✅ Done
+Phase 3 — Native Android         ✅ Done (active maintenance)
+Phase 4 — Windows Native WPF     ⚡ Active (you are here)
+Phase 5 — Decoupled Sync         🔜 Upcoming
+Phase 6 — Local AI Brain         🔜 Upcoming
+Phase 7 — Cloud Workspace        🔜 Upcoming
 ```
 
 ---
@@ -208,20 +227,21 @@ Phase 7 — Cloud Workspace   🔜 Upcoming
 
 | Component | License |
 |-----------|---------|
-| Web (`aetherRead-web`) | [MIT](https://github.com/beingAnujChaudhary/aetherRead/blob/main/aetherRead-web/LICENSE) |
+| Web (`aetherRead-web`) | [MIT](https://github.com/beingAnujChaudhary/aetherRead/blob/main/LICENSE) |
 | Android (`aetherRead-android`) | AGPL-3.0 |
+| Windows (`aetherRead-windows-native`) | MIT |
 | API (`aetherRead-api`) | Proprietary |
 
 ---
 
 ## Author
 
-**Anuj Chaudhary**
+**Anuj Chaudhary**  
 BS in Data Science & Applications · IIT Madras
 
 [![Portfolio](https://img.shields.io/badge/Website-beinganujchaudhary.web.app-FE320A?style=flat-square)](https://beinganujchaudhary.web.app)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-beinganujchaudhary-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/beinganujchaudhary/)
-[![GitHub](https://img.shields.io/badge/GitHub-beinganujchaudhary-181717?style=flat-square&logo=github)](https://github.com/beinganujchaudhary)
+[![GitHub](https://img.shields.io/badge/GitHub-beingAnujChaudhary-181717?style=flat-square&logo=github)](https://github.com/beingAnujChaudhary)
 [![Email](https://img.shields.io/badge/Email-beinganujchaudhary%40gmail.com-EA4335?style=flat-square&logo=gmail)](mailto:beinganujchaudhary@gmail.com)
 
 ---

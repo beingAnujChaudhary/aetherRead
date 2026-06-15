@@ -5,96 +5,436 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:aetherRead_windows_native"
         xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
-        xmlns:pdfium="clr-namespace:PdfiumViewer;assembly=PdfiumViewer"
         mc:Ignorable="d"
-        Title="AetherRead Native" Height="800" Width="1200" Background="#F0F0F0">
-    
+        Title="aetherRead" Height="860" Width="1280"
+        MinHeight="600" MinWidth="960"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource AppBackground}">
+
+    <Window.Resources>
+        <!-- ===== DARK THEME ===== -->
+        <ResourceDictionary x:Key="DarkTheme">
+            <SolidColorBrush x:Key="AppBackground" Color="#0D0D0D"/>
+            <SolidColorBrush x:Key="SidebarBg" Color="#1A1A1A"/>
+            <SolidColorBrush x:Key="SidebarBorder" Color="#2A2A2A"/>
+            <SolidColorBrush x:Key="ContentBg" Color="#111111"/>
+            <SolidColorBrush x:Key="CardBg" Color="#1E1E1E"/>
+            <SolidColorBrush x:Key="CardBorder" Color="#2E2E2E"/>
+            <SolidColorBrush x:Key="ToolbarBg" Color="#1A1A1A"/>
+            <SolidColorBrush x:Key="ToolbarBorder" Color="#2A2A2A"/>
+            <SolidColorBrush x:Key="TextPrimary" Color="#E8E8E8"/>
+            <SolidColorBrush x:Key="TextSecondary" Color="#888888"/>
+            <SolidColorBrush x:Key="AccentColor" Color="#FF3B30"/>
+            <SolidColorBrush x:Key="NavActiveColor" Color="#FF3B30"/>
+            <SolidColorBrush x:Key="NavActiveBg" Color="#2A1210"/>
+            <SolidColorBrush x:Key="HoverBg" Color="#222222"/>
+            <SolidColorBrush x:Key="DividerColor" Color="#2A2A2A"/>
+        </ResourceDictionary>
+
+        <!-- ===== LIGHT THEME ===== -->
+        <SolidColorBrush x:Key="AppBackground" Color="#F0EDE8"/>
+        <SolidColorBrush x:Key="SidebarBg" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="SidebarBorder" Color="#E0E0E0"/>
+        <SolidColorBrush x:Key="ContentBg" Color="#F7F4F0"/>
+        <SolidColorBrush x:Key="CardBg" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="CardBorder" Color="#E8E4DE"/>
+        <SolidColorBrush x:Key="ToolbarBg" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ToolbarBorder" Color="#E0E0E0"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1A1A1A"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#888888"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#FF3B30"/>
+        <SolidColorBrush x:Key="NavActiveColor" Color="#FF3B30"/>
+        <SolidColorBrush x:Key="NavActiveBg" Color="#FFF0EE"/>
+        <SolidColorBrush x:Key="HoverBg" Color="#F5F2EE"/>
+        <SolidColorBrush x:Key="DividerColor" Color="#E8E4DE"/>
+
+        <!-- Nav button style -->
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="68"/>
+            <Setter Property="Width" Value="72"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="10" Margin="4,2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HoverBg}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Toolbar button style -->
+        <Style x:Key="ToolbarBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HoverBg}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Toolbox item button style -->
+        <Style x:Key="ToolboxItemStyle" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource CardBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HoverBg}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <!-- Left Navigation Rail -->
-        <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
-            <StackPanel Margin="0,20,0,0">
-                
-                <!-- Logo -->
-                <Border Width="40" Height="40" Background="#FF3B30" CornerRadius="8" Margin="0,0,0,30">
-                    <TextBlock Text="A" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                
-                <Button x:Name="BtnLibrary" Click="BtnLibrary_Click" Margin="0,10" Background="Transparent" BorderThickness="0" Height="60" Cursor="Hand">
-                    <StackPanel>
-                        <TextBlock Text="📁" FontSize="24" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Files" FontSize="10" HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Button>
-                
-                <Button x:Name="BtnToolbox" Click="BtnToolbox_Click" Margin="0,10" Background="Transparent" BorderThickness="0" Height="60" Cursor="Hand">
-                    <StackPanel>
-                        <TextBlock Text="🧰" FontSize="24" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Toolbox" FontSize="10" HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Button>
-                
-            </StackPanel>
-        </Border>
-        
-        <!-- Main Content Area -->
-        <Grid Grid.Column="1">
-            <!-- Library View -->
-            <Grid x:Name="LibraryView" Visibility="Visible">
+
+        <!-- ===== LEFT NAVIGATION RAIL ===== -->
+        <Border Grid.Column="0" Background="{DynamicResource SidebarBg}"
+                BorderBrush="{DynamicResource SidebarBorder}" BorderThickness="0,0,1,0">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
-                <TextBlock Text="My AetherRead" FontSize="28" FontWeight="Bold" Margin="30,30,0,10" Grid.Row="0"/>
-                
-                <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Welcome to AetherRead Native" FontSize="20" Foreground="#666666" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                    <Button Content="Open PDF File" Width="150" Height="40" Background="#007AFF" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnOpenPdf_Click"/>
+
+                <!-- Logo -->
+                <Border Grid.Row="0" Margin="20,20,20,16">
+                    <Border Width="40" Height="40" CornerRadius="10" Background="{DynamicResource AccentColor}">
+                        <TextBlock Text="A" Foreground="White" FontSize="18" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Border>
+
+                <!-- Nav Items -->
+                <StackPanel Grid.Row="1" Margin="0,4,0,0">
+                    <Button x:Name="BtnFiles" Style="{StaticResource NavButtonStyle}"
+                            Background="{DynamicResource NavActiveBg}"
+                            Click="BtnFiles_Click">
+                        <StackPanel>
+                            <TextBlock x:Name="IcoFiles" Text="📁" FontSize="22" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Files" FontSize="10" HorizontalAlignment="Center" Margin="0,3,0,0"
+                                       Foreground="{DynamicResource NavActiveColor}" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="BtnToolbox" Style="{StaticResource NavButtonStyle}"
+                            Click="BtnToolbox_Click">
+                        <StackPanel>
+                            <TextBlock x:Name="IcoToolbox" Text="🧰" FontSize="22" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="LblToolbox" Text="Toolbox" FontSize="10" HorizontalAlignment="Center"
+                                       Margin="0,3,0,0" Foreground="{DynamicResource TextSecondary}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Bottom: Profile + Theme Toggle -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,16">
+                    <Button x:Name="BtnDarkMode" Style="{StaticResource NavButtonStyle}" Click="BtnDarkMode_Click"
+                            ToolTip="Toggle Dark Mode">
+                        <TextBlock x:Name="TxtThemeIcon" Text="🌙" FontSize="22" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="BtnProfile" Style="{StaticResource NavButtonStyle}" Click="BtnProfile_Click"
+                            ToolTip="My AetherRead">
+                        <Border Width="34" Height="34" CornerRadius="17" Background="{DynamicResource AccentColor}">
+                            <TextBlock Text="A" FontSize="14" FontWeight="Bold" Foreground="White"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Button>
                 </StackPanel>
             </Grid>
-            
-            <!-- Toolbox View -->
-            <Grid x:Name="ToolboxView" Visibility="Collapsed" Background="#FFFFFF">
-                <TextBlock Text="Toolbox (Coming Soon)" FontSize="28" FontWeight="Bold" Margin="30,30,0,10"/>
-            </Grid>
-            
-            <!-- PDF Reader View -->
-            <Grid x:Name="ReaderView" Visibility="Collapsed">
+        </Border>
+
+        <!-- ===== MAIN CONTENT AREA ===== -->
+        <Grid Grid.Column="1" Background="{DynamicResource ContentBg}">
+
+            <!-- ===== FILES VIEW ===== -->
+            <Grid x:Name="FilesView" Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
-                <!-- Toolbar -->
-                <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
-                            <Button Content="Close" Background="Transparent" BorderThickness="0" Margin="0,0,20,0" Cursor="Hand" Click="BtnClosePdf_Click"/>
-                            <TextBlock x:Name="TxtFileName" Text="Document.pdf" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Button Content="View" Margin="5,0" Padding="10,5" Background="#F0F0F0" BorderThickness="0"/>
-                            <Button Content="Annotate" Margin="5,0" Padding="10,5" Background="Transparent" BorderThickness="0"/>
-                            <Button Content="Draw" Margin="5,0" Padding="10,5" Background="Transparent" BorderThickness="0"/>
-                            <Button Content="Fill &amp; Sign" Margin="5,0" Padding="10,5" Background="Transparent" BorderThickness="0"/>
+
+                <!-- Top Bar -->
+                <Border Grid.Row="0" Background="{DynamicResource ToolbarBg}"
+                        BorderBrush="{DynamicResource ToolbarBorder}" BorderThickness="0,0,0,1">
+                    <Grid Margin="24,0">
+                        <TextBlock Text="Files" FontSize="18" FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimary}"
+                                   VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0">
+                            <Button x:Name="BtnSearch" Style="{StaticResource ToolbarBtnStyle}"
+                                    Content="🔍" FontSize="16" ToolTip="Search"/>
+                            <Button x:Name="BtnImportPdf" Click="BtnOpenPdf_Click"
+                                    Style="{StaticResource ToolbarBtnStyle}"
+                                    Background="{DynamicResource AccentColor}"
+                                    Foreground="White" Margin="4,0,0,0"
+                                    ToolTip="Import PDF">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="+" FontSize="16" FontWeight="Bold" Margin="0,0,4,0"/>
+                                        <TextBlock Text="Import PDF" FontSize="12" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Border>
-                
-                <!-- WindowsFormsHost to hold PdfViewer -->
-                <wfi:WindowsFormsHost Grid.Row="1" x:Name="FormsHost">
-                    <!-- The actual PdfViewer is added in code-behind -->
-                </wfi:WindowsFormsHost>
-                
+
+                <!-- Picked For You quick actions -->
+                <Border Grid.Row="1" Margin="24,20,24,0">
+                    <StackPanel>
+                        <TextBlock Text="Picked For You" FontWeight="SemiBold" FontSize="13"
+                                   Foreground="{DynamicResource TextSecondary}" Margin="0,0,0,12"/>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="BtnOpenPdf_Click">
+                                <StackPanel>
+                                    <TextBlock Text="✏️" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="View &amp; Annotate" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📄" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Flatten PDF" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📋" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Merge Pages" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📝" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="PDF to Word" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Recent Files List -->
+                <Grid Grid.Row="2" Margin="24,20,24,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Recent" FontWeight="SemiBold" FontSize="13"
+                               Foreground="{DynamicResource TextSecondary}" Margin="0,0,0,12"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="RecentFilesList">
+                            <!-- Populated from code-behind -->
+                            <Border x:Name="EmptyState" BorderThickness="0" Margin="0,60,0,0">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="📂" FontSize="48" HorizontalAlignment="Center" Opacity="0.4"/>
+                                    <TextBlock Text="No PDFs yet" FontSize="16"
+                                               Foreground="{DynamicResource TextSecondary}"
+                                               HorizontalAlignment="Center" Margin="0,12,0,6"/>
+                                    <TextBlock Text="Click Import PDF to open your first document"
+                                               FontSize="12" Foreground="{DynamicResource TextSecondary}"
+                                               HorizontalAlignment="Center" Opacity="0.7"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
-            
+
+            <!-- ===== TOOLBOX VIEW ===== -->
+            <Grid x:Name="ToolboxView" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Top Bar -->
+                <Border Grid.Row="0" Background="{DynamicResource ToolbarBg}"
+                        BorderBrush="{DynamicResource ToolbarBorder}" BorderThickness="0,0,0,1">
+                    <Grid Margin="24,0">
+                        <TextBlock Text="Toolbox" FontSize="18" FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ToolbarBtnStyle}" Content="🔍" FontSize="16" ToolTip="Search tools"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Picked For You quick tiles -->
+                <Border Grid.Row="1" Margin="24,20,24,0">
+                    <StackPanel>
+                        <TextBlock Text="Picked For You" FontWeight="SemiBold" FontSize="13"
+                                   Foreground="{DynamicResource TextSecondary}" Margin="0,0,0,12"/>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="BtnOpenPdf_Click">
+                                <StackPanel>
+                                    <TextBlock Text="✏️" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="View &amp; Annotate" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📑" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Flatten PDF" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📋" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Merge Pages" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolboxItemStyle}" Margin="0,0,10,10" Width="130" Click="ShowComingSoon">
+                                <StackPanel>
+                                    <TextBlock Text="📝" FontSize="28" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="PDF to Word" FontSize="11" TextAlignment="Center"
+                                               Foreground="{DynamicResource TextPrimary}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tools list -->
+                <ScrollViewer Grid.Row="2" Margin="24,20,24,0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <local:ToolboxListItem Emoji="📷" Title="Scan Document" Subtitle="Scan documents with your camera to create PDF" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="🖼️" Title="Image to PDF" Subtitle="Turn images on your device into PDF" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="✍️" Title="eSign PDF" Subtitle="Create a signature and sign your document" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="🔤" Title="Text Recognition (OCR)" Subtitle="Convert image scans into searchable PDF files" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="📤" Title="Convert from PDF" Subtitle="Turn PDF into Word, Excel, PPT, HTML and images" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="📥" Title="Convert to PDF" Subtitle="Turn Word, Excel, PPT files and images into PDF" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                        <local:ToolboxListItem Emoji="🗂️" Title="Manage PDF" Subtitle="Merge, extract, rearrange, and delete pages within your PDF" Margin="0,0,0,2" Click="ShowComingSoon"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- ===== PDF READER VIEW ===== -->
+            <Grid x:Name="ReaderView" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="56"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="44"/>
+                </Grid.RowDefinitions>
+
+                <!-- Reader Toolbar -->
+                <Border Grid.Row="0" Background="{DynamicResource ToolbarBg}"
+                        BorderBrush="{DynamicResource ToolbarBorder}" BorderThickness="0,0,0,1">
+                    <Grid Margin="12,0">
+                        <!-- Left: Back + Filename -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Content="← Back" Style="{StaticResource ToolbarBtnStyle}"
+                                    Foreground="{DynamicResource AccentColor}" FontWeight="SemiBold"
+                                    Click="BtnClosePdf_Click" Margin="0,0,8,0"/>
+                            <Rectangle Width="1" Height="20" Fill="{DynamicResource DividerColor}" Margin="0,0,12,0"/>
+                            <TextBlock x:Name="TxtFileName" Text="Document.pdf"
+                                       FontWeight="SemiBold" FontSize="13"
+                                       Foreground="{DynamicResource TextPrimary}"
+                                       VerticalAlignment="Center" MaxWidth="300"
+                                       TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+
+                        <!-- Center: Mode Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button x:Name="BtnModeView" Style="{StaticResource ToolbarBtnStyle}"
+                                    Content="View" Background="{DynamicResource NavActiveBg}"
+                                    Foreground="{DynamicResource AccentColor}" FontWeight="SemiBold"/>
+                            <Button x:Name="BtnModeAnnotate" Style="{StaticResource ToolbarBtnStyle}" Content="Annotate"/>
+                            <Button x:Name="BtnModeDraw" Style="{StaticResource ToolbarBtnStyle}" Content="Draw"/>
+                            <Button x:Name="BtnModeFillSign" Style="{StaticResource ToolbarBtnStyle}" Content="Fill &amp; Sign"/>
+                            <Button x:Name="BtnModeConvert" Style="{StaticResource ToolbarBtnStyle}" Content="Convert"/>
+                        </StackPanel>
+
+                        <!-- Right: Zoom + Page Info -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Content="−" Style="{StaticResource ToolbarBtnStyle}" Click="BtnZoomOut_Click"
+                                    FontSize="16" FontWeight="Bold" Width="32"/>
+                            <TextBlock x:Name="TxtZoom" Text="100%" FontSize="12" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextPrimary}" Width="44" TextAlignment="Center"/>
+                            <Button Content="+" Style="{StaticResource ToolbarBtnStyle}" Click="BtnZoomIn_Click"
+                                    FontSize="16" FontWeight="Bold" Width="32"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- PDF Canvas -->
+                <wfi:WindowsFormsHost Grid.Row="1" x:Name="FormsHost"/>
+
+                <!-- Reader Status Bar -->
+                <Border Grid.Row="2" Background="{DynamicResource ToolbarBg}"
+                        BorderBrush="{DynamicResource ToolbarBorder}" BorderThickness="0,1,0,0">
+                    <Grid Margin="16,0">
+                        <!-- Page Navigation -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Content="◀" Style="{StaticResource ToolbarBtnStyle}" Click="BtnPrevPage_Click"
+                                    Width="32" FontSize="12"/>
+                            <TextBlock x:Name="TxtPageInfo" Text="Page 1 / 1"
+                                       FontSize="12" Foreground="{DynamicResource TextPrimary}"
+                                       VerticalAlignment="Center" Margin="12,0"/>
+                            <Button Content="▶" Style="{StaticResource ToolbarBtnStyle}" Click="BtnNextPage_Click"
+                                    Width="32" FontSize="12"/>
+                        </StackPanel>
+                        <!-- File name on left -->
+                        <TextBlock x:Name="TxtStatusPath" Text="" FontSize="11"
+                                   Foreground="{DynamicResource TextSecondary}"
+                                   VerticalAlignment="Center" MaxWidth="400"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
         </Grid>
-        
     </Grid>
 </Window>

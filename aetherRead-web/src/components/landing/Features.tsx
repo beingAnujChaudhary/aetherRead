@@ -2,7 +2,7 @@
 
 import {
   WifiOff, Brain, Palette, FileText, RefreshCw, BarChart2,
-  Smartphone, Lock, Zap, BookMarked,
+  Smartphone, Monitor, Lock, Zap, PenTool, Grid,
 } from 'lucide-react';
 
 const FEATURES = [
@@ -28,8 +28,8 @@ const FEATURES = [
   },
   {
     icon: Palette,
-    title: 'Comfort Engine',
-    description: '6 hand-crafted reading themes: Dark Abyss, Book Paper, Sepia Sands, Focus Punch, Monochrome, Garden Sage — switch instantly.',
+    title: '6 Comfort Themes',
+    description: 'Dark Abyss, Book Paper, Sepia Sands, Focus Punch, Monochrome, Garden Sage — hand-crafted reading themes that switch instantly.',
     border: 'border-purple-200',
     iconColor: 'text-purple-600',
     iconBg: 'bg-purple-50',
@@ -47,9 +47,49 @@ const FEATURES = [
     tagColor: 'bg-green-50 text-green-600',
   },
   {
+    icon: PenTool,
+    title: '13 Annotation Tools',
+    description: 'Smart Pen, Text Highlight, Freehand Draw, Text Underline, Strikethrough, Squiggly, Sticky Note, Callout, Eraser, Multi-select — with live color picker.',
+    border: 'border-amber-200',
+    iconColor: 'text-amber-600',
+    iconBg: 'bg-amber-50',
+    tag: 'Annotate',
+    tagColor: 'bg-amber-50 text-amber-600',
+  },
+  {
+    icon: Smartphone,
+    title: 'Native Android App',
+    description: 'Kotlin + Jetpack Compose. Full Xodo-style UI: Files, Toolbox, My AetherRead, Aether Sign tabs. Annotation tools, comfort themes, reader toolbar.',
+    border: 'border-red-200',
+    iconColor: 'text-red-600',
+    iconBg: 'bg-red-50',
+    tag: 'Android',
+    tagColor: 'bg-red-50 text-red-600',
+  },
+  {
+    icon: Monitor,
+    title: 'Native Windows App',
+    description: 'C# WPF (.NET 8) — zero Electron overhead. Google Pdfium rendering engine, left navigation rail, native file dialogs. Windows 10/11.',
+    border: 'border-sky-200',
+    iconColor: 'text-sky-600',
+    iconBg: 'bg-sky-50',
+    tag: 'Windows',
+    tagColor: 'bg-sky-50 text-sky-600',
+  },
+  {
+    icon: Grid,
+    title: 'Toolbox Suite',
+    description: 'Scan Document, Image to PDF, eSign PDF, OCR Text Recognition, Convert from/to PDF, and Manage PDF — all in one unified toolbox.',
+    border: 'border-teal-200',
+    iconColor: 'text-teal-600',
+    iconBg: 'bg-teal-50',
+    tag: 'Tools',
+    tagColor: 'bg-teal-50 text-teal-600',
+  },
+  {
     icon: RefreshCw,
     title: 'Decoupled Sync',
-    description: 'Intelligent LWW strategy for reading position. Two-way merge for annotations. Soft-delete pattern ensures zero data loss.',
+    description: 'LWW strategy for reading position. Two-way annotation merge. Soft-delete pattern ensures zero data loss across devices.',
     border: 'border-orange-200',
     iconColor: 'text-orange-600',
     iconBg: 'bg-orange-50',
@@ -67,19 +107,9 @@ const FEATURES = [
     tagColor: 'bg-yellow-50 text-yellow-600',
   },
   {
-    icon: Smartphone,
-    title: 'Native Android App',
-    description: 'Kotlin + Jetpack Compose with WindowSizeClass tablet layouts, haptic feedback, and edge-to-edge UI.',
-    border: 'border-red-200',
-    iconColor: 'text-red-600',
-    iconBg: 'bg-red-50',
-    tag: 'Mobile',
-    tagColor: 'bg-red-50 text-red-600',
-  },
-  {
     icon: Lock,
     title: 'Privacy First',
-    description: 'Row Level Security on Supabase, TLS 1.3 in transit, zero frontend API key exposure, full JSON export.',
+    description: 'Row Level Security on Supabase, TLS 1.3 in transit, zero frontend API key exposure, full JSON export. Your documents stay yours.',
     border: 'border-cyan-200',
     iconColor: 'text-cyan-600',
     iconBg: 'bg-cyan-50',
@@ -87,9 +117,9 @@ const FEATURES = [
     tagColor: 'bg-cyan-50 text-cyan-600',
   },
   {
-    icon: BookMarked,
+    icon: FileText,
     title: 'Revision Packs',
-    description: 'Auto-compile your highlights into Markdown study guides, Anki CSV flashcards, or Obsidian vault exports.',
+    description: 'Auto-compile highlights into Markdown study guides, Anki CSV flashcards, or Obsidian vault exports.',
     border: 'border-pink-200',
     iconColor: 'text-pink-600',
     iconBg: 'bg-pink-50',
@@ -115,6 +145,19 @@ export default function Features() {
             Every feature is designed around one principle: your reading flow should never be
             interrupted — by internet, by apps, or by distractions.
           </p>
+        </div>
+
+        {/* Platform badges */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {[
+            { label: '🌐 Web App', color: 'bg-[var(--land-accent-light)] text-[var(--land-accent)] border-[var(--land-accent-border)]' },
+            { label: '🤖 Android', color: 'bg-red-50 text-red-600 border-red-200' },
+            { label: '🖥️ Windows Native', color: 'bg-sky-50 text-sky-600 border-sky-200' },
+          ].map(badge => (
+            <span key={badge.label} className={`px-4 py-1.5 rounded-full border text-sm font-medium ${badge.color}`}>
+              {badge.label}
+            </span>
+          ))}
         </div>
 
         {/* Feature grid */}
