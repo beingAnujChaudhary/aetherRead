@@ -1,0 +1,19 @@
+services:
+  api:
+    build: .
+    container_name: aetherRead-api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434  # Ollama runs on host
+      - CHROMA_PERSIST_DIR=/api/data/chroma
+      - PDF_UPLOAD_DIR=/api/data/uploads
+    volumes:
+      - ./data:/api/data        # Persist ChromaDB + uploads
+      - .:/api                  # Hot-reload in dev
+    env_file:
+      - .env
+    restart: unless-stopped
+    # NOTE: Ollama must be running on the host machine (not in Docker)
+    #       Install from https://ollama.ai and run: ollama pull llama3.2:3b

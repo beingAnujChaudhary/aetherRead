@@ -162,3 +162,6 @@ $RECYCLE.BIN/
 !.env*.example
 secrets/
 .secrets/
+
+aetherRead-android/gradle-8.5*
+aetherRead-android/gradle-8.7*
