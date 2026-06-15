@@ -173,3 +173,8 @@ secrets/
 
 aetherRead-android/gradle-8.5*
 aetherRead-android/gradle-8.7*
+
+# Windows Native
+aetherRead-windows-native/bin/
+aetherRead-windows-native/obj/
+aetherRead-web/public/downloads/*.zip
