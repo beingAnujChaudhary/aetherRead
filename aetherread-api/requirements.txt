@@ -1,0 +1,23 @@
+# ── Runtime dependencies ───────────────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+pydantic==2.7.3
+pydantic-settings==2.3.1
+
+# ── PDF Extraction ─────────────────────────────────────────────────────────────
+PyMuPDF==1.24.4            # Fast, memory-safe PDF parsing
+# marker-pdf==0.2.17        # Uncomment for higher-accuracy extraction (Phase 5)
+
+# ── AI / ML ───────────────────────────────────────────────────────────────────
+chromadb==0.5.0            # Local vector store
+langchain==0.2.3           # LLM orchestration
+langchain-community==0.2.3 # Ollama + ChromaDB integrations
+# ragas==0.1.13             # Uncomment for evaluation pipeline (Phase 5)
+
+# ── HTTP ──────────────────────────────────────────────────────────────────────
+httpx==0.27.0              # Async HTTP client (Ollama API calls)
+
+# ── Dev / Testing ─────────────────────────────────────────────────────────────
+pytest==8.2.2
+pytest-asyncio==0.23.7
+httpx                      # Also used by TestClient
