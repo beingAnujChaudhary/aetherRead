@@ -16,11 +16,13 @@ import androidx.navigation.navArgument
  */
 import com.beinganujchaudhary.aetherread.ui.auth.AuthScreen
 import com.beinganujchaudhary.aetherread.ui.library.LibraryScreen
+import com.beinganujchaudhary.aetherread.ui.library.ProfileScreen
 import com.beinganujchaudhary.aetherread.ui.reader.ReaderScreen
 
 object Route {
+    const val MAIN = "main"
     const val AUTH = "auth"
-    const val LIBRARY = "library"
+    const val PROFILE = "profile"
     const val READER  = "reader/{documentId}"
 
     fun reader(documentId: String) = "reader/$documentId"
@@ -32,22 +34,34 @@ fun AetherReadNavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Route.LIBRARY,
+        startDestination = Route.MAIN,
     ) {
         composable(Route.AUTH) {
             AuthScreen(
                 onAuthSuccess = {
-                    navController.navigate(Route.LIBRARY) {
+                    navController.navigate(Route.MAIN) {
                         popUpTo(Route.AUTH) { inclusive = true }
                     }
                 }
             )
         }
 
-        composable(Route.LIBRARY) {
-            LibraryScreen(
+        composable(Route.MAIN) {
+            MainScreen(
                 onNavigateToReader = { id -> navController.navigate(Route.reader(id)) },
-                onNavigateToAuth = { navController.navigate(Route.AUTH) }
+                onNavigateToAuth = { navController.navigate(Route.AUTH) },
+                onNavigateToProfile = { navController.navigate(Route.PROFILE) }
+            )
+        }
+
+        composable(Route.PROFILE) {
+            ProfileScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onSignOut = {
+                    navController.navigate(Route.AUTH) {
+                        popUpTo(Route.MAIN) { inclusive = true }
+                    }
+                }
             )
         }
 

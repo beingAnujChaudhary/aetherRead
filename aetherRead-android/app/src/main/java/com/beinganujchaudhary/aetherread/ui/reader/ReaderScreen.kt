@@ -8,9 +8,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,6 +48,7 @@ fun ReaderScreen(
     var showAnnotationPanel by remember { mutableStateOf(false) }
     var activeTool by remember { mutableStateOf(DrawingTool.NONE) }
     var activeColor by remember { mutableStateOf(androidx.compose.ui.graphics.Color.Red) }
+    var showMenu by remember { mutableStateOf(false) }
 
     // Zoom state — pinch-to-zoom + button controls
     var zoomLevel by remember { mutableStateOf(1f) }
@@ -68,7 +79,33 @@ fun ReaderScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(document?.title ?: "Loading...") },
+                title = { 
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable { showMenu = true }.padding(4.dp)
+                    ) {
+                        Text("View", fontWeight = FontWeight.Bold)
+                        Icon(Icons.Default.ArrowDropDown, contentDescription = "Menu")
+                    }
+                    
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false },
+                        modifier = Modifier.fillMaxWidth(0.8f).background(MaterialTheme.colorScheme.surface)
+                    ) {
+                        ReaderMenuItem("View", Icons.Default.Visibility) { showMenu = false; activeTool = DrawingTool.NONE }
+                        ReaderMenuItem("Annotate", Icons.Default.Edit) { showMenu = false; activeTool = DrawingTool.HIGHLIGHT }
+                        ReaderMenuItem("Draw", Icons.Default.Create) { showMenu = false; activeTool = DrawingTool.PEN }
+                        ReaderMenuItem("Fill and Sign", Icons.Default.CheckCircle) { showMenu = false }
+                        ReaderMenuItem("Convert", Icons.Default.Build) { showMenu = false }
+                        ReaderMenuItem("Prepare Form", Icons.Default.List) { showMenu = false }
+                        ReaderMenuItem("Insert", Icons.Default.AddCircle) { showMenu = false }
+                        ReaderMenuItem("Measure", Icons.Default.Place) { showMenu = false }
+                        ReaderMenuItem("Pens", Icons.Default.Create) { showMenu = false; activeTool = DrawingTool.PEN }
+                        ReaderMenuItem("Redact", Icons.Default.Lock) { showMenu = false }
+                        ReaderMenuItem("Favorites", Icons.Default.Favorite) { showMenu = false }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -219,5 +256,15 @@ fun PdfPageAsync(
         activeTool = activeTool,
         activeColor = activeColor,
         modifier = Modifier.padding(bottom = 8.dp)
+    )
+}
+
+@Composable
+fun ReaderMenuItem(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
+    DropdownMenuItem(
+        text = { Text(title, fontSize = 16.sp) },
+        trailingIcon = { Icon(icon, contentDescription = title, tint = androidx.compose.ui.graphics.Color.Gray) },
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth()
     )
 }

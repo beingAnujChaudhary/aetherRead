@@ -1,0 +1,40 @@
+{
+  "name": "aetherread-windows10",
+  "version": "1.0.0",
+  "description": "aetherRead Windows 10 Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "prebuild": "node scripts/copy-app.js",
+    "build": "electron-builder --win",
+    "pack": "electron-builder --dir"
+  },
+  "author": "Anuj Chaudhary",
+  "license": "MIT",
+  "dependencies": {
+    "electron-serve": "^1.2.0"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
+    "fs-extra": "^11.2.0"
+  },
+  "build": {
+    "appId": "com.beinganujchaudhary.aetherread",
+    "productName": "aetherRead",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.png"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ]
+  }
+}

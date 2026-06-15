@@ -120,6 +120,14 @@ api/dist/
 api/.pytest_cache/
 
 # ============================================================
+# WINDOWS 10 (Electron — aetherRead-windows10/)
+# ============================================================
+
+aetherRead-windows10/node_modules/
+aetherRead-windows10/dist/
+aetherRead-windows10/app/
+
+# ============================================================
 # GENERAL / OS / EDITORS
 # ============================================================
 

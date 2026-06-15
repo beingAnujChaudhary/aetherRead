@@ -5,6 +5,7 @@
 **AI-powered, offline-first PDF reader and research workspace**
 
 [![Phase](https://img.shields.io/badge/Phase-3%20Native%20Android-4CAF50?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
+[![Windows](https://img.shields.io/badge/Phase-4%20Windows%2010-0078D7?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows10)
 [![License Web](https://img.shields.io/badge/Web-MIT-green?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)
 [![License Android](https://img.shields.io/badge/Android-AGPL--3.0-orange?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android)
 [![License API](https://img.shields.io/badge/API-Proprietary-red?style=flat-square)](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api)
@@ -25,11 +26,12 @@ aetherRead is a production-grade, offline-first PDF reader and AI research works
 
 The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet, no cloud dependency, no data sent anywhere.
 
-> This is a **three-repository open-core project**:
+> This is a **multi-platform open-core project**:
 > | Repo | Stack | License |
 > |------|-------|---------|
 > | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web)  | Next.js 14, TypeScript, Tailwind, Dexie.js | MIT |
 > | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB | AGPL-3.0 |
+> | [`aetherRead-windows10`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows10) | Electron, Node.js | MIT |
 > | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | Proprietary |
 
 ---
@@ -49,9 +51,10 @@ The platform lets students, researchers, and academics read, annotate, and inter
 | Phase | Feature |
 |-------|---------|
 | 3 | Native Android app (Kotlin + Compose) |
-| 4 | Decoupled sync — LWW reading position + two-way annotation merge |
-| 5 | Local AI Brain — Ollama + ChromaDB RAG with citations |
-| 6 | Cloud Workspace — revision packs, multi-doc projects, hybrid search |
+| 4 | Native Windows 10 app (Electron) |
+| 5 | Decoupled sync — LWW reading position + two-way annotation merge |
+| 6 | Local AI Brain — Ollama + ChromaDB RAG with citations |
+| 7 | Cloud Workspace — revision packs, multi-doc projects, hybrid search |
 
 ---
 
@@ -72,6 +75,9 @@ The platform lets students, researchers, and academics read, annotate, and inter
 ### Android (`aetherRead-android`)
 Kotlin · Jetpack Compose · Room DB · Hilt DI · Retrofit · WindowSizeClass
 
+### Windows 10 (`aetherRead-windows10`)
+Electron · Node.js · Next.js Static Export (`electron-serve`)
+
 ### API (`aetherRead-api`)
 FastAPI · Python 3.11 · PyMuPDF · Pydantic v2 · Docker · Uvicorn · GitHub Actions CI/CD
 
@@ -87,6 +93,10 @@ Supabase (PostgreSQL) · pgvector · Realtime · Row Level Security · LWW confl
 
 ```
 aetherRead/
+├── aetherRead-windows10/    # Windows 10 Desktop App (Electron)
+│   ├── main.js              # Electron entry point
+│   ├── package.json         # Electron build configuration
+│   └── scripts/             # Build scripts
 ├── aetherRead-web/          # Next.js web app (this folder)
 │   ├── src/
 │   │   ├── app/             # Next.js App Router pages
@@ -186,9 +196,10 @@ The in-app reader uses a separate **dark theme** optimized for prolonged PDF rea
 Phase 1 — Foundations       ✅ Done
 Phase 2 — Web MVP           ✅ Done
 Phase 3 — Native Android    ⚡ Active (you are here)
-Phase 4 — Decoupled Sync    🔜 Upcoming
-Phase 5 — Local AI Brain    🔜 Upcoming
-Phase 6 — Cloud Workspace   🔜 Upcoming
+Phase 4 — Windows 10 App    ✅ Done
+Phase 5 — Decoupled Sync    🔜 Upcoming
+Phase 6 — Local AI Brain    🔜 Upcoming
+Phase 7 — Cloud Workspace   🔜 Upcoming
 ```
 
 ---

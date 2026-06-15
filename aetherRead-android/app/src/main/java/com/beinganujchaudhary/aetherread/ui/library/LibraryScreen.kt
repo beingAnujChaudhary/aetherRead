@@ -1,26 +1,29 @@
 package com.beinganujchaudhary.aetherread.ui.library
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.beinganujchaudhary.aetherread.domain.model.Document
 
@@ -29,14 +32,11 @@ import com.beinganujchaudhary.aetherread.domain.model.Document
 fun LibraryScreen(
     onNavigateToReader: (String) -> Unit,
     onNavigateToAuth: () -> Unit,
+    onNavigateToProfile: () -> Unit,
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val documents by viewModel.documents.collectAsState()
-    val searchQuery by viewModel.searchQuery.collectAsState()
-    val sortOrder by viewModel.sortOrder.collectAsState()
     val isImporting by viewModel.isImporting.collectAsState()
-    val importError by viewModel.importError.collectAsState()
-
     val context = LocalContext.current
 
     val pdfPickerLauncher = rememberLauncherForActivityResult(
@@ -45,113 +45,95 @@ fun LibraryScreen(
         uri?.let { viewModel.importPdf(it) }
     }
 
-    LaunchedEffect(importError) {
-        importError?.let {
-            // In a real app, use a SnackbarHost here
-            // We'll just clear the error for now after it's shown or logged
-        }
-    }
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    val tabs = listOf("Recent", "Favorites", "All Files", "Processed")
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("aetherRead") },
+                title = { Text("Files", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                navigationIcon = {
+                    IconButton(onClick = { /* TODO Filter */ }) {
+                        Icon(Icons.Default.List, contentDescription = "Filter")
+                    }
+                },
                 actions = {
-                    var sortExpanded by remember { mutableStateOf(false) }
-                    var profileExpanded by remember { mutableStateOf(false) }
-
-                    Box {
-                        IconButton(onClick = { profileExpanded = true }) {
-                            Icon(Icons.Default.Person, contentDescription = "Profile Menu")
-                        }
-                        DropdownMenu(
-                            expanded = profileExpanded,
-                            onDismissRequest = { profileExpanded = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Sign In") },
-                                onClick = {
-                                    profileExpanded = false
-                                    onNavigateToAuth()
-                                }
-                            )
-                        }
+                    IconButton(onClick = { /* TODO Search */ }) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
                     }
-                    TextButton(onClick = { sortExpanded = true }) {
-                        Text(sortOrder.name)
-                    }
-                    DropdownMenu(
-                        expanded = sortExpanded,
-                        onDismissRequest = { sortExpanded = false }
-                    ) {
-                        SortOrder.values().forEach { order ->
-                            DropdownMenuItem(
-                                text = { Text(order.name) },
-                                onClick = {
-                                    viewModel.onSortOrderChanged(order)
-                                    sortExpanded = false
-                                }
-                            )
-                        }
+                    IconButton(onClick = onNavigateToProfile) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
                 }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { pdfPickerLauncher.launch(arrayOf("application/pdf")) }
+                onClick = { pdfPickerLauncher.launch(arrayOf("application/pdf")) },
+                containerColor = Color(0xFF00C8FF),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.size(64.dp)
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Import PDF")
+                Icon(Icons.Default.Add, contentDescription = "Import PDF", tint = Color.Black, modifier = Modifier.size(32.dp))
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Search Bar
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = viewModel::onSearchQueryChanged,
+            // Picked For You row
+            Text("Picked For You", fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                placeholder = { Text("Search documents...") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                singleLine = true
-            )
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                PickedToolItem(Icons.Default.Edit, "View &\nAnnotate") { Toast.makeText(context, "View & Annotate", Toast.LENGTH_SHORT).show() }
+                PickedToolItem(Icons.Default.Create, "eSign PDF") { Toast.makeText(context, "eSign PDF", Toast.LENGTH_SHORT).show() }
+                PickedToolItem(Icons.Default.ArrowForward, "Convert to\nPDF") { Toast.makeText(context, "Convert to PDF", Toast.LENGTH_SHORT).show() }
+                PickedToolItem(Icons.Default.Add, "Merge Pages") { Toast.makeText(context, "Merge Pages", Toast.LENGTH_SHORT).show() }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Tabs
+            ScrollableTabRow(
+                selectedTabIndex = selectedTabIndex,
+                edgePadding = 16.dp,
+                divider = {},
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = selectedTabIndex == index,
+                        onClick = { selectedTabIndex = index },
+                        text = { Text(title, fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal) }
+                    )
+                }
+            }
 
             if (isImporting) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
 
-            if (importError != null) {
-                Text(
-                    text = importError!!,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-
+            // List of Documents
             if (documents.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "No PDFs found.\nTap + to import one.",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("No PDFs found.", color = Color.Gray)
                 }
             } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(150.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.fillMaxSize()
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 80.dp) // space for FAB
                 ) {
                     items(documents, key = { it.id }) { doc ->
                         DocumentCard(
