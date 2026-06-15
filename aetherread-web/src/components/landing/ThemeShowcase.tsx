@@ -26,64 +26,24 @@ export default function ThemeShowcase() {
 
   return (
     <section id="themes" className="py-32 px-6 relative overflow-hidden">
-      {/* Background */}
-      <div
-        className="hero-sphere w-[500px] h-[500px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10"
-        style={{ background: 'radial-gradient(circle, #6C63FF 0%, transparent 70%)' }}
-      />
-
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-purple-500/30 text-sm text-purple-300 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-200 bg-purple-50 text-sm text-purple-700 mb-6">
             <Palette size={12} />
             Comfort Engine
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-black text-[var(--land-text)] mb-4">
             6 reading themes. <br />
-            <span className="gradient-text">Zero eye strain.</span>
+            <span className="gradient-text-land">Zero eye strain.</span>
           </h2>
-          <p className="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--land-text-muted)] max-w-2xl mx-auto">
             Each theme is scientifically crafted for different lighting conditions and reading
             sessions. Switch instantly — your eyes will thank you.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-start">
-          {/* Theme picker */}
-          <div className="flex flex-wrap lg:flex-col gap-3 lg:order-last">
-            {THEME_ORDER.map(key => {
-              const t = THEMES[key];
-              const isActive = key === activeTheme;
-              return (
-                <button
-                  key={key}
-                  id={`theme-btn-${key}`}
-                  onClick={() => setActiveTheme(key)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all duration-200 ${
-                    isActive
-                      ? 'border-aether-500/60 bg-aether-500/10 shadow-lg shadow-aether-500/20'
-                      : 'border-white/5 hover:border-white/15 hover:bg-white/3'
-                  }`}
-                >
-                  {/* Color swatch */}
-                  <div
-                    className="w-8 h-8 rounded-lg flex-shrink-0 border border-white/10"
-                    style={{ background: t.bg }}
-                  />
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-white">
-                      {t.emoji} {t.label}
-                    </div>
-                    <div className="text-xs text-[var(--color-text-muted)] truncate">
-                      {t.description}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
           {/* Live preview */}
           <div
             className="flex-1 rounded-2xl overflow-hidden shadow-2xl border transition-all duration-500"
@@ -166,6 +126,40 @@ export default function ThemeShowcase() {
                 📌 Important — Page 4
               </div>
             </div>
+          </div>
+
+          {/* Theme picker */}
+          <div className="flex flex-wrap lg:flex-col gap-3 lg:order-last">
+            {THEME_ORDER.map(key => {
+              const t = THEMES[key];
+              const isActive = key === activeTheme;
+              return (
+                <button
+                  key={key}
+                  id={`theme-btn-${key}`}
+                  onClick={() => setActiveTheme(key)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all duration-200 ${
+                    isActive
+                      ? 'border-[var(--land-accent)] bg-[var(--land-accent-light)] shadow-sm'
+                      : 'border-[var(--land-border)] hover:border-[var(--land-accent-border)] bg-white hover:bg-[var(--land-card-hover)]'
+                  }`}
+                >
+                  {/* Color swatch */}
+                  <div
+                    className="w-8 h-8 rounded-lg flex-shrink-0 border border-black/10"
+                    style={{ background: t.bg }}
+                  />
+                  <div className="min-w-0">
+                    <div className={`text-sm font-semibold ${isActive ? 'text-[var(--land-accent)]' : 'text-[var(--land-text)]'}`}>
+                      {t.emoji} {t.label}
+                    </div>
+                    <div className="text-xs text-[var(--land-text-muted)] truncate">
+                      {t.description}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
