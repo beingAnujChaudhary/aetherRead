@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     description: 'AI-powered offline PDF reader and research workspace. Portfolio project by Anuj Chaudhary, BS Data Science at IIT Madras.',
     creator: '@beinganujchaudhary',
   },
-  manifest: '/manifest.json',
+  manifest: '/projects/aetherRead/manifest.json',
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
@@ -33,8 +34,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0f0f1a',
-  colorScheme: 'dark',
+  themeColor: '#EFEAE3',
+  colorScheme: 'light dark',
   width: 'device-width',
   initialScale: 1,
 };
@@ -46,7 +47,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

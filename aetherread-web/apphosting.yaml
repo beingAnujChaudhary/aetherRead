@@ -1,0 +1,9 @@
+# Firebase App Hosting configuration
+# Docs: https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  runtime: nodejs20
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0      # Scale to zero when no traffic (keeps cost $0)
+  maxInstances: 3

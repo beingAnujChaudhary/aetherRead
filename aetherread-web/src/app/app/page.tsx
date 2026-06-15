@@ -6,10 +6,12 @@ import { db } from '@/lib/db';
 import DocumentCard from '@/components/library/DocumentCard';
 import UploadZone from '@/components/library/UploadZone';
 import ReadingStats from '@/components/library/ReadingStats';
+import AuthModal from '@/components/auth/AuthModal';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import {
   BookOpen, Search, SlidersHorizontal, Grid3X3, List,
-  WifiOff, Loader2, ExternalLink,
+  WifiOff, Loader2, ExternalLink, LogOut, LogIn, UserCircle2,
 } from 'lucide-react';
 
 type ViewMode = 'grid' | 'list';
@@ -18,6 +20,9 @@ export default function LibraryPage() {
   const { loadDocuments, setSortOrder, setSearchQuery, sortOrder, searchQuery, getFiltered, isLoading } = useLibraryStore();
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [totalPagesRead, setTotalPagesRead] = useState(0);
+  const [showAuth, setShowAuth] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     loadDocuments();
@@ -54,7 +59,10 @@ export default function LibraryPage() {
               <ExternalLink size={11} />
               Portfolio
             </a>
-            <div className="flex items-center gap-2.5">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+            >
               <div className="w-8 h-8 rounded-lg bg-aether-500 flex items-center justify-center shadow-lg shadow-aether-500/30">
                 <BookOpen size={16} className="text-white" />
               </div>
@@ -62,26 +70,59 @@ export default function LibraryPage() {
                 <span className="gradient-text">Aether</span>
                 <span className="text-white">Read</span>
               </span>
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center gap-3">
-            <a
-              href="https://beinganujchaudhary.web.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-2 text-xs text-[var(--color-text-muted)] hover:text-aether-400 transition-colors"
-            >
-              <span className="w-6 h-6 rounded-full bg-aether-500/20 border border-aether-500/40 flex items-center justify-center text-[10px] font-bold text-aether-400">A</span>
-              <span className="flex flex-col leading-none gap-0.5">
-                <span className="text-white font-medium">Anuj Chaudhary</span>
-                <span className="text-[10px] text-[var(--color-text-muted)]">IIT Madras · Data Science</span>
-              </span>
-            </a>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-xs text-green-400">
+            {/* Offline badge */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-xs text-green-400">
               <WifiOff size={10} />
               Offline Ready
             </div>
+
+            {/* Auth section */}
+            {user ? (
+              <div className="relative">
+                <button
+                  id="user-menu-btn"
+                  onClick={() => setShowUserMenu(v => !v)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-white/5 transition-colors"
+                >
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt="avatar" className="w-7 h-7 rounded-full border border-aether-500/40" />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-aether-500/20 border border-aether-500/40 flex items-center justify-center text-xs font-bold text-aether-400">
+                      {(user.displayName ?? user.email ?? 'U')[0].toUpperCase()}
+                    </div>
+                  )}
+                  <span className="hidden sm:flex flex-col leading-none gap-0.5 text-left">
+                    <span className="text-white text-xs font-medium">{user.displayName ?? 'User'}</span>
+                    <span className="text-[10px] text-[var(--color-text-muted)] truncate max-w-[120px]">{user.email}</span>
+                  </span>
+                </button>
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-44 glass border border-[var(--color-border)] rounded-xl shadow-xl overflow-hidden z-50">
+                    <button
+                      id="signout-btn"
+                      onClick={() => { logout(); setShowUserMenu(false); }}
+                      className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[var(--color-text-muted)] hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <LogOut size={14} />
+                      Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                id="signin-btn"
+                onClick={() => setShowAuth(true)}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-aether-500 hover:bg-aether-400 text-white text-sm font-semibold transition-colors shadow-md shadow-aether-500/25"
+              >
+                <LogIn size={14} />
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -189,6 +230,13 @@ export default function LibraryPage() {
           </div>
         )}
       </main>
+
+      {/* Auth Modal */}
+      {showAuth && (
+        <AuthModal onClose={() => setShowAuth(false)} />
+      )}
+      {/* Auto-close modal when user signs in */}
+      {user && showAuth && (() => { setShowAuth(false); return null; })()}
     </div>
   );
 }
