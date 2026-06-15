@@ -21,7 +21,7 @@
 
 ## About
 
-aetherRead is a production-grade, offline-first PDF reader and AI research workspace.[**beingAnujChaudhary**](https://beinganujchaudhary.web.app/) · [beinganujchaudhary.web.app](https://beinganujchaudhary.web.app) · IIT Madras BS Data Science & Applications at IIT Madras.
+aetherRead is a production-grade, offline-first PDF reader and AI research workspace developed by [beingAnujChaudhary](https://beinganujchaudhary.web.app/) student at IIT Madras BS Data Science & Applications at IIT Madras.
 
 The platform lets students, researchers, and academics read, annotate, and interact with documents entirely from their local machine — no internet, no cloud dependency, no data sent anywhere.
 
