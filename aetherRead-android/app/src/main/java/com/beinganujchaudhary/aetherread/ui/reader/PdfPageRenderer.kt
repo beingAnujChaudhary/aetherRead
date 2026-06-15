@@ -28,13 +28,14 @@ fun PdfPageRenderer(
     bitmap: Bitmap?,
     theme: ComfortTheme,
     activeTool: DrawingTool,
+    activeColor: Color,
     modifier: Modifier = Modifier
 ) {
     val colorFilter = remember(theme) { theme.getColorFilter() }
     val backgroundColor = remember(theme) { theme.getBackgroundColor() }
 
     // In-memory strokes for the page
-    data class Line(val path: Path, val tool: DrawingTool)
+    data class Line(val path: Path, val tool: DrawingTool, val color: Color)
     val lines = remember { mutableStateListOf<Line>() }
     var currentPath by remember { mutableStateOf<Path?>(null) }
 
@@ -57,6 +58,9 @@ fun PdfPageRenderer(
             Canvas(
                 modifier = Modifier
                     .matchParentSize()
+                    .androidx.compose.ui.graphics.graphicsLayer {
+                        compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen
+                    }
                     .pointerInput(activeTool) {
                         if (activeTool == DrawingTool.NONE) return@pointerInput
 
@@ -70,7 +74,7 @@ fun PdfPageRenderer(
                             },
                             onDragEnd = {
                                 currentPath?.let {
-                                    lines.add(Line(it, activeTool))
+                                    lines.add(Line(it, activeTool, activeColor))
                                     currentPath = null
                                 }
                             },
@@ -80,30 +84,49 @@ fun PdfPageRenderer(
             ) {
                 // Draw saved lines
                 lines.forEach { line ->
-                    val strokeColor = if (line.tool == DrawingTool.HIGHLIGHTER)
-                        Color.Yellow.copy(alpha = 0.4f)
-                    else
-                        Color.Red
+                    val isEraser = line.tool == DrawingTool.ERASER
+                    val strokeColor = if (isEraser) Color.Transparent else line.color.copy(alpha = if (line.tool == DrawingTool.HIGHLIGHTER) 0.4f else 1f)
                     val width = if (line.tool == DrawingTool.HIGHLIGHTER) 30f else 5f
-                    drawPath(
-                        path = line.path,
-                        color = strokeColor,
-                        style = Stroke(width = width, cap = StrokeCap.Round, join = StrokeJoin.Round)
-                    )
+                    val blendMode = if (isEraser) androidx.compose.ui.graphics.BlendMode.Clear else androidx.compose.ui.graphics.BlendMode.SrcOver
+                    
+                    if (line.tool == DrawingTool.UNDERLINE) {
+                        // Drawing logic for underline: we can just draw path but use stroke
+                        drawPath(
+                            path = line.path,
+                            color = strokeColor,
+                            style = Stroke(width = 3f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+                        )
+                    } else {
+                        drawPath(
+                            path = line.path,
+                            color = strokeColor,
+                            style = Stroke(width = width, cap = StrokeCap.Round, join = StrokeJoin.Round),
+                            blendMode = blendMode
+                        )
+                    }
                 }
 
                 // Draw current in-progress line
                 currentPath?.let { path ->
-                    val strokeColor = if (activeTool == DrawingTool.HIGHLIGHTER)
-                        Color.Yellow.copy(alpha = 0.4f)
-                    else
-                        Color.Red
+                    val isEraser = activeTool == DrawingTool.ERASER
+                    val strokeColor = if (isEraser) Color.Transparent else activeColor.copy(alpha = if (activeTool == DrawingTool.HIGHLIGHTER) 0.4f else 1f)
                     val width = if (activeTool == DrawingTool.HIGHLIGHTER) 30f else 5f
-                    drawPath(
-                        path = path,
-                        color = strokeColor,
-                        style = Stroke(width = width, cap = StrokeCap.Round, join = StrokeJoin.Round)
-                    )
+                    val blendMode = if (isEraser) androidx.compose.ui.graphics.BlendMode.Clear else androidx.compose.ui.graphics.BlendMode.SrcOver
+
+                    if (activeTool == DrawingTool.UNDERLINE) {
+                        drawPath(
+                            path = path,
+                            color = strokeColor,
+                            style = Stroke(width = 3f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+                        )
+                    } else {
+                        drawPath(
+                            path = path,
+                            color = strokeColor,
+                            style = Stroke(width = width, cap = StrokeCap.Round, join = StrokeJoin.Round),
+                            blendMode = blendMode
+                        )
+                    }
                 }
             }
         }

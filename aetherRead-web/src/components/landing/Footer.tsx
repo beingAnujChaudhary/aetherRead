@@ -27,7 +27,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-[var(--land-accent)] hover:underline transition-colors font-medium"
               >
-                beingAnujChaudhary
+                Anuj Chaudhary
               </a>
               , BS in Data Science &amp; Applications at IIT Madras.
             </p>
@@ -112,7 +112,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-[var(--land-accent)] hover:underline font-medium"
             >
-              beingAnujChaudhary
+              Anuj Chaudhary
             </a>
           </p>
         </div>

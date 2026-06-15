@@ -57,24 +57,39 @@ fun LibraryScreen(
             TopAppBar(
                 title = { Text("aetherRead") },
                 actions = {
-                    // Sort Dropdown could be added here
-                    var expanded by remember { mutableStateOf(false) }
-                    IconButton(onClick = onNavigateToAuth) {
-                        Icon(Icons.Default.Person, contentDescription = "Sign In")
+                    var sortExpanded by remember { mutableStateOf(false) }
+                    var profileExpanded by remember { mutableStateOf(false) }
+
+                    Box {
+                        IconButton(onClick = { profileExpanded = true }) {
+                            Icon(Icons.Default.Person, contentDescription = "Profile Menu")
+                        }
+                        DropdownMenu(
+                            expanded = profileExpanded,
+                            onDismissRequest = { profileExpanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Sign In") },
+                                onClick = {
+                                    profileExpanded = false
+                                    onNavigateToAuth()
+                                }
+                            )
+                        }
                     }
-                    TextButton(onClick = { expanded = true }) {
+                    TextButton(onClick = { sortExpanded = true }) {
                         Text(sortOrder.name)
                     }
                     DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        expanded = sortExpanded,
+                        onDismissRequest = { sortExpanded = false }
                     ) {
                         SortOrder.values().forEach { order ->
                             DropdownMenuItem(
                                 text = { Text(order.name) },
                                 onClick = {
                                     viewModel.onSortOrderChanged(order)
-                                    expanded = false
+                                    sortExpanded = false
                                 }
                             )
                         }

@@ -37,6 +37,7 @@ fun ReaderScreen(
     var showThemePicker by remember { mutableStateOf(false) }
     var showAnnotationPanel by remember { mutableStateOf(false) }
     var activeTool by remember { mutableStateOf(DrawingTool.NONE) }
+    var activeColor by remember { mutableStateOf(androidx.compose.ui.graphics.Color.Red) }
 
     // Zoom state — pinch-to-zoom + button controls
     var zoomLevel by remember { mutableStateOf(1f) }
@@ -98,7 +99,9 @@ fun ReaderScreen(
                 ) {
                     AnnotationToolbar(
                         activeTool = activeTool,
-                        onToolSelected = { activeTool = it }
+                        activeColor = activeColor,
+                        onToolSelected = { activeTool = it },
+                        onColorSelected = { activeColor = it }
                     )
                 }
             } else {
@@ -171,6 +174,7 @@ fun ReaderScreen(
                         widthPx = columnWidthPx,
                         theme = activeTheme,
                         activeTool = activeTool,
+                        activeColor = activeColor,
                         viewModel = viewModel
                     )
                 }
@@ -197,6 +201,7 @@ fun PdfPageAsync(
     widthPx: Int,
     theme: ComfortTheme,
     activeTool: DrawingTool,
+    activeColor: androidx.compose.ui.graphics.Color,
     viewModel: ReaderViewModel
 ) {
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -212,6 +217,7 @@ fun PdfPageAsync(
         bitmap = bitmap,
         theme = theme,
         activeTool = activeTool,
+        activeColor = activeColor,
         modifier = Modifier.padding(bottom = 8.dp)
     )
 }

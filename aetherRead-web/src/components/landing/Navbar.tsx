@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { BookOpen, Menu, X, Zap, ArrowLeft } from 'lucide-react';
+import { BookOpen, Menu, X, Zap, ArrowLeft, LogIn, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import AuthModal from '@/components/auth/AuthModal';
 
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
@@ -14,6 +16,8 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -69,9 +73,32 @@ export default function Navbar() {
             <ArrowLeft size={13} />
             Portfolio
           </a>
-          <Link href="/app" className="btn-accent text-sm px-5 py-2.5">
-            Try It Free →
-          </Link>
+          {!user ? (
+            <>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium text-[var(--land-text-muted)] hover:text-[var(--land-text)] transition-colors"
+              >
+                Sign In
+              </button>
+              <Link href="/app" className="btn-accent text-sm px-5 py-2.5">
+                Try It Free →
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/app" className="btn-accent text-sm px-5 py-2.5">
+                Go to App →
+              </Link>
+              <button
+                onClick={() => logout()}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium text-[var(--land-text-muted)] hover:text-[var(--land-text)] transition-colors"
+                title="Sign out"
+              >
+                <LogOut size={14} />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Mobile menu toggle */}
@@ -108,16 +135,49 @@ export default function Navbar() {
             >
               ← Portfolio
             </a>
-            <Link
-              href="/app"
-              className="btn-accent text-sm justify-center"
-              onClick={() => setMenuOpen(false)}
-            >
-              Try It Free →
-            </Link>
+            {!user ? (
+              <>
+                <button
+                  onClick={() => { setMenuOpen(false); setShowAuth(true); }}
+                  className="block py-2 text-sm text-center text-[var(--land-text-muted)] border border-[var(--land-border)] rounded-full hover:border-[var(--land-accent-border)] transition-colors"
+                >
+                  Sign In
+                </button>
+                <Link
+                  href="/app"
+                  className="btn-accent text-sm justify-center"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Try It Free →
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/app"
+                  className="btn-accent text-sm justify-center"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Go to App →
+                </Link>
+                <button
+                  onClick={() => { setMenuOpen(false); logout(); }}
+                  className="block py-2 text-sm text-center text-[var(--land-text-muted)] border border-[var(--land-border)] rounded-full hover:border-[var(--land-accent-border)] transition-colors"
+                >
+                  Sign Out
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      {showAuth && (
+        <AuthModal onClose={() => setShowAuth(false)} />
+      )}
+      {/* Auto-close modal when user signs in */}
+      {user && showAuth && (() => { setShowAuth(false); return null; })()}
     </nav>
   );
 }
