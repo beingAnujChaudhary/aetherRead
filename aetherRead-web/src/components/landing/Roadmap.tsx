@@ -11,34 +11,44 @@ const PHASES = [
     items: [
       { label: 'Project architecture & ADRs', done: true },
       { label: 'Repository setup (3 repos)', done: true },
-      { label: 'Supabase schema hardening', done: false },
+      { label: 'Supabase schema hardening', done: true },
     ],
   },
   {
     phase: 'Phase 2',
     title: 'Web MVP',
-    status: 'active',
+    status: 'done',
     items: [
-      { label: 'PDF rendering with offline storage', done: false },
-      { label: '6 reading themes (Comfort Engine)', done: false },
-      { label: 'Reading analytics & WPM tracking', done: false },
-      { label: 'Cold start onboarding', done: false },
+      { label: 'PDF rendering with offline storage', done: true },
+      { label: '6 reading themes (Comfort Engine)', done: true },
+      { label: 'Reading analytics & WPM tracking', done: true },
+      { label: 'Cold start onboarding', done: true },
     ],
   },
   {
     phase: 'Phase 3',
     title: 'Native Android',
-    status: 'upcoming',
+    status: 'done',
     items: [
-      { label: 'Native PDF rendering with memory safety', done: false },
-      { label: 'Tablet layout (NavigationRail)', done: false },
-      { label: 'Offline-first with Room DB', done: false },
+      { label: 'Native PDF rendering with memory safety', done: true },
+      { label: 'Tablet layout (NavigationRail)', done: true },
+      { label: 'Offline-first with Room DB', done: true },
     ],
   },
   {
     phase: 'Phase 4',
+    title: 'Windows Native WPF',
+    status: 'done',
+    items: [
+      { label: 'PdfiumViewer C++ rendering', done: true },
+      { label: 'Native WPF window & dark mode', done: true },
+      { label: 'Xodo-style navigation rail', done: true },
+    ],
+  },
+  {
+    phase: 'Phase 5',
     title: 'Decoupled Sync',
-    status: 'upcoming',
+    status: 'active',
     items: [
       { label: 'LWW reading position sync', done: false },
       { label: 'Two-way merge for annotations', done: false },
@@ -46,24 +56,13 @@ const PHASES = [
     ],
   },
   {
-    phase: 'Phase 5',
+    phase: 'Phase 6',
     title: 'Local AI Brain',
     status: 'upcoming',
     items: [
       { label: 'PDF extraction with Marker', done: false },
-      { label: 'ChromaDB vector storage', done: false },
       { label: 'Ollama integration', done: false },
       { label: 'RAGAS evaluation pipeline', done: false },
-    ],
-  },
-  {
-    phase: 'Phase 6',
-    title: 'Cloud Workspace',
-    status: 'upcoming',
-    items: [
-      { label: 'Multi-document projects', done: false },
-      { label: 'Revision pack generator', done: false },
-      { label: 'Hybrid search (keyword + vector)', done: false },
     ],
   },
 ];
@@ -87,7 +86,7 @@ export default function Roadmap() {
             From MVP to <span className="gradient-text-land">production</span>
           </h2>
           <p className="text-lg text-[var(--land-text-muted)] max-w-2xl mx-auto">
-            Six focused phases, each delivering real value. Currently in Phase 2.
+            Six focused phases, each delivering real value. Currently in Phase 5.
           </p>
         </div>
 

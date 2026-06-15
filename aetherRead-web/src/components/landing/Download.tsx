@@ -5,8 +5,8 @@ import { Smartphone, Monitor, Download as DownloadIcon, ExternalLink, Github } f
 
 const ANDROID_REPO = 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android';
 const WINDOWS_REPO = 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native';
-const ANDROID_APK = 'https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk';
-const WINDOWS_EXE = 'https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-windows.exe';
+const ANDROID_APK = '/projects/aetherRead/downloads/aetherRead.apk';
+const WINDOWS_EXE = '/projects/aetherRead/downloads/aetherRead.exe';
 const WEB_REPO = 'https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web';
 
 export default function Download() {

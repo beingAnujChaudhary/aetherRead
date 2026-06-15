@@ -13,8 +13,7 @@
 
 *Read smarter. Annotate deeply. Stay offline.*
 
-[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Download Android**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk) · [**Download Windows**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-windows.exe)
-
+[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Download Android**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead.apk) · [**Download Windows**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead.exe)
 </div>
 
 ---
@@ -29,9 +28,9 @@ The platform lets students, researchers, and academics read, annotate, and inter
 > | Repo | Stack | Status | License |
 > |------|-------|--------|---------|
 > | [`aetherRead-web`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-web) | Next.js 14, TypeScript, Tailwind, Dexie.js | ✅ Live | MIT |
-> | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB, Hilt | ✅ Active | AGPL-3.0 |
-> | [`aetherRead-windows-native`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native) | C#, WPF (.NET 8), PdfiumViewer | ⚡ In Progress | MIT |
-> | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | 🔜 Upcoming | Proprietary |
+> | [`aetherRead-android`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-android) | Kotlin, Jetpack Compose, Room DB, Hilt | ✅ Live | AGPL-3.0 |
+> | [`aetherRead-windows-native`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-windows-native) | C#, WPF (.NET 8), PdfiumViewer | ✅ Live | MIT |
+> | [`aetherRead-api`](https://github.com/beingAnujChaudhary/aetherRead/tree/main/aetherRead-api) | FastAPI, Python 3.11, ChromaDB, Ollama | ⚡ In Progress | Proprietary |
 
 ---
 
@@ -57,13 +56,12 @@ Built from scratch in Kotlin with Jetpack Compose. Mirrors the Xodo design langu
 | **My AetherRead (Profile)** | User profile with email, Aether Drive usage, Subscribed badge; team invite banner with dismiss; menu items: Settings, Recommend AetherRead, Help & Feedback, About, Tip Center, Manage, Privacy Consent, Sign Out |
 | **PDF Reader** | Native PDF rendering via Android PdfRenderer, pinch-to-zoom, page-by-page scrolling, reading state persistence |
 | **Reader Toolbar (View mode)** | Mode switcher dropdown: View, Annotate, Draw, Fill & Sign, Convert, Prepare Form, Insert, Measure, Pens, Redact, Favorites |
-| **Annotate Top Bar** | Mode-specific toolbar: Sticky Note, Eraser, Callout, Multi-select, Freehand, Settings/Properties, Undo, Redo |
-| **Edit Annotate Grid** | Bottom sheet with 13 tools in a 4-column grid: Smart Pen, Smart Highlight, Text Highlight, Highlight, Text Underline, Freehand, Free Text, Text Strikethrough, Text Squiggly, Sticky Note, Eraser, Callout, Multi-select |
+| **Floating Edit Toolbar** | Xodo-style pill toolbar with Smart Pen, Highlight, Callout, Strikethrough, Sticky Note, Undo, Redo |
 | **Color Picker** | Inline color palette revealed when a drawing/highlight tool is active |
 | **Comfort Themes** | 6 reading themes applied to the PDF canvas |
 | **Bottom Navigation** | Files, Toolbox, My AetherRead, Aether Sign (4 tabs) |
 
-### ⚡ Windows Native App (`aetherRead-windows-native`)
+### ✅ Windows Native App (`aetherRead-windows-native`)
 Built from scratch in C# with WPF (.NET 8) — **no Electron, no browser overhead**.
 
 - Native WPF window with left navigation rail (Files, Toolbox tabs)
@@ -72,8 +70,6 @@ Built from scratch in C# with WPF (.NET 8) — **no Electron, no browser overhea
 - Reader toolbar: View, Annotate, Draw, Fill & Sign mode buttons
 - Page navigation, Close/Back to library
 - Dark-mode aware system colors
-
-> **In Progress** — Full feature parity with Android is planned.
 
 ---
 
@@ -178,7 +174,7 @@ Open [http://localhost:3000](http://localhost:3000) — runs fully offline. No b
 3. Connect a device or start an emulator (Android 8.0+).
 4. Click **Run ▶**.
 
-Or download the APK directly: [**aetherRead-android.apk**](https://github.com/beingAnujChaudhary/aetherRead/releases/latest/download/aetherRead-android.apk)
+Or download the APK directly: [**aetherRead-android.apk**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead.apk)
 
 ### Windows Native App
 
@@ -214,9 +210,9 @@ dotnet publish -c Release -r win-x64 --self-contained true
 ```
 Phase 1 — Foundations            ✅ Done
 Phase 2 — Web MVP                ✅ Done
-Phase 3 — Native Android         ✅ Done (active maintenance)
-Phase 4 — Windows Native WPF     ⚡ Active (you are here)
-Phase 5 — Decoupled Sync         🔜 Upcoming
+Phase 3 — Native Android         ✅ Done
+Phase 4 — Windows Native WPF     ✅ Done
+Phase 5 — Decoupled Sync         ⚡ Active (you are here)
 Phase 6 — Local AI Brain         🔜 Upcoming
 Phase 7 — Cloud Workspace        🔜 Upcoming
 ```

@@ -81,44 +81,7 @@ fun ReaderScreen(
 
     Scaffold(
         topBar = {
-            if (isAnnotateMode) {
-                Column {
-                    AnnotateTopBar(
-                        activeTool = activeTool,
-                        onBack = { isAnnotateMode = false; activeTool = DrawingTool.NONE; showColorPicker = false },
-                        onTitleClick = { showEditAnnotateGrid = true },
-                        onToolSelected = { activeTool = it },
-                        onSettingsClick = { showColorPicker = !showColorPicker }
-                    )
-                    if (showColorPicker && (activeTool == DrawingTool.FREEHAND || activeTool == DrawingTool.HIGHLIGHTER || activeTool == DrawingTool.TEXT_HIGHLIGHTER || activeTool == DrawingTool.TEXT_UNDERLINE)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            val colors = listOf(
-                                androidx.compose.ui.graphics.Color.Red,
-                                androidx.compose.ui.graphics.Color.Blue,
-                                androidx.compose.ui.graphics.Color.Green,
-                                androidx.compose.ui.graphics.Color.Yellow,
-                                androidx.compose.ui.graphics.Color.Magenta,
-                                androidx.compose.ui.graphics.Color.Black
-                            )
-                            colors.forEach { color ->
-                                Box(
-                                    modifier = Modifier
-                                        .size(32.dp)
-                                        .background(color, shape = androidx.compose.foundation.shape.CircleShape)
-                                        .clickable { activeColor = color }
-                                ) {
-                                    if (activeColor == color) {
-                                        Icon(Icons.Default.CheckCircle, contentDescription = "Selected", tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.align(Alignment.Center))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
+        topBar = {
                 TopAppBar(
                     title = { 
                         Row(
@@ -168,39 +131,43 @@ fun ReaderScreen(
                         )
                     }
                 )
-            }
         },
         bottomBar = {
-            BottomAppBar(
-                actions = {
-                    // Zoom out
-                    IconButton(onClick = {
-                        zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.5f)
-                        if (zoomLevel == 1f) panOffset = Offset.Zero
-                    }) {
-                        Text("－", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            if (!isAnnotateMode) {
+                BottomAppBar(
+                    actions = {
+                        // Zoom out
+                        IconButton(onClick = {
+                            zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.5f)
+                            if (zoomLevel == 1f) panOffset = Offset.Zero
+                        }) {
+                            Text("－", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        }
+                        // Zoom in
+                        IconButton(onClick = {
+                            zoomLevel = (zoomLevel + 0.25f).coerceAtMost(4f)
+                        }) {
+                            Text("＋", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        }
+                        // Annotations list
+                        IconButton(onClick = { showAnnotationPanel = true }) {
+                            Icon(Icons.Default.List, contentDescription = "Annotations")
+                        }
+                        // Themes
+                        IconButton(onClick = { showThemePicker = true }) {
+                            Icon(Icons.Default.Settings, contentDescription = "Themes")
+                        }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = { isAnnotateMode = true },
+                            containerColor = MaterialTheme.colorScheme.primary
+                        ) {
+                            Icon(Icons.Default.Edit, contentDescription = "Edit")
+                        }
                     }
-                    // Zoom in
-                    IconButton(onClick = {
-                        zoomLevel = (zoomLevel + 0.25f).coerceAtMost(4f)
-                    }) {
-                        Text("＋", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    }
-                    // Annotations list
-                    IconButton(onClick = { showAnnotationPanel = true }) {
-                        Icon(Icons.Default.List, contentDescription = "Annotations")
-                    }
-                    // Themes
-                    IconButton(onClick = { showThemePicker = true }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Themes")
-                    }
-                },
-                floatingActionButton = {
-                    FloatingActionButton(onClick = { isAnnotateMode = true; showEditAnnotateGrid = true }) {
-                        Icon(Icons.Default.Create, contentDescription = "Annotate")
-                    }
-                }
-            )
+                )
+            }
         }
     ) { paddingValues ->
         val activeTheme = readingState?.activeTheme ?: ComfortTheme.DARK_ABYSS
@@ -243,9 +210,95 @@ fun ReaderScreen(
                         viewModel = viewModel
                     )
                 }
+                }
+            }
+
+            // Xodo-style floating pill toolbar overlay
+            if (isAnnotateMode) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (showColorPicker && (activeTool == DrawingTool.FREEHAND || activeTool == DrawingTool.HIGHLIGHTER || activeTool == DrawingTool.TEXT_HIGHLIGHTER || activeTool == DrawingTool.TEXT_UNDERLINE)) {
+                        Row(
+                            modifier = Modifier
+                                .padding(bottom = 16.dp)
+                                .background(androidx.compose.ui.graphics.Color(0xFF2C2C2C), shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            val colors = listOf(
+                                androidx.compose.ui.graphics.Color(0xFFF44336), // Red
+                                androidx.compose.ui.graphics.Color(0xFF2196F3), // Blue
+                                androidx.compose.ui.graphics.Color(0xFF4CAF50), // Green
+                                androidx.compose.ui.graphics.Color(0xFFFFEB3B), // Yellow
+                                androidx.compose.ui.graphics.Color(0xFFE91E63), // Magenta
+                                androidx.compose.ui.graphics.Color(0xFF000000)  // Black
+                            )
+                            colors.forEach { color ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(32.dp)
+                                        .background(color, shape = androidx.compose.foundation.shape.CircleShape)
+                                        .clickable { activeColor = color; showColorPicker = false }
+                                ) {
+                                    if (activeColor == color) {
+                                        Icon(Icons.Default.CheckCircle, contentDescription = "Selected", tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.align(Alignment.Center))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    Box(
+                        modifier = Modifier
+                            .background(androidx.compose.ui.graphics.Color(0xFF1A1A1A), shape = androidx.compose.foundation.shape.CircleShape)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // Freehand (Pen)
+                            IconButton(
+                                onClick = { activeTool = DrawingTool.FREEHAND; showColorPicker = true },
+                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.FREEHAND) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                            ) {
+                                Icon(Icons.Default.Create, contentDescription = "Pen", tint = androidx.compose.ui.graphics.Color(0xFF4CAF50))
+                            }
+                            // Highlighter
+                            IconButton(
+                                onClick = { activeTool = DrawingTool.HIGHLIGHTER; showColorPicker = true },
+                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.HIGHLIGHTER) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                            ) {
+                                Text("H", color = androidx.compose.ui.graphics.Color(0xFFFFEB3B), fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            }
+                            // Strikethrough
+                            IconButton(
+                                onClick = { activeTool = DrawingTool.TEXT_STRIKETHROUGH; showColorPicker = false },
+                                modifier = Modifier.size(40.dp).background(if (activeTool == DrawingTool.TEXT_STRIKETHROUGH) androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f) else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                            ) {
+                                Text("S", color = androidx.compose.ui.graphics.Color(0xFFF44336), fontWeight = FontWeight.Bold, fontSize = 18.sp, textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough)
+                            }
+                            // Divider
+                            Box(modifier = Modifier.width(1.dp).height(24.dp).background(androidx.compose.ui.graphics.Color.White.copy(alpha=0.2f)))
+                            
+                            // Close
+                            IconButton(
+                                onClick = { isAnnotateMode = false; activeTool = DrawingTool.NONE; showColorPicker = false },
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Text("✕", color = androidx.compose.ui.graphics.Color.White.copy(alpha=0.5f), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+
 
     if (showThemePicker) {
         ThemePickerSheet(
