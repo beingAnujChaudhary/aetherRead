@@ -13,7 +13,7 @@
 
 *Read smarter. Annotate deeply. Stay offline.*
 
-[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Download Android**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead-android.zip) · [**Download Windows**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead-windows.zip)
+[**Live Demo**](https://beinganujchaudhary.web.app/projects/aetherRead.html) · [**Portfolio**](https://beinganujchaudhary.web.app) · [**Download Android APK**](https://raw.githubusercontent.com/beingAnujChaudhary/aetherRead/main/aetherRead-android/apk/aetherRead-app-debug.apk) · [**Download Windows**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead-windows.zip)
 </div>
 
 ---
@@ -174,7 +174,7 @@ Open [http://localhost:3000](http://localhost:3000) — runs fully offline. No b
 3. Connect a device or start an emulator (Android 8.0+).
 4. Click **Run ▶**.
 
-Or download the App directly: [**aetherRead-android.zip**](https://beinganujchaudhary.web.app/projects/aetherRead/downloads/aetherRead-android.zip)
+Or download the APK directly: [**aetherRead-app-debug.apk**](https://raw.githubusercontent.com/beingAnujChaudhary/aetherRead/main/aetherRead-android/apk/aetherRead-app-debug.apk)
 
 ### Windows Native App
 
