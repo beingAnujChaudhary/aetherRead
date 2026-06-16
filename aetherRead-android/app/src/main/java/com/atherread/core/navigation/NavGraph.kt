@@ -8,8 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.atherread.features.home.HomeScreen
 import com.atherread.features.reader.ReaderScreen
-import com.atherread.features.settings.ReaderSettingsScreen
 import com.atherread.features.ai.AiComingSoonScreen
+import com.atherread.features.search.SearchScreen
+import com.atherread.features.bookmarks.BookmarksScreen
+import com.atherread.features.collections.CollectionsScreen
+import com.atherread.features.tools.ToolsScreen
+import com.atherread.features.settings.SettingsScreen
 
 @Composable
 fun AetherReadNavGraph() {
@@ -38,7 +42,7 @@ fun AetherReadNavGraph() {
         }
 
         composable(Screen.Settings.route) {
-            ReaderSettingsScreen(onBack = { navController.popBackStack() })
+            SettingsScreen()
         }
 
         composable(
@@ -51,5 +55,10 @@ fun AetherReadNavGraph() {
                 onBack = { navController.popBackStack() }
             )
         }
+
+        composable(Screen.Search.route) { SearchScreen() }
+        composable(Screen.Bookmarks.route) { BookmarksScreen() }
+        composable(Screen.Collections.route) { CollectionsScreen() }
+        composable(Screen.Tools.route) { ToolsScreen() }
     }
 }

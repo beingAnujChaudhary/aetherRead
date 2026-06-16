@@ -7,23 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.atherread.core.navigation.AetherReadNavGraph
 import com.atherread.core.theme.AetherReadTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * Single-Activity entry point for AtherRead.
- * All navigation is handled via Jetpack Compose Navigation inside [AetherReadNavGraph].
- */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()          // Edge-to-edge display
+        enableEdgeToEdge()
         setContent {
             AetherReadTheme {
                 Surface(
@@ -34,13 +27,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MainPreview() {
-    AetherReadTheme {
-        AetherReadNavGraph()
     }
 }

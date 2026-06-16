@@ -1,5 +1,8 @@
 package com.atherread.features.home
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,16 +12,37 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.atherread.core.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToPdf: (String) -> Unit
+    onNavigateToPdf: (String) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val recentPdfs by viewModel.recentPdfs.collectAsState()
+
+    val documentPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri: Uri? ->
+            uri?.let {
+                context.contentResolver.takePersistableUriPermission(
+                    it,
+                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                viewModel.onPdfOpened(it, context, onNavigateToPdf)
+            }
+        }
+    )
+
     Scaffold(
         containerColor = DarkBackground,
         topBar = {
@@ -40,6 +64,15 @@ fun HomeScreen(
                 NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Build, null) }, label = { Text("Tools") }, colors = NavigationBarItemDefaults.colors(selectedIconColor = PurplePrimary, unselectedIconColor = TextSecondary))
                 NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Settings, null) }, label = { Text("Settings") }, colors = NavigationBarItemDefaults.colors(selectedIconColor = PurplePrimary, unselectedIconColor = TextSecondary))
             }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { documentPickerLauncher.launch(arrayOf("application/pdf")) },
+                containerColor = PurplePrimary,
+                contentColor = TextPrimary
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Open PDF")
+            }
         }
     ) { paddingValues ->
         LazyColumn(
@@ -47,16 +80,39 @@ fun HomeScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            item {
-                SectionHeader("Continue Reading")
-                DocumentCard(title = "Hands-On Large Language Models", subtitle = "Page 42 of 300", onClick = { onNavigateToPdf("doc_1") })
+            if (recentPdfs.isNotEmpty()) {
+                item {
+                    SectionHeader("Continue Reading")
+                    val latestPdf = recentPdfs.first()
+                    DocumentCard(
+                        title = latestPdf.name,
+                        subtitle = if (latestPdf.totalPages > 0) "Page ${latestPdf.currentPage + 1} of ${latestPdf.totalPages}" else "Not opened yet",
+                        onClick = { 
+                            val encodedPath = java.net.URLEncoder.encode(latestPdf.path, "UTF-8")
+                            onNavigateToPdf(encodedPath) 
+                        }
+                    )
+                }
             }
 
             item {
                 SectionHeader("Recent PDFs")
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    DocumentCard(title = "Qwen Specs Documentation", subtitle = "Opened Yesterday", onClick = { onNavigateToPdf("doc_2") })
-                    DocumentCard(title = "Kotlin Coroutines Guide", subtitle = "Opened 2 days ago", onClick = { onNavigateToPdf("doc_3") })
+                if (recentPdfs.isEmpty()) {
+                    Text("No recent PDFs.", color = TextSecondary)
+                } else {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val listToShow = if (recentPdfs.size > 1) recentPdfs.drop(1) else emptyList()
+                        listToShow.forEach { pdf ->
+                            DocumentCard(
+                                title = pdf.name,
+                                subtitle = "Last opened recently",
+                                onClick = { 
+                                    val encodedPath = java.net.URLEncoder.encode(pdf.path, "UTF-8")
+                                    onNavigateToPdf(encodedPath) 
+                                }
+                            )
+                        }
+                    }
                 }
             }
 
@@ -67,11 +123,6 @@ fun HomeScreen(
                         QuickToolCard(title = tool)
                     }
                 }
-            }
-
-            item {
-                SectionHeader("Favorites")
-                Text("No favorites yet.", color = TextSecondary)
             }
         }
     }
