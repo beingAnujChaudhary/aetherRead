@@ -96,6 +96,9 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
 
+    // Logging
+    implementation(libs.timber)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

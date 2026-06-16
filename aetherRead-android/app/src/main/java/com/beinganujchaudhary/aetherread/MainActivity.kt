@@ -10,8 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.beinganujchaudhary.aetherread.ui.navigation.AetherReadNavGraph
-import com.beinganujchaudhary.aetherread.ui.theme.AetherReadTheme
+import com.beinganujchaudhary.aetherread.core.navigation.AetherReadNavGraph
+import com.beinganujchaudhary.aetherread.core.theme.AetherReadTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
