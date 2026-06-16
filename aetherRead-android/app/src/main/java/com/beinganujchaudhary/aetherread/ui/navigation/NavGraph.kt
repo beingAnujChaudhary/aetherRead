@@ -15,8 +15,7 @@ import androidx.navigation.navArgument
  *   - [Route.READER]   → PDF reader (takes documentId arg)
  */
 import com.beinganujchaudhary.aetherread.ui.auth.AuthScreen
-import com.beinganujchaudhary.aetherread.ui.library.LibraryScreen
-import com.beinganujchaudhary.aetherread.ui.library.ProfileScreen
+import com.beinganujchaudhary.aetherread.ui.home.HomeScreen
 import com.beinganujchaudhary.aetherread.ui.reader.ReaderScreen
 
 object Route {
@@ -47,9 +46,8 @@ fun AetherReadNavGraph() {
         }
 
         composable(Route.MAIN) {
-            MainScreen(
+            HomeScreen(
                 onNavigateToReader = { id -> navController.navigate(Route.reader(id)) },
-                onNavigateToAuth = { navController.navigate(Route.AUTH) },
                 onNavigateToProfile = { navController.navigate(Route.PROFILE) }
             )
         }

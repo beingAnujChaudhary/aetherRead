@@ -72,7 +72,7 @@ fun DocumentCard(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Mock Xodo Drive icon style
+                // Mock Cloud Drive icon style
                 Icon(Icons.Default.PictureAsPdf, contentDescription = null, modifier = Modifier.size(12.dp), tint = Color.Gray)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(

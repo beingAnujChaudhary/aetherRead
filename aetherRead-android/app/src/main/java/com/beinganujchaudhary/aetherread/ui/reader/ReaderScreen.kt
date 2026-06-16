@@ -8,29 +8,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.FormatUnderlined
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
@@ -50,16 +38,17 @@ fun ReaderScreen(
     val pageCount by viewModel.pageCount.collectAsState()
     val annotationsMap by viewModel.annotations.collectAsState()
 
-    var showThemePicker by remember { mutableStateOf(false) }
-    var showAnnotationPanel by remember { mutableStateOf(false) }
+    var showMenu by remember { mutableStateOf(false) }
+    var showTextSelection by remember { mutableStateOf(false) } // Mock text selection toggle
+    var showSummaryBanner by remember { mutableStateOf(true) }
+
+    // Drawing/Annotation state (kept from previous code)
     var isAnnotateMode by remember { mutableStateOf(false) }
-    var showEditAnnotateGrid by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
     var activeTool by remember { mutableStateOf(DrawingTool.NONE) }
-    var activeColor by remember { mutableStateOf(androidx.compose.ui.graphics.Color.Red) }
-    var showMenu by remember { mutableStateOf(false) }
+    var activeColor by remember { mutableStateOf(Color.Red) }
 
-    // Zoom state — pinch-to-zoom + button controls
+    // Zoom state
     var zoomLevel by remember { mutableStateOf(1f) }
     var panOffset by remember { mutableStateOf(Offset.Zero) }
 
@@ -70,110 +59,70 @@ fun ReaderScreen(
 
     val listState = rememberLazyListState()
 
-    // Sync scroll position to view model
+    // Sync scroll position
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }.collect { index ->
             viewModel.updateCurrentPage(index)
         }
     }
 
-    // Restore scroll position on load
-    LaunchedEffect(readingState?.currentPage) {
-        val targetPage = (readingState?.currentPage ?: 1) - 1
-        if (targetPage > 0 && listState.firstVisibleItemIndex == 0) {
-            listState.scrollToItem(targetPage)
-        }
-    }
-
     Scaffold(
         topBar = {
-            TopAppBar(
-                    title = { 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clickable { showMenu = true }.padding(4.dp)
-                        ) {
-                            Text("View", fontWeight = FontWeight.Bold)
-                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Menu")
-                        }
-                        
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false },
-                            modifier = Modifier.fillMaxWidth(0.8f).background(MaterialTheme.colorScheme.surface)
-                        ) {
-                            ReaderMenuItem("View", Icons.Default.Visibility) { showMenu = false; isAnnotateMode = false }
-                            ReaderMenuItem("Annotate", Icons.Default.Edit) { showMenu = false; isAnnotateMode = true; showEditAnnotateGrid = true }
-                            ReaderMenuItem("Draw", Icons.Default.Create) { showMenu = false; isAnnotateMode = true; activeTool = DrawingTool.FREEHAND }
-                            ReaderMenuItem("Fill and Sign", Icons.Default.CheckCircle) { showMenu = false }
-                            ReaderMenuItem("Convert", Icons.Default.Build) { showMenu = false }
-                            ReaderMenuItem("Prepare Form", Icons.Default.List) { showMenu = false }
-                            ReaderMenuItem("Insert", Icons.Default.AddCircle) { showMenu = false }
-                            ReaderMenuItem("Measure", Icons.Default.Place) { showMenu = false }
-                            ReaderMenuItem("Pens", Icons.Default.Create) { showMenu = false; isAnnotateMode = true; activeTool = DrawingTool.FREEHAND }
-                            ReaderMenuItem("Redact", Icons.Default.Lock) { showMenu = false }
-                            ReaderMenuItem("Favorites", Icons.Default.Favorite) { showMenu = false }
-                        }
-                    },
+            Column(modifier = Modifier.background(Color(0xFF121212))) {
+                TopAppBar(
+                    title = { },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
                         }
                     },
                     actions = {
-                        Text(
-                            text = "${(readingState?.currentPage ?: 1)} / $pageCount",
-                            modifier = Modifier.padding(end = 8.dp),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        // Zoom level indicator in top bar
-                        Text(
-                            text = "${(zoomLevel * 100).toInt()}%",
-                            modifier = Modifier.padding(end = 16.dp),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+                        IconButton(onClick = { /* TODO */ }) {
+                            Icon(Icons.Outlined.WaterDrop, contentDescription = "Liquid Mode", tint = Color.White)
+                        }
+                        IconButton(onClick = { /* TODO */ }) {
+                            Icon(Icons.Outlined.VolumeUp, contentDescription = "Read aloud", tint = Color.White)
+                        }
+                        IconButton(onClick = { /* TODO */ }) {
+                            Icon(Icons.Outlined.Search, contentDescription = "Search", tint = Color.White)
+                        }
+                        IconButton(onClick = { /* TODO */ }) {
+                            Icon(Icons.Outlined.Share, contentDescription = "Share", tint = Color.White)
+                        }
+                        IconButton(onClick = { showMenu = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.White)
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF121212))
                 )
-        },
-        bottomBar = {
-            if (!isAnnotateMode) {
-                BottomAppBar(
-                    actions = {
-                        // Zoom out
-                        IconButton(onClick = {
-                            zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.5f)
-                            if (zoomLevel == 1f) panOffset = Offset.Zero
-                        }) {
-                            Text("－", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        }
-                        // Zoom in
-                        IconButton(onClick = {
-                            zoomLevel = (zoomLevel + 0.25f).coerceAtMost(4f)
-                        }) {
-                            Text("＋", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        }
-                        // Annotations list
-                        IconButton(onClick = { showAnnotationPanel = true }) {
-                            Icon(Icons.Default.List, contentDescription = "Annotations")
-                        }
-                        // Themes
-                        IconButton(onClick = { showThemePicker = true }) {
-                            Icon(Icons.Default.Settings, contentDescription = "Themes")
-                        }
-                    },
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = { isAnnotateMode = true },
-                            containerColor = MaterialTheme.colorScheme.primary
+                if (showSummaryBanner) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .background(Color.Black, RoundedCornerShape(8.dp))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit")
+                            Icon(Icons.Default.AutoAwesome, contentDescription = "AI", tint = Color(0xFF8E8CD8))
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text("Short on time? Try Generative summary", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            }
+                            IconButton(onClick = { /* TODO */ }) {
+                                Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Expand", tint = Color.White)
+                            }
+                            IconButton(onClick = { showSummaryBanner = false }) {
+                                Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.White)
+                            }
                         }
                     }
-                )
+                }
             }
-        }
+        },
+        containerColor = Color.White // The PDF background
     ) { paddingValues ->
         val activeTheme = readingState?.activeTheme ?: ComfortTheme.DARK_ABYSS
 
@@ -181,12 +130,13 @@ fun ReaderScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                // Pinch-to-zoom gesture — only in reading mode (not drawing)
                 .then(
                     if (activeTool == DrawingTool.NONE)
                         Modifier.transformable(state = transformableState)
                     else Modifier
                 )
+                // Mock text selection toggle
+                .clickable { showTextSelection = !showTextSelection }
         ) {
             var columnWidthPx by remember { mutableStateOf(0) }
 
@@ -218,39 +168,87 @@ fun ReaderScreen(
                 }
             }
 
-            // Xodo-style floating pill toolbar overlay
+            // Context Menu mock (shows up when clicking the document for this demo)
+            if (showTextSelection) {
+                TextSelectionContextMenu(
+                    onDismiss = { showTextSelection = false },
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            // Floating Bottom Pill Bar
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp)
+                    .background(Color(0xFF1E1E1E), RoundedCornerShape(24.dp))
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BottomPillItem("Edit PDF", Icons.Outlined.Edit, isPremium = true)
+                    BottomPillItem("Comment", Icons.Outlined.ChatBubbleOutline)
+                    BottomPillItem("Highlight", Icons.Outlined.BorderColor)
+                    BottomPillItem("Draw", Icons.Outlined.Create, onClick = { isAnnotateMode = true; activeTool = DrawingTool.FREEHAND })
+                    BottomPillItem("Fill & Sign", Icons.Outlined.Draw)
+                    BottomPillItem("More tools", Icons.Outlined.MoreHoriz)
+                }
+            }
+
+            // AI Assistant FAB floating on top right, just above bottom bar
+            FloatingActionButton(
+                onClick = { /* TODO */ },
+                containerColor = Color(0xFF6B4BCC), // Purple gradient mock color
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 80.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.AutoAwesome, contentDescription = "AI", tint = Color.White)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("AI Assistant", color = Color.White, fontWeight = FontWeight.Bold)
+                }
+            }
+            
+            // Re-integrate drawing tools when annotate mode is active
             if (isAnnotateMode) {
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 32.dp),
+                        .padding(bottom = 140.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (showColorPicker && (activeTool == DrawingTool.FREEHAND || activeTool == DrawingTool.HIGHLIGHTER || activeTool == DrawingTool.TEXT_HIGHLIGHTER || activeTool == DrawingTool.TEXT_UNDERLINE)) {
                         Row(
                             modifier = Modifier
                                 .padding(bottom = 16.dp)
-                                .background(androidx.compose.ui.graphics.Color(0xFF2C2C2C), shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                                .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(16.dp))
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             val colors = listOf(
-                                androidx.compose.ui.graphics.Color(0xFFF44336), // Red
-                                androidx.compose.ui.graphics.Color(0xFF2196F3), // Blue
-                                androidx.compose.ui.graphics.Color(0xFF4CAF50), // Green
-                                androidx.compose.ui.graphics.Color(0xFFFFEB3B), // Yellow
-                                androidx.compose.ui.graphics.Color(0xFFE91E63), // Magenta
-                                androidx.compose.ui.graphics.Color(0xFF000000)  // Black
+                                Color(0xFFF44336), // Red
+                                Color(0xFF2196F3), // Blue
+                                Color(0xFF4CAF50), // Green
+                                Color(0xFFFFEB3B), // Yellow
+                                Color(0xFFE91E63), // Magenta
+                                Color(0xFFFFFFFF)  // White
                             )
                             colors.forEach { color ->
                                 Box(
                                     modifier = Modifier
                                         .size(32.dp)
-                                        .background(color, shape = androidx.compose.foundation.shape.CircleShape)
+                                        .background(color, shape = CircleShape)
                                         .clickable { activeColor = color; showColorPicker = false }
                                 ) {
                                     if (activeColor == color) {
-                                        Icon(Icons.Default.CheckCircle, contentDescription = "Selected", tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.align(Alignment.Center))
+                                        Icon(Icons.Default.CheckCircle, contentDescription = "Selected", tint = Color.Black, modifier = Modifier.align(Alignment.Center))
                                     }
                                 }
                             }
@@ -259,7 +257,7 @@ fun ReaderScreen(
                     
                     Box(
                         modifier = Modifier
-                            .background(MaterialTheme.colorScheme.secondaryContainer, shape = androidx.compose.foundation.shape.CircleShape)
+                            .background(Color(0xFF2A2A2A), shape = CircleShape)
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
                         Row(
@@ -270,43 +268,43 @@ fun ReaderScreen(
                             val penActive = activeTool == DrawingTool.FREEHAND
                             IconButton(
                                 onClick = { activeTool = DrawingTool.FREEHAND; showColorPicker = true },
-                                modifier = Modifier.size(40.dp).background(if (penActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (penActive) Color(0xFF4C8DFF) else Color.Transparent, CircleShape)
                             ) {
-                                Icon(Icons.Default.Create, contentDescription = "Pen", tint = if (penActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
+                                Icon(Icons.Default.Create, contentDescription = "Pen", tint = if (penActive) Color.White else Color.LightGray)
                             }
                             // Highlighter
                             val highlightActive = activeTool == DrawingTool.HIGHLIGHTER
                             IconButton(
                                 onClick = { activeTool = DrawingTool.HIGHLIGHTER; showColorPicker = true },
-                                modifier = Modifier.size(40.dp).background(if (highlightActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (highlightActive) Color(0xFF4C8DFF) else Color.Transparent, CircleShape)
                             ) {
-                                Icon(Icons.Default.Edit, contentDescription = "Highlighter", tint = if (highlightActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
+                                Icon(Icons.Default.Edit, contentDescription = "Highlighter", tint = if (highlightActive) Color.White else Color.LightGray)
                             }
                             // Text Underline
                             val underlineActive = activeTool == DrawingTool.TEXT_UNDERLINE
                             IconButton(
                                 onClick = { activeTool = DrawingTool.TEXT_UNDERLINE; showColorPicker = true },
-                                modifier = Modifier.size(40.dp).background(if (underlineActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (underlineActive) Color(0xFF4C8DFF) else Color.Transparent, CircleShape)
                             ) {
-                                Icon(Icons.Default.FormatUnderlined, contentDescription = "Underline", tint = if (underlineActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
+                                Icon(Icons.Default.FormatUnderlined, contentDescription = "Underline", tint = if (underlineActive) Color.White else Color.LightGray)
                             }
                             // Eraser
                             val eraserActive = activeTool == DrawingTool.ERASER
                             IconButton(
                                 onClick = { activeTool = DrawingTool.ERASER; showColorPicker = false },
-                                modifier = Modifier.size(40.dp).background(if (eraserActive) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent, androidx.compose.foundation.shape.CircleShape)
+                                modifier = Modifier.size(40.dp).background(if (eraserActive) Color(0xFF4C8DFF) else Color.Transparent, CircleShape)
                             ) {
-                                Icon(Icons.Default.Delete, contentDescription = "Eraser", tint = if (eraserActive) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondaryContainer)
+                                Icon(Icons.Default.Delete, contentDescription = "Eraser", tint = if (eraserActive) Color.White else Color.LightGray)
                             }
                             // Divider
-                            Box(modifier = Modifier.width(1.dp).height(24.dp).background(MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha=0.2f)))
+                            Box(modifier = Modifier.width(1.dp).height(24.dp).background(Color.DarkGray))
                             
                             // Close
                             IconButton(
                                 onClick = { isAnnotateMode = false; activeTool = DrawingTool.NONE; showColorPicker = false },
                                 modifier = Modifier.size(40.dp)
                             ) {
-                                Icon(Icons.Default.Close, contentDescription = "Close", tint = MaterialTheme.colorScheme.onSecondaryContainer)
+                                Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.LightGray)
                             }
                         }
                     }
@@ -315,24 +313,27 @@ fun ReaderScreen(
         }
     }
 
-
-    if (showThemePicker) {
-        ThemePickerSheet(
-            currentTheme = readingState?.activeTheme ?: ComfortTheme.DARK_ABYSS,
-            onThemeSelected = { viewModel.updateTheme(it) },
-            onDismiss = { showThemePicker = false }
-        )
+    if (showMenu) {
+        ReaderMenuBottomSheet(onDismiss = { showMenu = false })
     }
+}
 
-    if (showAnnotationPanel) {
-        AnnotationPanel(onDismiss = { showAnnotationPanel = false })
-    }
-    
-    if (showEditAnnotateGrid) {
-        EditAnnotateBottomSheet(
-            onDismiss = { showEditAnnotateGrid = false },
-            onToolSelected = { activeTool = it }
-        )
+@Composable
+fun BottomPillItem(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector, isPremium: Boolean = false, onClick: () -> Unit = {}) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable(onClick = onClick)
+    ) {
+        Box {
+            Icon(icon, contentDescription = title, tint = Color.White, modifier = Modifier.size(24.dp))
+            if (isPremium) {
+                Box(modifier = Modifier.align(Alignment.TopEnd).offset(x = 4.dp, y = (-4).dp).background(Color(0xFF8E8CD8), CircleShape).padding(2.dp)) {
+                    Icon(Icons.Default.Star, contentDescription = "Premium", tint = Color.White, modifier = Modifier.size(10.dp))
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(title, color = Color.White, fontSize = 10.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 48.dp))
     }
 }
 
@@ -342,7 +343,7 @@ fun PdfPageAsync(
     widthPx: Int,
     theme: ComfortTheme,
     activeTool: DrawingTool,
-    activeColor: androidx.compose.ui.graphics.Color,
+    activeColor: Color,
     lines: List<Line>,
     viewModel: ReaderViewModel
 ) {
@@ -363,15 +364,5 @@ fun PdfPageAsync(
         lines = lines,
         onAddLine = { viewModel.addAnnotation(pageIndex, it) },
         modifier = Modifier.padding(bottom = 8.dp)
-    )
-}
-
-@Composable
-fun ReaderMenuItem(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
-    DropdownMenuItem(
-        text = { Text(title, fontSize = 16.sp) },
-        trailingIcon = { Icon(icon, contentDescription = title, tint = androidx.compose.ui.graphics.Color.Gray) },
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
     )
 }
